@@ -663,7 +663,7 @@ require('lazy').setup({
       },
       formatters = {
         stylua = {
-          prepend_args = { '--config-path', assert(os.getenv 'SCRIPTS_FOLDER') .. '/stylua/config.toml' },
+          prepend_args = { '--search-parent-directories' },
         },
       },
     },
