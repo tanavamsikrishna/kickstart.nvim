@@ -661,11 +661,6 @@ require('lazy').setup({
         -- is found.
         -- javascript = { { "prettierd", "prettier" } },
       },
-      formatters = {
-        stylua = {
-          prepend_args = { '--search-parent-directories' },
-        },
-      },
     },
   },
 
