@@ -1,5 +1,3 @@
--- TODO: install flash
-
 --[[
 
 =====================================================================
@@ -90,7 +88,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.maplocalleader = ','
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -632,7 +630,7 @@ require('lazy').setup({
     lazy = false,
     keys = {
       {
-        '<leader>f',
+        '<localleader>f',
         function()
           require('conform').format { async = true, lsp_fallback = true }
         end,
@@ -654,6 +652,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        fish = { 'fish_indent' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -874,6 +873,31 @@ require('lazy').setup({
       --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
+  },
+
+  {
+    'folke/flash.nvim',
+    opts = {
+      label = { uppercase = false },
+    },
+    keys = {
+      {
+        '<leader>fs',
+        function()
+          require('flash').treesitter()
+        end,
+        mode = 'n',
+        desc = 'Select based on syntax',
+      },
+      {
+        '<leader>fj',
+        function()
+          require('flash').jump()
+        end,
+        mode = 'n',
+        desc = 'Jump to location',
+      },
+    },
   },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
