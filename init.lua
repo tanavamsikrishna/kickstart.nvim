@@ -838,7 +838,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'fish', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
+      ensure_installed = { 'fish', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'toml' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
