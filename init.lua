@@ -653,6 +653,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         fish = { 'fish_indent' },
+        toml = { 'taplo' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
