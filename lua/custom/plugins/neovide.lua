@@ -1,8 +1,8 @@
 if vim.g.neovide then
-  vim.o.guifont = 'Menlo:h12'
+  vim.o.guifont = 'Source Code Pro:h12'
   vim.g.neovide_scroll_animation_length = 0
   vim.g.neovide_cursor_animation_length = 0
-  vim.opt.linespace = 7
+  -- vim.opt.linespace = 7
 
   -- Floating window config
   vim.g.neovide_floating_shadow = true
