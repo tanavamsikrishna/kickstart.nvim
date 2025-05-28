@@ -19,8 +19,7 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    -- vim.api.nvim_set_hl(0, 'MyUniformIndentColor', { fg = '#' }) -- Or your chosen color
+  config = function(_, _)
     local hooks = require 'ibl.hooks'
     hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
       vim.api.nvim_set_hl(0, 'MyUniformIndentColor', { fg = '#eeeeee' })
