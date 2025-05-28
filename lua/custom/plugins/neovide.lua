@@ -6,11 +6,10 @@ if vim.g.neovide then
   vim.g.have_nerd_font = true
 
   -- Floating window config
-  vim.g.neovide_floating_shadow = true
-  vim.g.neovide_floating_z_height = 10
-  vim.g.neovide_light_angle_degrees = 45
-  vim.g.neovide_light_radius = 5
-
+  -- vim.g.neovide_floating_shadow = true
+  -- vim.g.neovide_floating_z_height = 10
+  -- vim.g.neovide_light_angle_degrees = 45
+  -- vim.g.neovide_light_radius = 5
 end
 
 return {}
