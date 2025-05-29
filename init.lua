@@ -577,17 +577,16 @@ require('lazy').setup({
           -- Showing & navigating diagnostics
           vim.diagnostic.config { virtual_text = false }
           map('<leader>ds', vim.diagnostic.open_float, '[S]how [D]iagnostic on the current line')
-          map('<leader>dn', function()
-            local next_diagnostic = vim.diagnostic.get_next()
-            if next_diagnostic then
-              vim.diagnostic.jump { diagnostic = next_diagnostic }
+          local function _jump_to_target_diagnostic(target_diagnostic)
+            if target_diagnostic then
+              vim.diagnostic.jump { diagnostic = target_diagnostic, float = true }
             end
+          end
+          map('<leader>dn', function()
+            _jump_to_target_diagnostic(vim.diagnostic.get_next())
           end, '[N]ext [D]iagnostic')
           map('<leader>dp', function()
-            local prev_diagnostic = vim.diagnostic.get_prev()
-            if prev_diagnostic then
-              vim.diagnostic.jump { diagnostic = prev_diagnostic }
-            end
+            _jump_to_target_diagnostic(vim.diagnostic.get_prev())
           end, '[P]revious [D]iagnostic')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
