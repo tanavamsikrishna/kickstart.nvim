@@ -296,7 +296,7 @@ require('lazy').setup({
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.opt.timeoutlen
-      delay = 0,
+      delay = 100,
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -576,16 +576,16 @@ require('lazy').setup({
 
           -- Showing & navigating diagnostics
           vim.diagnostic.config { virtual_text = false }
-          map('<leader>ds', vim.diagnostic.open_float, '[S]how [D]iagnostic on the current line')
+          map('<leader>d', vim.diagnostic.open_float, '[S]how [D]iagnostic on the current line')
           local function _jump_to_target_diagnostic(target_diagnostic)
             if target_diagnostic then
               vim.diagnostic.jump { diagnostic = target_diagnostic, float = true }
             end
           end
-          map('<leader>dn', function()
+          map(']d', function()
             _jump_to_target_diagnostic(vim.diagnostic.get_next())
           end, '[N]ext [D]iagnostic')
-          map('<leader>dp', function()
+          map('[d', function()
             _jump_to_target_diagnostic(vim.diagnostic.get_prev())
           end, '[P]revious [D]iagnostic')
 

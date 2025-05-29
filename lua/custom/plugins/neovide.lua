@@ -1,6 +1,6 @@
 if vim.g.neovide then
   vim.o.guifont = 'Source Code Pro:h12'
-  vim.g.neovide_scroll_animation_length = 0
+  -- vim.g.neovide_scroll_animation_length = 0
   vim.g.neovide_cursor_animation_length = 0
   -- vim.opt.linespace = 7
   vim.g.have_nerd_font = true
