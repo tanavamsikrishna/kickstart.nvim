@@ -574,6 +574,22 @@ require('lazy').setup({
           --  the definition of its *type*, not where it was *defined*.
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
+          -- Showing & navigating diagnostics
+          vim.diagnostic.config { virtual_text = false }
+          map('<leader>ds', vim.diagnostic.open_float, '[S]how [D]iagnostic on the current line')
+          map('<leader>dn', function()
+            local next_diagnostic = vim.diagnostic.get_next()
+            if next_diagnostic then
+              vim.diagnostic.jump { diagnostic = next_diagnostic }
+            end
+          end, '[N]ext [D]iagnostic')
+          map('<leader>dp', function()
+            local prev_diagnostic = vim.diagnostic.get_prev()
+            if prev_diagnostic then
+              vim.diagnostic.jump { diagnostic = prev_diagnostic }
+            end
+          end, '[P]revious [D]iagnostic')
+
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method
