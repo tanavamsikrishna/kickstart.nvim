@@ -1,2 +1,2 @@
 vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'v:lua.vim.treesitte.foldexpr()'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
