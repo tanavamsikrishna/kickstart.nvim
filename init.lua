@@ -1043,7 +1043,9 @@ require('lazy').setup({
 
 require 'custom.config.post_lazy'
 require 'custom.config.mksession'
-require 'custom.config.folding'
+
+-- Disabled as it is causing problems with mini.sessions
+-- require 'custom.config.folding'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
