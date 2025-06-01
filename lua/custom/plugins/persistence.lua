@@ -1,6 +1,7 @@
 return {
   {
     'folke/persistence.nvim',
+    enabled = false,
     opts = {
       need = 0,
       branch = true,

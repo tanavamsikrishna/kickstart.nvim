@@ -934,8 +934,11 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
-      local icons = require 'mini.icons'
-      icons.setup()
+      -- mini icons for use with statusline etc
+      require('mini.icons').setup()
+
+      -- session management
+      require('mini.sessions').setup { directory = '', autoread = true }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -1038,7 +1041,9 @@ require('lazy').setup({
   },
 })
 
-require 'custom.post_lazy'
+require 'custom.config.post_lazy'
+require 'custom.config.mksession'
+require 'custom.config.folding'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
