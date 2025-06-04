@@ -22,7 +22,7 @@ return {
   config = function(_, _)
     local hooks = require 'ibl.hooks'
     hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-      vim.api.nvim_set_hl(0, 'MyUniformIndentColor', { fg = '#eeeeee' })
+      vim.api.nvim_set_hl(0, 'MyUniformIndentColor', { fg = '#e7eaf0' })
     end)
 
     require('ibl').setup {
