@@ -418,6 +418,12 @@ require('lazy').setup({
             require('telescope.themes').get_dropdown(),
           },
         },
+        defaults = {
+          layout_strategy = 'vertical',
+          layout_config = {
+            mirror = false, -- This puts the preview on top
+          },
+        },
       }
 
       -- Enable Telescope extensions if they are installed
