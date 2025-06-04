@@ -1,5 +1,6 @@
 return {
   'folke/flash.nvim',
+  event = 'VimEnter',
   opts = {
     label = { uppercase = false },
   },
