@@ -1,5 +1,6 @@
 return {
   'lukas-reineke/indent-blankline.nvim',
+  enabled = false,
   main = 'ibl',
   opts = {
     scope = { enabled = false },
@@ -22,16 +23,15 @@ return {
   config = function(_, _)
     local hooks = require 'ibl.hooks'
     hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-      vim.api.nvim_set_hl(0, 'MyUniformIndentColor', { fg = '#dae9f9' })
+      vim.api.nvim_set_hl(0, 'MyUniformIndentColor', { fg = '#e7eaf0' })
     end)
 
     require('ibl').setup {
       indent = {
         char = '▎',
-        -- tab_char = '▎',
+        tab_char = '▎',
         highlight = { 'MyUniformIndentColor' },
       },
-      scope = { enabled = false },
     }
   end,
 }
