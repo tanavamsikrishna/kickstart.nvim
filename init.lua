@@ -336,7 +336,7 @@ require('lazy').setup({
           layout_config = {
             mirror = false, -- This puts the preview on top
           },
-          path_display = { 'filename_first' },
+          path_display = { 'filename_first', 'truncate' },
           wrap_results = true,
           entry_prefix = '',
           selection_caret = '',
