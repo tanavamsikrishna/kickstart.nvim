@@ -838,6 +838,7 @@ require('lazy').setup({
     'projekt0n/github-nvim-theme',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
+      vim.api.nvim_command 'set background=light'
       vim.cmd.colorscheme 'github_light_default'
 
       -- You can configure highlights by doing something like:
@@ -978,7 +979,7 @@ require('lazy').setup({
   },
 })
 
-require 'custom.config.post_lazy'
+require 'custom.config.ui_fixes'
 require 'custom.config.mksession'
 
 -- Disabled as it is causing problems with mini.sessions
