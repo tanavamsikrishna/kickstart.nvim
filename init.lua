@@ -726,6 +726,7 @@ require('lazy').setup({
         toml = { 'taplo' },
         python = { 'ruff_format' },
         javascript = { { 'prettierd', 'prettier' } },
+        yaml = { 'yamlfmt' },
       },
       stop_after_first = true,
     },
