@@ -980,7 +980,7 @@ require('lazy').setup({
   },
 })
 
-require 'custom.config.ui_fixes'
+require 'custom.config.miscellaneous'
 require 'custom.config.mksession'
 
 -- Disabled as it is causing problems with mini.sessions
