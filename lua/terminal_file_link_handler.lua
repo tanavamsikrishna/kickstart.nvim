@@ -22,7 +22,8 @@ local function parse_line(pwd, full_file_path, line)
   -- test/test.py:11:8: F401 [*] `json` imported but unused
   --   --> src/main.rs:51:31
   -- /Users/vamsi/repo/stocks/system_trading/options_intraday/utils/read_tick_data_from_log.py:21:54 - error: "group" ...
-  local row, col = line:match(relative_file_path .. ':(%d+):(%d+)')
+  -- tests/test_btst_iron_condor.py:219: AssertionError
+  local row, col = line:match(relative_file_path .. ':(%d+):(%d*)')
   if row then
     return str_to_int(row), str_to_int(col)
   end
