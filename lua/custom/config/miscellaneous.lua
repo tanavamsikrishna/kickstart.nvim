@@ -7,4 +7,7 @@ vim.api.nvim_set_hl(0, 'MiniStatuslineFilename', { fg = 'black', bg = 'white', i
 vim.opt.title = true
 vim.opt.titlestring = vim.fs.basename(vim.fn.getcwd())
 
+-- exrc
+vim.o.exrc = true
+
 return {}
