@@ -333,9 +333,6 @@ require('lazy').setup({
         },
         defaults = {
           layout_strategy = 'vertical',
-          layout_config = {
-            mirror = false, -- This puts the preview on top
-          },
           path_display = { 'filename_first', 'truncate' },
           entry_prefix = '',
           selection_caret = '',
