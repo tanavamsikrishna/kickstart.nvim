@@ -333,7 +333,6 @@ require('lazy').setup({
         },
         defaults = {
           layout_strategy = 'vertical',
-          path_display = { 'filename_first', 'truncate' },
           entry_prefix = '',
           selection_caret = '',
         },
