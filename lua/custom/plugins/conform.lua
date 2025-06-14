@@ -8,6 +8,7 @@ return {
     },
     formatters_by_ft = {
       nu = { 'topiary_nushell' },
+      python = { 'ruff_organize_imports', 'ruff_format' },
     },
   },
 }
