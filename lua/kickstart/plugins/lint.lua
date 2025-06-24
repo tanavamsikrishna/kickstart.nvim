@@ -9,6 +9,8 @@ return {
         markdown = { 'markdownlint' },
         lua = { 'luacheck' },
         dockerfile = { 'hadolint' },
+        json5 = { 'json5' },
+        json = { 'jsonlint' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
