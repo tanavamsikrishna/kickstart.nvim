@@ -12,6 +12,9 @@ end
 --- @return integer row, integer col
 local function parse_line(pwd, full_file_path, line)
   local relative_file_path = vim.fs.relpath(pwd, full_file_path)
+  if relative_file_path == nil then
+    relative_file_path = full_file_path
+  end
 
   -- File "/Users/vamsi/repo/playground/scratch.py", line 2, in func
   local row = line:match('%s*File "' .. full_file_path .. '", line (%d+),.*')
