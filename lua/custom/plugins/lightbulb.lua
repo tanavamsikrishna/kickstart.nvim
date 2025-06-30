@@ -1,5 +1,6 @@
 return {
   'kosayoda/nvim-lightbulb',
+  enabled = false,
   opts = {
     autocmd = { enabled = true },
     virtual_text = { enabled = true },
@@ -9,4 +10,3 @@ return {
     require('nvim-lightbulb').setup(opts)
   end,
 }
-
