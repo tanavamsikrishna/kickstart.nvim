@@ -985,6 +985,7 @@ require('lazy').setup({
 require 'custom.config.delete_ext_file_bufs'
 require 'custom.config.miscellaneous'
 require 'custom.config.mksession'
+require 'custom.config.neovide'
 
 -- Disabled as it is causing problems with mini.sessions
 -- require 'custom.config.folding'

@@ -3,17 +3,4 @@
 --
 -- See the kickstart.nvim README for more information
 
-local function delete_external_file_bufs()
-  local all_bufs = vim.api.nvim_list_bufs()
-  print(vim.inspect(all_bufs))
-  local cwd = vim.fn.getcwd()
-  for _, buf_id in ipairs(all_bufs) do
-    local file_path = vim.api.nvim_buf_get_name(buf_id)
-    if file_path ~= '' and file_path:find(cwd) == nil then
-      print('Deleting buffer ' .. file_path)
-      vim.api.nvim_buf_delete(buf_id, { force = false, unload = false })
-    end
-  end
-end
-
 return {}

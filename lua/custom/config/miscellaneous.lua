@@ -9,5 +9,3 @@ vim.opt.titlestring = vim.fs.basename(vim.fn.getcwd())
 
 -- exrc
 vim.o.exrc = true
-
-return {}
