@@ -982,6 +982,7 @@ require('lazy').setup({
   },
 })
 
+require 'custom.config.delete_ext_file_bufs'
 require 'custom.config.miscellaneous'
 require 'custom.config.mksession'
 

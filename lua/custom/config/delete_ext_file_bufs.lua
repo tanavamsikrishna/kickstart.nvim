@@ -1,5 +1,6 @@
 -- Delete bufs of files which are not in the current working directory
-return function()
+
+local delete_ext_file_bufs = function()
   local all_bufs = vim.api.nvim_list_bufs()
   local cwd = vim.fn.getcwd()
   local is_some_buf_deleted = false
@@ -16,5 +17,8 @@ return function()
   end
 end
 
--- How to call?
--- :lua require('delete_ext_file_bufs')()
+vim.api.nvim_create_user_command(
+  'DeleteExtFileBufs',
+  delete_ext_file_bufs,
+  { desc = 'Delete buffers of all files which are no in the current working directory' }
+)
