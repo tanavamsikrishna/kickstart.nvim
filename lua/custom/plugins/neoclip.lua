@@ -6,9 +6,7 @@ return {
   },
   config = function()
     require('neoclip').setup {
-      history = 100,
       enable_persistent_history = true,
-      db_path = '.neoclip.sqlite3',
     }
 
     vim.keymap.set('n', '"', require('telescope').extensions.neoclip.default, { desc = 'Registers' })
