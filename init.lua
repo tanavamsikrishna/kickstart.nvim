@@ -842,6 +842,11 @@ require('lazy').setup({
       },
 
       snippets = { preset = 'luasnip' },
+      cmdline = {
+        keymap = { preset = 'inherit' },
+        completion = { menu = { auto_show = true } },
+        sources = { 'cmdline' },
+      },
 
       -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
       -- which automatically downloads a prebuilt binary when enabled.
