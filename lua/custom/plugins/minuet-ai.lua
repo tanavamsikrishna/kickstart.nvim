@@ -28,20 +28,20 @@ return {
         },
       },
       virtualtext = {
-        auto_trigger_ft = {},
+        auto_trigger_ft = { '*' },
         keymap = {
           -- accept whole completion
-          accept = '<A-A>',
+          accept = '<D-A>',
           -- accept one line
-          accept_line = '<A-a>',
+          accept_line = '<D-a>',
           -- accept n lines (prompts for number)
           -- e.g. "A-z 2 CR" will accept 2 lines
-          accept_n_lines = '<A-z>',
+          accept_n_lines = '<D-z>',
           -- Cycle to prev completion item, or manually invoke completion
-          prev = '<A-[>',
+          prev = '<D-[>',
           -- Cycle to next completion item, or manually invoke completion
-          next = '<A-]>',
-          dismiss = '<A-e>',
+          next = '<D-]>',
+          dismiss = '<D-e>',
         },
       },
     }
