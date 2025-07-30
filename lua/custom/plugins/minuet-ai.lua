@@ -12,7 +12,7 @@ return {
       -- of 512, serves as an good starting point to estimate your computing
       -- power. Once you have a reliable estimate of your local computing power,
       -- you should adjust the context window to a larger value.
-      context_window = 512,
+      context_window = 2048,
       provider_options = {
         openai_fim_compatible = {
           -- For Windows users, TERM may not be present in environment variables.
