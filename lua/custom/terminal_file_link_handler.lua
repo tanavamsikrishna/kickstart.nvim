@@ -39,13 +39,12 @@ end
 --- @param whole_line string
 function M.open_file(pwd, full_file_path, whole_line)
   -- print(vim.inspect { pwd, full_file_path, whole_line })
-  if not vim.g.neovide then
-    vim.notify 'Trying to open a file using `terminal_link_handler`. But this is not neovide'
-  end
   vim.api.nvim_cmd({ cmd = 'e', args = { full_file_path } }, {})
   local row, col = parse_line(pwd, full_file_path, whole_line)
   vim.fn.cursor(row, col)
-  vim.api.nvim_cmd({ cmd = 'NeovideFocus' }, {})
+  if vim.g.neovide then
+    vim.api.nvim_cmd({ cmd = 'NeovideFocus' }, {})
+  end
 end
 
 return M
