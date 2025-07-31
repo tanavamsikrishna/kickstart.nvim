@@ -19,6 +19,7 @@ return {
       json = { 'jq' },
       json5 = { 'json5' },
       dockerfile = { 'dockerfmt' },
+      yaml = { 'yamlfmt' },
     },
   },
 }
