@@ -39,17 +39,17 @@ return {
         auto_trigger_ignore_ft = { 'TelescopePrompt' },
         keymap = {
           -- accept whole completion
-          accept = '<D-A>',
+          accept = '<A-A>',
           -- accept one line
-          accept_line = '<D-a>',
+          accept_line = '<A-a>',
           -- accept n lines (prompts for number)
           -- e.g. "A-z 2 CR" will accept 2 lines
-          accept_n_lines = '<D-z>',
+          accept_n_lines = '<A-z>',
           -- Cycle to prev completion item, or manually invoke completion
-          prev = '<D-[>',
+          prev = '<A-[>',
           -- Cycle to next completion item, or manually invoke completion
-          next = '<D-]>',
-          dismiss = '<D-e>',
+          next = '<A-]>',
+          dismiss = '<A-e>',
         },
       },
     }
