@@ -14,6 +14,8 @@ if vim.g.neovide then
   -- vim.g.neovide_floating_z_height = 10
   -- vim.g.neovide_light_angle_degrees = 45
   -- vim.g.neovide_light_radius = 5
+  -- vim.g.neovide_floating_corner_radius = 0.5
 
-  -- vim.g.neovide_input_macos_option_key_is_meta = true
+  vim.g.neovide_input_macos_option_key_is_meta = 'both'
+  vim.g.neovide_hide_mouse_when_typing = true
 end
