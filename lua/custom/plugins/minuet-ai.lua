@@ -5,7 +5,7 @@ return {
   },
   config = function()
     require('minuet').setup {
-      provider = 'gemini',
+      provider = 'openai_fim_compatible',
       n_completions = 1,
       context_window = 2048,
       provider_options = {
@@ -23,7 +23,7 @@ return {
             },
           },
         },
-        ollama_qwen = {
+        openai_fim_compatible = {
           api_key = 'TERM',
           name = 'Ollama',
           end_point = 'http://localhost:11434/v1/completions',
