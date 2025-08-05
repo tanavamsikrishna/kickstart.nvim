@@ -764,6 +764,9 @@ require('lazy').setup({
           },
         },
         opts = {},
+        config = function()
+          require('luasnip.loaders.from_lua').load { paths = './snippets' }
+        end,
       },
       'folke/lazydev.nvim',
       'echasnovski/mini.nvim',
