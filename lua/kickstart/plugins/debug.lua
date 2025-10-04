@@ -12,9 +12,6 @@ return {
     -- Installs the debug adapters for you
     'mason-org/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-
-    -- Add your own debuggers here
-    'mfussenegger/nvim-dap-python',
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -85,7 +82,8 @@ return {
       -- You'll need to check that you have the required things installed
       -- online, please don't ask me how to install them :)
       ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
+        -- For Python, mason-nvim-dap installs the 'debugpy' adapter
+        'debugpy',
       },
     }
 
@@ -126,6 +124,14 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    require('dap-python').setup()
+    -- If you need to customize the python debugger configuration, you can do it here.
+    -- For example, to point to a specific virtual environment:
+    --
+    -- dap.adapters.python = {
+    --   type = 'executable',
+    --   command = '/path/to/your/venv/bin/python',
+    --   args = { '-m', 'debugpy.adapter' },
+    -- }
+    --
   end,
 }
