@@ -20,6 +20,7 @@ return {
       json5 = { 'json5' },
       dockerfile = { 'dockerfmt' },
       yaml = { 'yamlfmt' },
+      css = { 'prettier' },
     },
   },
 }
