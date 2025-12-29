@@ -12,6 +12,9 @@ return {
     -- Installs the debug adapters for you
     'mason-org/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
+
+    -- Python
+    'mfussenegger/nvim-dap-python',
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
@@ -126,12 +129,6 @@ return {
 
     -- If you need to customize the python debugger configuration, you can do it here.
     -- For example, to point to a specific virtual environment:
-    --
-    -- dap.adapters.python = {
-    --   type = 'executable',
-    --   command = '/path/to/your/venv/bin/python',
-    --   args = { '-m', 'debugpy.adapter' },
-    -- }
-    --
+    require('dap-python').setup 'uv'
   end,
 }
