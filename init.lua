@@ -874,14 +874,12 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'p00f/alabaster.nvim',
+
+    'projekt0n/github-nvim-theme',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      vim.api.nvim_command 'set background=light'
-      vim.cmd.colorscheme 'alabaster'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
+      vim.o.background = 'light'
+      vim.cmd.colorscheme 'github_light_default'
     end,
   },
 
