@@ -879,8 +879,8 @@ require('lazy').setup({
     -- 'oskarnurm/koda.nvim',
     -- 'Mofiqul/vscode.nvim',
     -- 'lunacookies/vim-colors-xcode',
-    -- 'morhetz/gruvbox',
-    'p00f/alabaster.nvim',
+    'morhetz/gruvbox',
+    -- 'p00f/alabaster.nvim',
     -- 'altercation/vim-colors-solarized',
     -- 'catppuccin/nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
@@ -890,8 +890,8 @@ require('lazy').setup({
       -- vim.cmd.colorscheme 'github_light'
       -- vim.cmd.colorscheme 'vscode'
       -- vim.cmd.colorscheme 'xcodelight'
-      -- vim.cmd.colorscheme 'gruvbox'
-      vim.cmd.colorscheme 'alabaster'
+      vim.cmd.colorscheme 'gruvbox'
+      -- vim.cmd.colorscheme 'alabaster'
       -- vim.cmd.colorscheme 'catppuccin-latte'
       -- vim.cmd.colorscheme 'solarized'
     end,
