@@ -3,7 +3,6 @@ return {
   enabled = true,
   opts = {
     treesitter = {
-      stopline = 500,
       enabled = true,
     },
   },
