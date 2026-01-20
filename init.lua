@@ -876,10 +876,16 @@ require('lazy').setup({
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
 
     'projekt0n/github-nvim-theme',
+    -- 'oskarnurm/koda.nvim',
+    -- 'Mofiqul/vscode.nvim',
+    -- 'lunacookies/vim-colors-xcode',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       vim.o.background = 'light'
-      vim.cmd.colorscheme 'github_light_default'
+      -- vim.cmd.colorscheme 'koda'
+      vim.cmd.colorscheme 'github_light'
+      -- vim.cmd.colorscheme 'vscode'
+      -- vim.cmd.colorscheme 'xcodelight'
     end,
   },
 
