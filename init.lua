@@ -895,6 +895,7 @@ require('lazy').setup({
       vim.api.nvim_set_hl(0, 'Normal', { bg = '#FDF6E3' })
       vim.api.nvim_set_hl(0, 'NormalNC', { bg = '#FDF6E3' }) -- For inactive windows
       vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#FDF6E3' }) -- For floating windows
+      vim.api.nvim_set_hl(0, 'FloatBorder', { bg = '#FDF6E3' })
 
       -- vim.cmd.colorscheme 'catppuccin-latte'
       -- vim.cmd.colorscheme 'solarized'
