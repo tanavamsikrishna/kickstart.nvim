@@ -70,7 +70,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.o.inccommand = 'split'
 
 -- Show which line your cursor is on
-vim.o.cursorline = true
+vim.o.cursorline = false
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
@@ -879,7 +879,10 @@ require('lazy').setup({
     -- 'oskarnurm/koda.nvim',
     -- 'Mofiqul/vscode.nvim',
     -- 'lunacookies/vim-colors-xcode',
-    'morhetz/gruvbox',
+    -- 'morhetz/gruvbox',
+    'p00f/alabaster.nvim',
+    -- 'altercation/vim-colors-solarized',
+    -- 'catppuccin/nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       vim.o.background = 'light'
@@ -887,7 +890,10 @@ require('lazy').setup({
       -- vim.cmd.colorscheme 'github_light'
       -- vim.cmd.colorscheme 'vscode'
       -- vim.cmd.colorscheme 'xcodelight'
-      vim.cmd.colorscheme 'gruvbox'
+      -- vim.cmd.colorscheme 'gruvbox'
+      vim.cmd.colorscheme 'alabaster'
+      -- vim.cmd.colorscheme 'catppuccin-latte'
+      -- vim.cmd.colorscheme 'solarized'
     end,
   },
 
