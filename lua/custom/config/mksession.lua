@@ -1,1 +1,1 @@
-vim.opt.sessionoptions = 'buffers,winsize,curdir,options'
+vim.opt.sessionoptions = 'buffers,winsize,curdir'

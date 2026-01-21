@@ -1,6 +1,6 @@
 return {
   'andymass/vim-matchup',
-  enabled = true,
+  enabled = false,
   opts = {
     treesitter = {
       enabled = true,
