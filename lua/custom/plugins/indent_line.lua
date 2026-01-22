@@ -3,7 +3,7 @@ return {
   enabled = true,
   main = 'ibl',
   opts = {
-    scope = { enabled = false, show_start = false, show_end = false },
+    scope = { enabled = true, show_start = false, show_end = false },
     exclude = {
       filetypes = {
         'help',
@@ -19,18 +19,18 @@ return {
         'lazyterm',
       },
     },
+
+    indent = {
+      char = '│',
+      highlight = { 'MyUniformIndentColor' },
+    },
   },
-  config = function(_, _)
+  config = function(_, opts)
     local hooks = require 'ibl.hooks'
     hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
       vim.api.nvim_set_hl(0, 'MyUniformIndentColor', { fg = 'grey80' })
     end)
 
-    require('ibl').setup {
-      indent = {
-        char = '▏',
-        highlight = { 'MyUniformIndentColor' },
-      },
-    }
+    require('ibl').setup(opts)
   end,
 }
