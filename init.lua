@@ -845,6 +845,7 @@ require('lazy').setup({
         default = { 'lsp', 'path', 'snippets', 'lazydev' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          cmdline = { min_keyword_length = 3 },
         },
       },
 
@@ -896,6 +897,8 @@ require('lazy').setup({
       vim.api.nvim_set_hl(0, 'NormalNC', { bg = '#FDF6E3' }) -- For inactive windows
       vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#FDF6E3' }) -- For floating windows
       vim.api.nvim_set_hl(0, 'FloatBorder', { bg = '#FDF6E3' })
+      vim.api.nvim_set_hl(0, 'Pmenu', { bg = '#EEE8D5', fg = '#586e75' })
+      vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#586e75', fg = '#EEE8D5' })
 
       -- vim.cmd.colorscheme 'catppuccin-latte'
       -- vim.cmd.colorscheme 'solarized'
