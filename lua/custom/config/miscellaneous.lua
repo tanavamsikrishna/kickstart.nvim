@@ -7,7 +7,7 @@ vim.api.nvim_set_hl(0, 'TelescopeMatching', { link = 'Normal' })
 
 -- Set title to the current working directory
 vim.opt.title = true
-vim.opt.titlestring = vim.fs.basename(vim.fn.getcwd())
+vim.opt.titlestring = vim.fn.getcwd()
 
 -- exrc
 vim.o.exrc = true
