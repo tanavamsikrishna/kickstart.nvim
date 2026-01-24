@@ -73,7 +73,7 @@ vim.o.inccommand = 'split'
 vim.o.cursorline = false
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.o.scrolloff = 10
+vim.o.scrolloff = 5
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
@@ -540,28 +540,28 @@ require('lazy').setup({
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-            local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
-            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-              buffer = event.buf,
-              group = highlight_augroup,
-              callback = vim.lsp.buf.document_highlight,
-            })
-
-            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-              buffer = event.buf,
-              group = highlight_augroup,
-              callback = vim.lsp.buf.clear_references,
-            })
-
-            vim.api.nvim_create_autocmd('LspDetach', {
-              group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
-              callback = function(event2)
-                vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
-              end,
-            })
-          end
+          -- if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+          --   local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+          --   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+          --     buffer = event.buf,
+          --     group = highlight_augroup,
+          --     callback = vim.lsp.buf.document_highlight,
+          --   })
+          --
+          --   vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+          --     buffer = event.buf,
+          --     group = highlight_augroup,
+          --     callback = vim.lsp.buf.clear_references,
+          --   })
+          --
+          --   vim.api.nvim_create_autocmd('LspDetach', {
+          --     group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+          --     callback = function(event2)
+          --       vim.lsp.buf.clear_references()
+          --       vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+          --     end,
+          --   })
+          -- end
 
           -- The following code creates a keymap to toggle inlay hints in your
           -- code, if the language server you are using supports them
@@ -880,8 +880,9 @@ require('lazy').setup({
     -- 'oskarnurm/koda.nvim',
     -- 'Mofiqul/vscode.nvim',
     -- 'lunacookies/vim-colors-xcode',
-    -- 'morhetz/gruvbox',
-    'p00f/alabaster.nvim',
+    'morhetz/gruvbox',
+    -- 'robertmeta/nofrils',
+    -- 'p00f/alabaster.nvim',
     -- 'altercation/vim-colors-solarized',
     -- 'catppuccin/nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
@@ -891,15 +892,22 @@ require('lazy').setup({
       -- vim.cmd.colorscheme 'github_light'
       -- vim.cmd.colorscheme 'vscode'
       -- vim.cmd.colorscheme 'xcodelight'
-      -- vim.cmd.colorscheme 'gruvbox'
-      vim.cmd.colorscheme 'alabaster'
-      vim.api.nvim_set_hl(0, 'Normal', { bg = '#FDF6E3' })
-      vim.api.nvim_set_hl(0, 'NormalNC', { bg = '#FDF6E3' }) -- For inactive windows
-      vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#FDF6E3' }) -- For floating windows
-      vim.api.nvim_set_hl(0, 'FloatBorder', { bg = '#FDF6E3' })
+
+      vim.cmd.colorscheme 'gruvbox'
+      vim.api.nvim_set_hl(0, 'Visual', { link = 'Search' })
+
+      -- vim.cmd.colorscheme 'solarized'
+
+      -- vim.cmd.colorscheme 'nofrils-acme'
+      -- vim.api.nvim_set_hl(0, 'Comment', { fg = 'grey30', italic = true })
+
+      -- vim.cmd.colorscheme 'alabaster'
+      -- vim.api.nvim_set_hl(0, 'Normal', { bg = '#FDF6E3' })
+      -- vim.api.nvim_set_hl(0, 'NormalNC', { bg = '#FDF6E3' }) -- For inactive windows
+      -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#FDF6E3' }) -- For floating windows
+      -- vim.api.nvim_set_hl(0, 'FloatBorder', { bg = '#FDF6E3' })
 
       -- vim.cmd.colorscheme 'catppuccin-latte'
-      -- vim.cmd.colorscheme 'solarized'
     end,
   },
 

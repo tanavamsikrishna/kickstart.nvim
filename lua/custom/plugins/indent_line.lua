@@ -3,7 +3,7 @@ return {
   enabled = true,
   main = 'ibl',
   opts = {
-    scope = { enabled = true, show_start = false, show_end = false },
+    scope = { enabled = false, show_start = false, show_end = false },
     exclude = {
       filetypes = {
         'help',
@@ -22,7 +22,7 @@ return {
 
     indent = {
       char = '│',
-      highlight = { 'MyUniformIndentColor' },
+      -- highlight = { 'MyUniformIndentColor' },
     },
   },
   config = function(_, opts)
