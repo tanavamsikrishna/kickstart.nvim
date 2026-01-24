@@ -4,6 +4,8 @@ vim.api.nvim_set_hl(0, 'DiagnosticFloatingHint', { link = 'DiagnosticFloatingInf
 -- vim.api.nvim_set_hl(0, 'MiniStatuslineFilename', { foreground = 'darkgreen' })
 vim.api.nvim_set_hl(0, 'MatchParen', { bold = true, fg = 'black', underline = true })
 vim.api.nvim_set_hl(0, 'TelescopeMatching', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'NeoTreeFloatBorder', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'NeoTreeTitleBar', { link = 'Normal' })
 
 -- Set title to the current working directory
 vim.opt.title = true

@@ -895,6 +895,7 @@ require('lazy').setup({
 
       vim.cmd.colorscheme 'gruvbox'
       vim.api.nvim_set_hl(0, 'Visual', { link = 'Search' })
+      vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal' }) -- For floating windows
 
       -- vim.cmd.colorscheme 'solarized'
 
