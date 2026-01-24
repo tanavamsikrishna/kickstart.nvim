@@ -6,7 +6,7 @@ return {
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        markdown = { 'markdownlint' },
+        -- markdown = { 'markdownlint' },
         lua = { 'luacheck' },
         dockerfile = { 'hadolint' },
         json5 = { 'json5' },
