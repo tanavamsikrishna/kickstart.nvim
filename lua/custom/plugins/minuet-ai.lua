@@ -1,43 +1,29 @@
 return {
   'milanglacier/minuet-ai.nvim',
-  enabled = false,
+  enabled = true,
   dependencies = {
     'nvim-lua/plenary.nvim',
   },
   config = function()
     require('minuet').setup {
-      provider = 'openai_fim_compatible',
+      provider = 'gemini',
       n_completions = 1,
       context_window = 2048,
       provider_options = {
         gemini = {
-          model = 'gemini-2.0-flash',
+          model = 'gemini-2.5-flash-lite',
           stream = true,
           api_key = 'GEMINI_API_KEY',
           end_point = 'https://generativelanguage.googleapis.com/v1beta/models',
           optional = {
             generationConfig = {
               maxOutputTokens = 256,
-              thinkingConfig = {
-                thinkingBudget = 0,
-              },
             },
-          },
-        },
-        openai_fim_compatible = {
-          api_key = 'TERM',
-          name = 'Ollama',
-          end_point = 'http://localhost:11434/v1/completions',
-          model = 'qwen2.5-coder:7b',
-          optional = {
-            max_tokens = 56,
-            top_p = 0.9,
           },
         },
       },
       virtualtext = {
-        auto_trigger_ft = { '*' },
-        auto_trigger_ignore_ft = { 'TelescopePrompt' },
+        auto_trigger_ft = {},
         keymap = {
           -- accept whole completion
           accept = '<A-A>',

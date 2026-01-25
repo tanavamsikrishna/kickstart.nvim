@@ -816,6 +816,7 @@ require('lazy').setup({
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
         documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        ghost_text = { enabled = true },
         menu = {
           draw = {
             components = {
@@ -842,8 +843,13 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'minuet' },
         providers = {
+          minuet = {
+            name = 'minuet',
+            module = 'minuet.blink',
+            score_offset = 100, -- Gives minuet higher priority
+          },
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
           cmdline = { min_keyword_length = 3 },
         },
