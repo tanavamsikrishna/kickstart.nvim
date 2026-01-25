@@ -817,7 +817,15 @@ require('lazy').setup({
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
         documentation = { auto_show = false, auto_show_delay_ms = 500 },
         ghost_text = { enabled = true },
+        list = {
+          selection = {
+            preselect = false,
+            auto_insert = false,
+          },
+        },
         menu = {
+          direction_priority = { 'n', 's' },
+          auto_show = true,
           draw = {
             components = {
               kind_icon = {
@@ -902,6 +910,7 @@ require('lazy').setup({
       vim.cmd.colorscheme 'gruvbox'
       vim.api.nvim_set_hl(0, 'Visual', { link = 'Search' })
       vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal' }) -- For floating windows
+      vim.api.nvim_set_hl(0, 'BlinkCmpGhostText', { link = 'Comment', italic = true })
 
       -- vim.cmd.colorscheme 'solarized'
 

@@ -1,3 +1,5 @@
+local model_to_use = 'gemini-flash-latest'
+
 return {
   'olimorris/codecompanion.nvim',
   dependencies = {
@@ -7,8 +9,8 @@ return {
   },
   opts = {
     strategies = {
-      chat = { adapter = { name = 'gemini', model = 'gemini-2.5-flash-lite' } },
-      inline = { adapter = { name = 'gemini', model = 'gemini-2.5-flash-lite' } },
+      chat = { adapter = { name = 'gemini', model = model_to_use } },
+      inline = { adapter = { name = 'gemini', model = model_to_use } },
     },
     adapters = {
       gemini = function()
@@ -25,7 +27,7 @@ return {
       chat = {
         adapter = {
           name = 'gemini',
-          model = 'gemini-2.5-flash-lite',
+          model = model_to_use,
         },
       },
     },
