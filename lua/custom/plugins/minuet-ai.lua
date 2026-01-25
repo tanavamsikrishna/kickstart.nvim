@@ -12,18 +12,10 @@ return {
       provider_options = {
         gemini = {
           model = 'gemini-2.5-flash-lite',
-          stream = true,
-          api_key = 'GEMINI_API_KEY',
-          end_point = 'https://generativelanguage.googleapis.com/v1beta/models',
-          optional = {
-            generationConfig = {
-              maxOutputTokens = 256,
-            },
-          },
         },
       },
       virtualtext = {
-        auto_trigger_ft = {},
+        auto_trigger_ft = { 'python', 'lua', 'ts', 'svelte', 'js', 'go', 'rust', 'cpp', 'c', 'java', 'nu', 'svelte' },
         keymap = {
           -- accept whole completion
           accept = '<A-A>',
