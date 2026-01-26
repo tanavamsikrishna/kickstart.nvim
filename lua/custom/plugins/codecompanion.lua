@@ -40,9 +40,11 @@ return {
       mcphub = {
         callback = 'mcphub.extensions.codecompanion',
         opts = {
-          make_vars = true,
           make_slash_commands = true,
+          make_tools = true,
+          make_vars = true,
           show_result_in_chat = true,
+          show_server_tools_in_chat = true,
         },
       },
     },

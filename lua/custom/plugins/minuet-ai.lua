@@ -1,6 +1,6 @@
 return {
   'milanglacier/minuet-ai.nvim',
-  enabled = true,
+  enabled = false,
   dependencies = {
     'nvim-lua/plenary.nvim',
   },
@@ -11,9 +11,10 @@ return {
       context_window = 2048,
       provider_options = {
         gemini = {
-          model = 'gemini-2.5-flash-lite',
+          model = 'gemini-flash-latest',
         },
       },
+
       virtualtext = {
         keymap = {
           -- accept whole completion
