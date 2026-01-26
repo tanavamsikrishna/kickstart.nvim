@@ -5,11 +5,6 @@ return {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
   },
   opts = {
-    format_on_save = {
-      timeout = 1000,
-      lsp_format = 'fallback',
-    },
-
     formatters = {
       topiary_nushell = {
         command = os.getenv 'SCRIPTS_FOLDER' .. '/bin/format.nu',
