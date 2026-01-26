@@ -1,6 +1,15 @@
 return {
   'stevearc/conform.nvim',
+  dependencies = {
+    { 'mason-org/mason.nvim', opts = {} },
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+  },
   opts = {
+    format_on_save = {
+      timeout = 1000,
+      lsp_format = 'fallback',
+    },
+
     formatters = {
       topiary_nushell = {
         command = os.getenv 'SCRIPTS_FOLDER' .. '/bin/format.nu',
@@ -20,7 +29,13 @@ return {
       json5 = { 'json5' },
       dockerfile = { 'dockerfmt' },
       yaml = { 'yamlfmt' },
-      css = { 'prettier' },
+      css = { 'prettierd' },
+      html = { 'prettierd' },
     },
   },
+  config = function(_, opts)
+    require('mason').setup()
+    require('mason-tool-installer').setup { ensure_installed = { 'prettierd' } }
+    require('conform').setup(opts)
+  end,
 }

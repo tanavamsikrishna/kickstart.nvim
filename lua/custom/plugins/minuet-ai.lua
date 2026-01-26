@@ -15,7 +15,6 @@ return {
         },
       },
       virtualtext = {
-        auto_trigger_ft = { 'python', 'lua', 'ts', 'svelte', 'js', 'go', 'rust', 'cpp', 'c', 'java', 'nu', 'svelte' },
         keymap = {
           -- accept whole completion
           accept = '<A-A>',
