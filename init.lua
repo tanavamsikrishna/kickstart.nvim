@@ -893,6 +893,7 @@ require('lazy').setup({
     -- 'p00f/alabaster.nvim',
     -- 'altercation/vim-colors-solarized',
     -- 'catppuccin/nvim',
+    -- 'calind/selenized.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       vim.o.background = 'light'
@@ -905,6 +906,7 @@ require('lazy').setup({
       vim.api.nvim_set_hl(0, 'Visual', { link = 'Search' })
       vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal' }) -- For floating windows
       vim.api.nvim_set_hl(0, 'BlinkCmpGhostText', { link = 'Comment', italic = true })
+      vim.api.nvim_set_hl(0, 'GruvBoxGreenBold', { fg = '#79740e' })
 
       -- vim.cmd.colorscheme 'solarized'
 
@@ -918,6 +920,8 @@ require('lazy').setup({
       -- vim.api.nvim_set_hl(0, 'FloatBorder', { bg = '#FDF6E3' })
 
       -- vim.cmd.colorscheme 'catppuccin-latte'
+      -- vim.cmd.colorscheme 'selenized'
+      -- vim.api.nvim_set_hl(0, 'Identifier', { fg = '#53676d' })
     end,
   },
 
