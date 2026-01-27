@@ -1,9 +1,5 @@
 return {
   'stevearc/conform.nvim',
-  dependencies = {
-    { 'mason-org/mason.nvim', opts = {} },
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
-  },
   opts = {
     formatters = {
       topiary_nushell = {
@@ -28,9 +24,4 @@ return {
       html = { 'prettierd' },
     },
   },
-  config = function(_, opts)
-    require('mason').setup()
-    require('mason-tool-installer').setup { ensure_installed = { 'prettierd', 'stylua' } }
-    require('conform').setup(opts)
-  end,
 }

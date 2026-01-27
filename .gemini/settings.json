@@ -1,9 +1,8 @@
 {
        "mcpServers": {
               "MCP Neovim Server": {
-                     "command": "pnpm",
+                     "command": "bunx",
                      "args": [
-                            "dlx",
                             "mcp-neovim-server"
                      ],
                      "env": {

@@ -1,2 +1,2 @@
 globals = { 'vim' }
-std = 'lua54'
+std = 'luajit'
