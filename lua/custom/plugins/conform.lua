@@ -30,7 +30,7 @@ return {
   },
   config = function(_, opts)
     require('mason').setup()
-    require('mason-tool-installer').setup { ensure_installed = { 'prettierd' } }
+    require('mason-tool-installer').setup { ensure_installed = { 'prettierd', 'stylua' } }
     require('conform').setup(opts)
   end,
 }

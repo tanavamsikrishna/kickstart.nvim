@@ -674,16 +674,16 @@ require('lazy').setup({
       ensure_installed = vim.tbl_filter(function(key)
         return not vim.tbl_contains(skip_installation, key)
       end, ensure_installed)
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-      })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
+        automatic_enable = { exclude = { 'stylua' } },
         handlers = {
           function(server_name)
+            if server_name == 'stylua' then
+              return
+            end
             local server = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
@@ -1062,6 +1062,7 @@ require 'custom.config.delete_ext_file_bufs'
 require 'custom.config.miscellaneous'
 require 'custom.config.mksession'
 require 'custom.config.neovide'
+-- require 'custom.config.nvim_debug'
 
 -- Disabled as it is causing problems with mini.sessions
 -- require 'custom.config.folding'
