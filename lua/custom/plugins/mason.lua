@@ -17,11 +17,18 @@ return {
     end
 
     local tools_needed = lsp_server_tools
-
-    tools_needed = vim.list_extend(lsp_server_tools, formatting_tools)
+    vim.list_extend(tools_needed, formatting_tools)
     tools_needed = vim.tbl_filter(function(key)
       return not vim.tbl_contains(skipped_lsp_servers, key)
-    end, lsp_server_tools)
+    end, tools_needed)
+
+    -- Fix for workspace not loading with luals:v3.17.1
+    tools_needed = vim.tbl_filter(function(key)
+      return not vim.tbl_contains({ 'lua_ls' }, key)
+    end, tools_needed)
+    vim.list_extend(tools_needed, { { 'lua_ls', version = '3.16.4' } })
+
+    require('mason-tool-installer').setup { ensure_installed = tools_needed }
 
     ---@module 'mason-lspconfig.settings'
     ---@type MasonLspconfigSettings
@@ -31,8 +38,6 @@ return {
       ensure_installed = {},
       automatic_enable = { exclude = { 'stylua' } },
     }
-
-    require('mason-tool-installer').setup { ensure_installed = tools_needed }
     require('mason-lspconfig').setup(mason_lspconfig_opts)
   end,
 }
