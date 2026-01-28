@@ -1,13 +1,11 @@
 {
-       "mcpServers": {
-              "MCP Neovim Server": {
-                     "command": "bunx",
-                     "args": [
-                            "mcp-neovim-server"
-                     ],
-                     "env": {
-                            "NVIM_SOCKET_PATH": "./nvim_socket"
-                     }
-              }
-       }
+  "mcpServers": {
+    "MCP Neovim Server": {
+      "command": "bunx",
+      "args": ["mcp-neovim-server"],
+      "env": {
+        "NVIM_SOCKET_PATH": "./nvim_socket"
+      }
+    }
+  }
 }
