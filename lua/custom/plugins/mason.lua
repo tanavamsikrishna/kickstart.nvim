@@ -5,30 +5,23 @@ return {
     'mason-org/mason-lspconfig.nvim',
   },
   config = function()
-    local lsp_servers = require 'custom.config.lsp_server_list'
+    local skipped_lsp_servers = { 'nushell' }
     local formatting_tools = { 'stylua', 'prettierd', 'jq' }
-    local skip_installation = { 'nushell' }
 
-    -- Ensure the servers and tools above are installed
-    --
-    -- To check the current status of installed tools and/or manually install
-    -- other tools, you can run
-    --    :Mason
-    --
-    -- You can press `g?` for help in this menu.
-    --
-    -- `mason` had to be setup earlier: to configure its options see the
-    -- `dependencies` table for `nvim-lspconfig` above.
-    --
-    -- You can add other tools here that you want Mason to install
-    -- for you, so that they are available from within Neovim.
-    local ensure_installed = vim.tbl_keys(lsp_servers or {})
-    ensure_installed = vim.list_extend(ensure_installed, formatting_tools)
-    ensure_installed = vim.tbl_filter(function(key)
-      return not vim.tbl_contains(skip_installation, key)
-    end, ensure_installed)
+    -- 1. Scan lsp/ folder for server names
+    local lsp_server_tools = {}
+    for name, type in vim.fs.dir(vim.fn.stdpath 'config' .. '/lsp') do
+      if type == 'file' and name:match '%.lua$' then
+        table.insert(lsp_server_tools, (name:gsub('%.lua$', '')))
+      end
+    end
 
-    require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+    local tools_needed = lsp_server_tools
+
+    tools_needed = vim.list_extend(lsp_server_tools, formatting_tools)
+    tools_needed = vim.tbl_filter(function(key)
+      return not vim.tbl_contains(skipped_lsp_servers, key)
+    end, lsp_server_tools)
 
     ---@module 'mason-lspconfig.settings'
     ---@type MasonLspconfigSettings
@@ -39,6 +32,7 @@ return {
       automatic_enable = { exclude = { 'stylua' } },
     }
 
+    require('mason-tool-installer').setup { ensure_installed = tools_needed }
     require('mason-lspconfig').setup(mason_lspconfig_opts)
   end,
 }

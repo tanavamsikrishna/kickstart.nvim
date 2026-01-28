@@ -606,6 +606,10 @@ require('lazy').setup({
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
+      -- Sets capabilities for EVERY server globally
+      vim.lsp.config('*', {
+        capabilities = require('blink.cmp').get_lsp_capabilities(),
+      })
     end,
   },
 
@@ -732,7 +736,6 @@ require('lazy').setup({
         ghost_text = { enabled = false },
         list = {
           selection = {
-            preselect = false,
             auto_insert = false,
           },
         },
