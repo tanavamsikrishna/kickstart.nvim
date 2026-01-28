@@ -36,7 +36,7 @@ return {
   },
   opts = nvim_tree_config,
   keys = {
-    { '\\', ':NvimTreeToggle<CR>', desc = 'NvimTree reveal', silent = true },
+    { '\\', ':NvimTreeFindFileToggle<CR>', desc = 'NvimTree reveal', silent = true },
   },
   config = function(_, opts)
     vim.g.loaded_netrw = 1
