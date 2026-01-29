@@ -3,6 +3,8 @@ local WIDTH_RATIO = 0.5 -- You can change this too
 
 ---@type nvim_tree.config
 local nvim_tree_config = {
+  filters = { dotfiles = true, custom = { '__marimo__', '__pycache__' } },
+  git = { enable = false },
   on_attach = function(bufnr)
     local api = require 'nvim-tree.api'
     -- default mappings
