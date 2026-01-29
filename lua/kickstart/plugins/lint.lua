@@ -5,16 +5,6 @@ return {
   config = function()
     local lint = require 'lint'
 
-    -- lint.linters.taplo = {
-    --   name = 'taplo',
-    --   cmd = 'taplo',
-    --   stdin = true,
-    --   args = { 'check', '--colors', 'never', '--default-schema-catalogs', '-' },
-    --   stream = 'stderr',
-    --   ignore_exitcode = false, -- set this to true if the linter exits with a code != 0 and that's considered normal.
-    --   -- parser = your_parse_function,
-    -- }
-
     lint.linters_by_ft = {
       -- markdown = { 'markdownlint' },
       lua = { 'luacheck' },

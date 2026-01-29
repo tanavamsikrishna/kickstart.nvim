@@ -6,7 +6,7 @@ return {
   },
   config = function()
     local skipped_lsp_servers = { 'nushell' }
-    local formatting_tools = { 'stylua', 'prettierd', 'jq' }
+    local formatting_tools = { 'stylua', 'prettierd', 'jq', 'tombi' }
 
     -- 1. Scan lsp/ folder for server names
     local lsp_server_tools = {}

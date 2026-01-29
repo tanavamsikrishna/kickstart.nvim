@@ -28,7 +28,7 @@ local opts = {
     lua = { 'stylua' },
     nu = { 'topiary_nushell' },
     python = { 'ruff_organize_imports', 'ruff_format' },
-    toml = { 'taplo' },
+    toml = { 'tombi' },
     yaml = { 'yamlfmt' },
   },
   stop_after_first = true,
