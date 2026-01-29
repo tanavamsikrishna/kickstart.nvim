@@ -416,9 +416,7 @@ require('lazy').setup({
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     dependencies = {
-      { 'mason-org/mason.nvim', opts = {} },
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
-      'mason-org/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim', -- Wait for lsp tools to be installed
 
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
@@ -613,6 +611,12 @@ require('lazy').setup({
       vim.lsp.config('*', {
         capabilities = capabilities,
       })
+
+      local lsp_names = vim.tbl_map(function(o)
+        return type(o) == 'string' and o or o[1]
+      end, require 'custom.config.required_tools' 'lsp')
+
+      vim.lsp.enable(lsp_names)
     end,
   },
 
