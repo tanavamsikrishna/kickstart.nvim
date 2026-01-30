@@ -12,11 +12,11 @@ local tools = {
     'ts_ls',
     'zls',
   },
-  formatter = { 'stylua', 'prettierd', 'jq', 'tombi' },
+  others = { 'stylua', 'prettierd', 'jq', 'tombi', 'tree-sitter-cli' },
   installation_skipped = { 'nushell' },
 }
 
----@param tool_type 'lsp'|'formatter'|'installation_skipped'
+---@param tool_type 'lsp'|'others'|'installation_skipped'
 ---@return string[]
 local function get_necessary_tools(tool_type) return tools[tool_type] end
 

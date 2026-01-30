@@ -1,43 +1,31 @@
 return {
   'nvim-treesitter/nvim-treesitter-textobjects',
-  enable = false,
-  dependencies = {
-    'nvim-treesitter/nvim-treesitter',
-  },
-  config = function()
-    require('nvim-treesitter.configs').setup {
-      textobjects = {
-        move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            ['}'] = {
-              query = { '@statement.outer', '@function.outer', '@class.outer' },
-              desc = 'Next function or class start',
-            },
-            [']m'] = '@function.outer',
-            [']]'] = { query = '@class.outer', desc = 'Next class start' },
-            [']s'] = { query = '@local.scope', query_group = 'locals', desc = 'Next scope' },
-          },
-          goto_next_end = {
-            [']M'] = '@function.outer',
-            [']['] = '@class.outer',
-          },
-          goto_previous_start = {
-            ['{'] = {
-              query = { '@statement.outer', '@function.outer', '@class.outer' },
-              desc = 'Next function or class start',
-            },
-            ['[m'] = '@function.outer',
-            ['[['] = '@class.outer',
-            ['[s'] = { query = '@local.scope', query_group = 'locals', desc = 'Prev scope' },
-          },
-          goto_previous_end = {
-            ['[M'] = '@function.outer',
-            ['[]'] = '@class.outer',
-          },
-        },
+  branch = 'main',
+  init = function()
+    -- Disable entire built-in ftplugin mappings to avoid conflicts.
+    -- See https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
+    vim.g.no_plugin_maps = true
+    require('nvim-treesitter-textobjects').setup {
+      move = {
+        set_jumps = true,
       },
     }
+
+    local move = require 'nvim-treesitter-textobjects.move'
+
+    vim.keymap.set({ 'n', 'x', 'o' }, ']m', function() move.goto_next_start('@function.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '[m', function() move.goto_previous_start('@function.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, ']M', function() move.goto_next_end('@function.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '[M', function() move.goto_previous_end('@function.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '}', function() move.goto_next_start('@statement.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '{', function() move.goto_previous_start('@statement.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, ']s', function() move.goto_next_start('@local.scope', 'locals') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '[s', function() move.goto_previous_start('@local.scope', 'locals') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, ']]', function() move.goto_next_start('@class.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '][', function() move.goto_next_end('@class.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '[[', function() move.goto_previous_start('@class.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '[]', function() move.goto_previous_end('@class.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, ']d', function() move.goto_next('@conditional.outer', 'textobjects') end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '[d', function() move.goto_previous('@conditional.outer', 'textobjects') end)
   end,
 }

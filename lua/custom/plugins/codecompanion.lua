@@ -2,6 +2,7 @@ local model_to_use = 'gemini-flash-latest'
 
 return {
   'olimorris/codecompanion.nvim',
+  enabled = false,
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
