@@ -5,9 +5,7 @@ local hide_cursor = function()
   vim.api.nvim_set_hl(0, 'HiddenCursor', { blend = 100, nocombine = true })
   vim.opt.guicursor:append 'a:HiddenCursor'
 end
-local reset_cursor = function()
-  vim.opt.guicursor = original_guicursor
-end
+local reset_cursor = function() vim.opt.guicursor = original_guicursor end
 
 -- Create an autocommand group for NvimTree cursor management
 local group = vim.api.nvim_create_augroup('NvimTreeHideCursor', { clear = true })

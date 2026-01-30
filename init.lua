@@ -28,9 +28,7 @@ vim.o.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
+vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -128,9 +126,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.hl.on_yank()
-  end,
+  callback = function() vim.hl.on_yank() end,
 })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -139,9 +135,7 @@ local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
   local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
-  if vim.v.shell_error ~= 0 then
-    error('Error cloning lazy.nvim:\n' .. out)
-  end
+  if vim.v.shell_error ~= 0 then error('Error cloning lazy.nvim:\n' .. out) end
 end
 
 ---@type vim.Option
@@ -286,9 +280,7 @@ require('lazy').setup({
 
         -- `cond` is a condition used to determine whether this plugin should be
         -- installed and loaded.
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
+        cond = function() return vim.fn.executable 'make' == 1 end,
       },
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
@@ -346,20 +338,19 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', function()
-        builtin.fd { find_command = { 'fd', '--exclude', '.git', '--hidden', '--type', 'f' } }
-      end, { desc = '[S]earch [F]iles' })
+      vim.keymap.set(
+        'n',
+        '<leader>sf',
+        function() builtin.fd { find_command = { 'fd', '--exclude', '.git', '--hidden', '--type', 'f' } } end,
+        { desc = '[S]earch [F]iles' }
+      )
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sd', function()
-        builtin.diagnostics { line_width = 'full' }
-      end, { desc = '[S]earch [D]iagnostics' })
+      vim.keymap.set('n', '<leader>sd', function() builtin.diagnostics { line_width = 'full' } end, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader><leader>', function()
-        builtin.buffers { sort_mru = true }
-      end, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader><leader>', function() builtin.buffers { sort_mru = true } end, { desc = '[ ] Find existing buffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -372,17 +363,20 @@ require('lazy').setup({
 
       -- It's also possible to pass additional configuration options.
       --  See `:help telescope.builtin.live_grep()` for information about particular keys
-      vim.keymap.set('n', '<leader>s/', function()
-        builtin.live_grep {
-          grep_open_files = true,
-          prompt_title = 'Live Grep in Open Files',
-        }
-      end, { desc = '[S]earch [/] in Open Files' })
+      vim.keymap.set(
+        'n',
+        '<leader>s/',
+        function()
+          builtin.live_grep {
+            grep_open_files = true,
+            prompt_title = 'Live Grep in Open Files',
+          }
+        end,
+        { desc = '[S]earch [/] in Open Files' }
+      )
 
       -- Shortcut for searching your Neovim configuration files
-      vim.keymap.set('n', '<leader>sn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, { desc = '[S]earch [N]eovim files' })
+      vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end, { desc = '[S]earch [N]eovim files' })
     end,
   },
 
@@ -390,9 +384,7 @@ require('lazy').setup({
     'iamcco/markdown-preview.nvim',
     cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
     build = 'cd app && yarn install && cd .. && git checkout .',
-    init = function()
-      vim.g.mkdp_filetypes = { 'markdown' }
-    end,
+    init = function() vim.g.mkdp_filetypes = { 'markdown' } end,
     ft = { 'markdown' },
   },
 
@@ -407,9 +399,7 @@ require('lazy').setup({
         -- Load luvit types when the `vim.uv` word is found
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
       },
-      enabled = function(root_dir)
-        return vim.g.lazydev_enabled == true
-      end,
+      enabled = function(root_dir) return vim.g.lazydev_enabled == true end,
     },
   },
   {
@@ -508,16 +498,10 @@ require('lazy').setup({
           vim.diagnostic.config { virtual_text = false }
           map('<leader>d', vim.diagnostic.open_float, '[S]how [D]iagnostic on the current line')
           local function _jump_to_target_diagnostic(target_diagnostic)
-            if target_diagnostic then
-              vim.diagnostic.jump { diagnostic = target_diagnostic, float = true }
-            end
+            if target_diagnostic then vim.diagnostic.jump { diagnostic = target_diagnostic, float = true } end
           end
-          map(']d', function()
-            _jump_to_target_diagnostic(vim.diagnostic.get_next())
-          end, '[N]ext [D]iagnostic')
-          map('[d', function()
-            _jump_to_target_diagnostic(vim.diagnostic.get_prev())
-          end, '[P]revious [D]iagnostic')
+          map(']d', function() _jump_to_target_diagnostic(vim.diagnostic.get_next()) end, '[N]ext [D]iagnostic')
+          map('[d', function() _jump_to_target_diagnostic(vim.diagnostic.get_prev()) end, '[P]revious [D]iagnostic')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -566,9 +550,7 @@ require('lazy').setup({
           --
           -- This may be unwanted, since they displace some of your code
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, '[T]oggle Inlay [H]ints')
+            map('<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[T]oggle Inlay [H]ints')
           end
         end,
       })
@@ -612,9 +594,7 @@ require('lazy').setup({
         capabilities = capabilities,
       })
 
-      local lsp_names = vim.tbl_map(function(o)
-        return type(o) == 'string' and o or o[1]
-      end, require 'custom.config.required_tools' 'lsp')
+      local lsp_names = vim.tbl_map(function(o) return type(o) == 'string' and o or o[1] end, require 'custom.config.required_tools' 'lsp')
 
       vim.lsp.enable(lsp_names)
     end,
@@ -633,9 +613,7 @@ require('lazy').setup({
           -- Build Step is needed for regex support in snippets.
           -- This step is not supported in many windows environments.
           -- Remove the below condition to re-enable on windows.
-          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-            return
-          end
+          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then return end
           return 'make install_jsregexp'
         end)(),
         dependencies = {
@@ -644,15 +622,11 @@ require('lazy').setup({
           --    https://github.com/rafamadriz/friendly-snippets
           {
             'rafamadriz/friendly-snippets',
-            config = function()
-              require('luasnip.loaders.from_vscode').lazy_load()
-            end,
+            config = function() require('luasnip.loaders.from_vscode').lazy_load() end,
           },
         },
         opts = {},
-        config = function()
-          require('luasnip.loaders.from_lua').load { paths = './snippets' }
-        end,
+        config = function() require('luasnip.loaders.from_lua').load { paths = './snippets' } end,
       },
       'folke/lazydev.nvim',
       'echasnovski/mini.nvim',
@@ -852,9 +826,7 @@ require('lazy').setup({
       -- default behavior. For example, here we set the section for
       -- cursor location to LINE:COLUMN
       ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
+      statusline.section_location = function() return '%2l:%-2v' end
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim

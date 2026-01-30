@@ -1,6 +1,4 @@
 return {
   'nvim-treesitter/nvim-treesitter',
-  opts = function(_, opts)
-    vim.list_extend(opts.ensure_installed, { 'python', 'rust', 'svelte', 'regex' })
-  end,
+  opts = function(_, opts) vim.list_extend(opts.ensure_installed, { 'python', 'rust', 'svelte', 'regex' }) end,
 }

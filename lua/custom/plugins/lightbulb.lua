@@ -6,7 +6,5 @@ return {
     virtual_text = { enabled = true },
     sign = { enabled = false },
   },
-  config = function(_, opts)
-    require('nvim-lightbulb').setup(opts)
-  end,
+  config = function(_, opts) require('nvim-lightbulb').setup(opts) end,
 }

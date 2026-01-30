@@ -16,9 +16,7 @@ return {
       gemini = function()
         return require('codecompanion.adapters').extend('gemini', {
           env = {
-            api_key = function()
-              return os.getenv 'GEMINI_API_KEY'
-            end,
+            api_key = function() return os.getenv 'GEMINI_API_KEY' end,
           },
         })
       end,

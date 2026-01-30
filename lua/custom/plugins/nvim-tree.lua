@@ -11,9 +11,7 @@ local nvim_tree_config = {
     api.config.mappings.default_on_attach(bufnr)
 
     -- custom mappings
-    local opts = function(desc)
-      return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-    end
+    local opts = function(desc) return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true } end
     vim.keymap.set('n', 'd', api.fs.trash, opts 'Trash')
 
     -- Removing dangerous/unwanted key mappings
