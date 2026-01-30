@@ -303,12 +303,6 @@ require('lazy').setup({
         extensions = {
           ['ui-select'] = { require('telescope.themes').get_dropdown() },
         },
-        
-        defaults = {
-          layout_strategy = 'vertical',
-          entry_prefix = '',
-          selection_caret = '',
-        },
         defaults = {
           layout_strategy = 'vertical',
           entry_prefix = '',
@@ -410,18 +404,19 @@ require('lazy').setup({
   },
 
   -- LSP Plugins
-  -- {
-  --   -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-  --   -- used for completion, annotations and signatures of Neovim apis
-  --   'folke/lazydev.nvim',
-  --   ft = 'lua',
-  --   opts = {
-  --     library = {
-  --       -- Load luvit types when the `vim.uv` word is found
-  --       { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-  --     },
-  --   },
-  -- },
+  {
+    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+    -- used for completion, annotations and signatures of Neovim apis
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {
+      library = {
+        -- Load luvit types when the `vim.uv` word is found
+        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+      },
+    },
+  },
+
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -457,9 +452,6 @@ require('lazy').setup({
       -- Thus, Language Servers are external tools that must be installed separately from
       -- Neovim. This is where `mason` and related plugins come into play.
       --
-      -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-      -- and elegantly composed help section, `:help lsp-vs-treesitter`
-
       --  This function gets run when an LSP attaches to a particular buffer.
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
@@ -569,40 +561,9 @@ require('lazy').setup({
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
       -- Sets capabilities for EVERY server globally
-      vim.lsp.config('*', {
-        capabilities = capabilities,
-      })
-
+      vim.lsp.config('*', { capabilities = capabilities })
       local lsp_names = vim.tbl_map(function(o) return type(o) == 'string' and o or o[1] end, require 'custom.config.required_tools' 'lsp')
-
       vim.lsp.enable(lsp_names)
-
-      -- Special Lua Config, as recommended by neovim help docs
-      vim.lsp.config('lua_ls', {
-        on_init = function(client)
-          if client.workspace_folders then
-            local path = client.workspace_folders[1].name
-            if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then return end
-          end
-
-          client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-            runtime = {
-              version = 'LuaJIT',
-              path = { 'lua/?.lua', 'lua/?/init.lua' },
-            },
-            workspace = {
-              checkThirdParty = false,
-              -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
-              --  See https://github.com/neovim/nvim-lspconfig/issues/3189
-              library = vim.api.nvim_get_runtime_file('', true),
-            },
-          })
-        end,
-        settings = {
-          Lua = {},
-        },
-      })
-      vim.lsp.enable 'lua_ls'
     end,
   },
 
@@ -636,7 +597,6 @@ require('lazy').setup({
       },
       -- 'folke/lazydev.nvim',
       'echasnovski/mini.nvim',
-
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -834,18 +794,6 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/nvim-mini/mini.nvim
-    end,
-  },
-
-  { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    config = function()
-      local filetypes = { 'fish', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'toml' }
-      require('nvim-treesitter').install(filetypes)
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = filetypes,
-        callback = function() vim.treesitter.start() end,
-      })
     end,
   },
 
