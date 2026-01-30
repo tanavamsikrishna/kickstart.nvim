@@ -706,6 +706,7 @@ require('lazy').setup({
         },
         menu = {
           auto_show = true,
+          auto_show_delay_ms = 500,
           draw = {
             components = {
               kind_icon = {
@@ -734,7 +735,6 @@ require('lazy').setup({
         default = { 'lsp', 'path', 'snippets', 'lazydev' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-          cmdline = { min_keyword_length = 3 },
         },
       },
 
