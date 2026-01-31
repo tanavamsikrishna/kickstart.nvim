@@ -2,8 +2,8 @@ return {
   'nvim-treesitter/nvim-treesitter-textobjects',
   branch = 'main',
   init = function()
-    -- Disable entire built-in ftplugin mappings to avoid conflicts.
-    -- See https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
+    -- disable entire built-in ftplugin mappings to avoid conflicts.
+    -- see https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
     vim.g.no_plugin_maps = true
     require('nvim-treesitter-textobjects').setup {
       move = {
@@ -13,19 +13,27 @@ return {
 
     local move = require 'nvim-treesitter-textobjects.move'
 
-    vim.keymap.set({ 'n', 'x', 'o' }, ']m', function() move.goto_next_start('@function.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, '[m', function() move.goto_previous_start('@function.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, ']M', function() move.goto_next_end('@function.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, '[M', function() move.goto_previous_end('@function.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, '}', function() move.goto_next_start('@statement.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, '{', function() move.goto_previous_start('@statement.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, ']s', function() move.goto_next_start('@local.scope', 'locals') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, '[s', function() move.goto_previous_start('@local.scope', 'locals') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, ']]', function() move.goto_next_start('@class.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, '][', function() move.goto_next_end('@class.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, '[[', function() move.goto_previous_start('@class.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, '[]', function() move.goto_previous_end('@class.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, ']d', function() move.goto_next('@conditional.outer', 'textobjects') end)
-    vim.keymap.set({ 'n', 'x', 'o' }, '[d', function() move.goto_previous('@conditional.outer', 'textobjects') end)
+    ---@param ts_exprs string|string[] the treesitter expression
+    ---@param key_dynamic_part '['|'{' the part which will be "mirrored" to move the other direction
+    ---@param key_static_part string|nil the identifier for this motion
+    ---@param to_start boolean where to jump to start (or end) of the tag
+    local function set_keymaps(ts_exprs, key_dynamic_part, key_static_part, to_start)
+      key_static_part = key_static_part or ''
+      local dynamic_keys
+      if key_dynamic_part == '[' then
+        dynamic_keys = { '[', ']' }
+      else
+        dynamic_keys = { '{', '}' }
+      end
+      local functions = to_start and { move.goto_previous_start, move.goto_next_start } or { move.goto_previous_end, move.goto_next_end }
+
+      for i = 1, #dynamic_keys do
+        vim.keymap.set({ 'n', 'x', 'o' }, dynamic_keys[i] .. key_static_part, function() (functions[i])(ts_exprs, 'textobjects') end)
+      end
+    end
+
+    set_keymaps({ '@call.outer', '@assignment.outer', '@local.scope', '@block.outer' }, '{', '', true)
+    set_keymaps({ '@function.outer', '@class.outer' }, '[', '[', true)
+    set_keymaps({ '@function.outer', '@class.outer' }, '[', ']', false)
   end,
 }

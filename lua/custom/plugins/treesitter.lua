@@ -7,19 +7,20 @@ return {
     local treesitter = require 'nvim-treesitter'
 
     treesitter.install {
-      'python',
-      'rust',
-      'svelte',
-      'regex',
-      'fish',
       'diff',
+      'fish',
       'html',
       'lua',
       'luadoc',
       'markdown',
+      'nu',
+      'python',
+      'regex',
+      'rust',
+      'svelte',
+      'toml',
       'vim',
       'vimdoc',
-      'toml',
     }
 
     vim.api.nvim_create_autocmd('FileType', {
