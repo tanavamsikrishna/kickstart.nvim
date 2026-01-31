@@ -839,7 +839,9 @@ require('lazy').setup({
 require 'custom.config.delete_ext_file_bufs'
 require 'custom.config.miscellaneous'
 require 'custom.config.mksession'
+require 'custom.config.viewoptions'
 require 'custom.config.neovide'
+require 'custom.config.folding'
 -- require 'custom.config._debug'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
