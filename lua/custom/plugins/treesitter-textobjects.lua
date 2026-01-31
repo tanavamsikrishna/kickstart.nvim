@@ -32,7 +32,7 @@ return {
       end
     end
 
-    set_keymaps({ '@call.outer', '@assignment.outer', '@local.scope', '@block.outer' }, '{', '', true)
+    set_keymaps({ '@call.outer', '@assignment.outer', '@local.scope', '@block.outer', '@return.outer' }, '{', '', true)
     set_keymaps({ '@function.outer', '@class.outer' }, '[', '[', true)
     set_keymaps({ '@function.outer', '@class.outer' }, '[', ']', false)
   end,

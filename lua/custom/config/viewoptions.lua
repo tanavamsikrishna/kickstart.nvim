@@ -8,9 +8,6 @@ vim.api.nvim_create_autocmd({ 'BufWinLeave', 'BufWritePost', 'WinLeave' }, {
     if vim.bo[args.buf].buftype ~= '' then return end
     if vim.api.nvim_buf_get_name(args.buf) == '' then return end
 
-    -- Enforce Manual Mode before saving
-    vim.api.nvim_buf_set_option(args.buf, 'foldmethod', 'manual')
-
     -- Save (Blow up if errors)
     vim.cmd 'mkview!'
   end,
@@ -30,7 +27,7 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
     local status, err = pcall(vim.cmd, 'loadview')
     if not status then
       -- Ignore "E185: Cannot find view file" (Normal for new/unvisited files)
-      if string.find(err, 'E185') then
+      if string.find(err, 'E185') or string.find(err, 'E484') then
         return
       else
         -- Blow up on everything else (Corrupt views, E32, etc.)

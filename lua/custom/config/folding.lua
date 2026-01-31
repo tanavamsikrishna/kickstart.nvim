@@ -6,11 +6,11 @@ vim.opt.foldlevel = 99
 
 local function smart_toggle_fold()
   -- 1. Try standard fold toggle first (pcall required to avoid "No fold found" error)
-  local ok = pcall(vim.cmd, 'normal! za')
+  local ok = pcall(function() vim.cmd 'normal! za' end)
   if ok then return end
 
   -- 2. Native Treesitter Parser Check (Blow up if TS is broken)
-  local parser = vim.treesitter.get_parser(0)
+  local _ = vim.treesitter.get_parser(0)
 
   -- 3. Native Node Check
   local node = vim.treesitter.get_node()
