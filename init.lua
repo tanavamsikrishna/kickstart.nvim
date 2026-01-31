@@ -395,14 +395,6 @@ require('lazy').setup({
     end,
   },
 
-  {
-    'iamcco/markdown-preview.nvim',
-    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
-    build = 'cd app && yarn install && cd .. && git checkout .',
-    init = function() vim.g.mkdp_filetypes = { 'markdown' } end,
-    ft = { 'markdown' },
-  },
-
   -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins

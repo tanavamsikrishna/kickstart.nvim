@@ -12,7 +12,13 @@ local tools = {
     'ts_ls',
     'zls',
   },
-  others = { 'stylua', 'prettierd', 'jq', 'tombi', 'tree-sitter-cli' },
+  others = {
+    'stylua',
+    'prettierd',
+    'jq',
+    'tombi',
+    'tree-sitter-cli',
+  },
   installation_skipped = { 'nushell' },
 }
 
