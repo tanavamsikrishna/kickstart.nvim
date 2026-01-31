@@ -18,6 +18,7 @@ local tools = {
     'jq',
     'tombi',
     'tree-sitter-cli',
+    'jsonlint',
   },
   installation_skipped = { 'nushell' },
 }
