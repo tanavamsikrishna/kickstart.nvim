@@ -1,25 +1,12 @@
 local HEIGHT_RATIO = 0.8 -- You can change this
 local WIDTH_RATIO = 0.5 -- You can change this too
 
+-- NOTE: Tried to map the `d` key to Trash. But due to `invalid window id..` error, rolled it back
+
 ---@type nvim_tree.config
 local nvim_tree_config = {
   filters = { dotfiles = true, custom = { '__marimo__', '__pycache__', '\\.egg-info' } },
   git = { enable = false },
-  on_attach = function(bufnr)
-    local api = require 'nvim-tree.api'
-    -- default mappings
-    api.config.mappings.default_on_attach(bufnr)
-
-    -- custom mappings
-    local opts = function(desc) return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true } end
-    vim.keymap.set('n', 'd', api.fs.trash, opts 'Trash')
-
-    -- Removing dangerous/unwanted key mappings
-    local keys_to_delete = { 'D', '<Del>', 'bd' }
-    for _, key_to_delete in ipairs(keys_to_delete) do
-      vim.keymap.del('n', key_to_delete, { buffer = bufnr })
-    end
-  end,
   view = {
     float = {
       enable = true,
