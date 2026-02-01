@@ -5,9 +5,9 @@ return {
     'mason-org/mason-lspconfig.nvim', -- This lets mason-tool-installer use the lsp names of mason tools
   },
   config = function()
-    local installation_skipped = require 'custom.config.required_tools' 'installation_skipped'
-    local other_tools = require 'custom.config.required_tools' 'others'
-    local lsp_servers = require 'custom.config.required_tools' 'lsp'
+    local installation_skipped = require 'config.required_tools' 'installation_skipped'
+    local other_tools = require 'config.required_tools' 'others'
+    local lsp_servers = require 'config.required_tools' 'lsp'
 
     local tools_needed = lsp_servers
     vim.list_extend(tools_needed, other_tools)
