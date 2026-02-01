@@ -526,6 +526,7 @@ require('lazy').setup({
       local capabilities = require('blink.cmp').get_lsp_capabilities()
       -- Sets capabilities for EVERY server globally
       vim.lsp.config('*', { capabilities = capabilities })
+      vim.lsp.config.lua_ls = { settings = { Lua = { completion = { callSnippet = 'Both' } } } }
       local lsp_names = vim.tbl_map(function(o) return type(o) == 'string' and o or o[1] end, require 'config.required_tools' 'lsp')
       vim.lsp.enable(lsp_names)
     end,
@@ -600,18 +601,23 @@ require('lazy').setup({
       },
 
       completion = {
-        -- By default, you may press `<c-space>` to show the documentation.
-        -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = true, auto_show_delay_ms = 500 },
-        ghost_text = { enabled = false },
+        accept = {
+          auto_brackets = { enabled = false },
+        },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 500,
+          treesitter_highlighting = true,
+        },
         list = {
           selection = {
+            preselect = false,
             auto_insert = false,
           },
         },
         menu = {
           auto_show = true,
-          auto_show_delay_ms = 500,
+          auto_show_delay_ms = 0,
           draw = {
             components = {
               kind_icon = {
