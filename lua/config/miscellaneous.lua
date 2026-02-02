@@ -14,7 +14,7 @@ vim.opt.titlestring = vim.fn.getcwd()
 -- exrc
 vim.o.exrc = true
 
--- Abbrevations
+-- Abbrevations/Remappings
 vim.keymap.set('ca', 'w', function()
   if vim.fn.getcmdtype() == ':' and vim.fn.getcmdline() == 'w' then
     return 'update'
@@ -22,3 +22,4 @@ vim.keymap.set('ca', 'w', function()
     return 'w'
   end
 end, { expr = true })
+vim.keymap.set('n', 'gb', '<cmd>b #<CR>', { desc = 'Go to alternate file' })

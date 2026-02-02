@@ -8,24 +8,15 @@ vim.api.nvim_create_autocmd({ 'BufWinLeave', 'BufWritePost', 'WinLeave' }, {
   callback = function(args)
     -- 1. VALIDITY CHECK (Crucial for nvim-tree)
     -- This prevents the "Invalid buffer id" crash you just encountered.
-    if not vim.api.nvim_buf_is_valid(args.buf) then
-      vim.notify('viewoptions: Invalid buffer: ' .. args.buf)
-      return
-    end
+    if not vim.api.nvim_buf_is_valid(args.buf) then return end
 
     -- 2. Buftype Check (Don't save NvimTree/Telescope views)
-    if vim.bo[args.buf].buftype ~= '' then
-      vim.notify('viewoptions: Skipping as buftype: ' .. vim.bo[args.buf].buftype)
-      return
-    end
+    if vim.bo[args.buf].buftype ~= '' then return end
 
     -- 3. File Existence Check (Crucial for nvim-tree 'trash/delete')
     -- If the file was just deleted, args.file still has the path, but it's not on disk.
     -- We must NOT try to save a view for a deleted file.
-    if vim.fn.filereadable(args.file) == 0 then
-      vim.notify('viewoptions: unreadable file: ' .. args.file)
-      return
-    end
+    if vim.fn.filereadable(args.file) == 0 then return end
 
     -- 5. Save
     -- Use 'mkview!' to force overwrite.
