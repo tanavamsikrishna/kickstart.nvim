@@ -51,7 +51,10 @@ return {
         local async = require 'nvim-treesitter.async'
         local ts = require 'nvim-treesitter'
         async.arun(function()
-          local installation_needed = vim.tbl_filter(function(parser) return not vim.treesitter.language.add(parser) end, parsers)
+          local installation_needed = vim.tbl_filter(
+            function(parser) return not vim.treesitter.language.add(parser) end,
+            parsers
+          )
           if #installation_needed > 0 then async.await(ts.install(installation_needed)) end
           vim.tbl_map(vim.treesitter.language.add, installation_needed)
           vim.treesitter.start(bufnr, parsers[1])

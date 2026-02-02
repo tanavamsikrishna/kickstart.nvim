@@ -11,7 +11,10 @@ return {
 
     local tools_needed = lsp_servers
     vim.list_extend(tools_needed, other_tools)
-    tools_needed = vim.tbl_filter(function(key) return not vim.tbl_contains(installation_skipped, key) end, tools_needed)
+    tools_needed = vim.tbl_filter(
+      function(key) return not vim.tbl_contains(installation_skipped, key) end,
+      tools_needed
+    )
 
     require('mason-tool-installer').setup { ensure_installed = tools_needed, auto_update = true }
   end,

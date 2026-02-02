@@ -25,10 +25,15 @@ return {
       else
         dynamic_keys = { '{', '}' }
       end
-      local functions = to_start and { move.goto_previous_start, move.goto_next_start } or { move.goto_previous_end, move.goto_next_end }
+      local functions = to_start and { move.goto_previous_start, move.goto_next_start }
+        or { move.goto_previous_end, move.goto_next_end }
 
       for i = 1, #dynamic_keys do
-        vim.keymap.set({ 'n', 'x', 'o' }, dynamic_keys[i] .. key_static_part, function() (functions[i])(ts_exprs, 'textobjects') end)
+        vim.keymap.set(
+          { 'n', 'x', 'o' },
+          dynamic_keys[i] .. key_static_part,
+          function() (functions[i])(ts_exprs, 'textobjects') end
+        )
       end
     end
 

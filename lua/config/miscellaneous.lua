@@ -13,3 +13,12 @@ vim.opt.titlestring = vim.fn.getcwd()
 
 -- exrc
 vim.o.exrc = true
+
+-- Abbrevations
+vim.keymap.set('ca', 'w', function()
+  if vim.fn.getcmdtype() == ':' and vim.fn.getcmdline() == 'w' then
+    return 'update'
+  else
+    return 'w'
+  end
+end, { expr = true })
