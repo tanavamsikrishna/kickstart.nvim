@@ -804,6 +804,7 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
+  change_detection = { enabled = false },
 })
 
 require 'config.delete_ext_file_bufs'
