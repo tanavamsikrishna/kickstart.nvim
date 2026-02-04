@@ -44,8 +44,8 @@ return {
       '@statement.outer',
       -- '@local.scope',
       -- '@block.outer',
-    }, '[', '', true)
-    set_keymaps({ '@function.outer', '@class.outer' }, '{', '{', true)
-    set_keymaps({ '@function.outer', '@class.outer' }, '{', '}', false)
+    }, '{', '', true)
+    set_keymaps({ '@function.outer', '@class.outer' }, '[', '[', true)
+    set_keymaps({ '@function.outer', '@class.outer' }, '[', ']', false)
   end,
 }
