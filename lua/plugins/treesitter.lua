@@ -3,7 +3,7 @@ local function get_parsers(filetype)
   if filetype == 'svelte' then
     return { 'svelte', 'html', 'typescript', 'css', 'javascript', 'html_tags' }
   elseif filetype == 'markdown' then
-    return { 'markdown', 'markdown_inline' }
+    return { 'markdown', 'markdown_inline', 'html', 'latex', 'yaml' }
   else
     local parser = vim.treesitter.language.get_lang(filetype) or filetype
     return { parser }

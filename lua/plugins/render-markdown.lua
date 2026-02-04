@@ -9,7 +9,11 @@ return {
       render_modes = { 'n', 'c', 't' },
 
       -- Reduce visual noise: disable sign column indicators (headings/code get no left signs)
-      heading = { sign = false },
+      heading = {
+        sign = false,
+        width = 'block',
+        right_pad = 1,
+      },
 
       -- Make code blocks less distracting: no full background unless needed
       code = {
