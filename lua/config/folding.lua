@@ -1,6 +1,3 @@
--- vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
--- vim.opt.foldmethod = 'expr'
-
 vim.opt.foldmethod = 'manual'
 vim.opt.foldlevel = 99
 
