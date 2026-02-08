@@ -9,25 +9,13 @@ return {
     'ravitemer/mcphub.nvim',
   },
   opts = {
-    strategies = {
-      chat = { adapter = { name = 'gemini', model = model_to_use } },
-      inline = { adapter = { name = 'gemini', model = model_to_use } },
-    },
-    adapters = {
-      gemini = function()
-        return require('codecompanion.adapters').extend('gemini', {
-          env = {
-            api_key = function() return os.getenv 'GEMINI_API_KEY' end,
-          },
-        })
-      end,
-    },
+    -- strategies = {
+    --   chat = { adapter = { name = 'gemini_cli' } },
+    --   inline = { adapter = { name = 'gemini_cli' } },
+    -- },
     interactions = {
       chat = {
-        adapter = {
-          name = 'gemini',
-          model = model_to_use,
-        },
+        adapter = { name = 'gemini_cli' },
       },
     },
     display = {

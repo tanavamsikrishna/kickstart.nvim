@@ -3,7 +3,7 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   callback = function()
     local lines = vim.api.nvim_buf_get_lines(0, 0, 5, false)
     for _, line in ipairs(lines) do
-      if line:match 'import marimo' then
+      if line:match 'app = marimo.App' then
         vim.b.disable_autoformat = true
         break
       end
