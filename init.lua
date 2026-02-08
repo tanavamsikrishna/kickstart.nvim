@@ -483,7 +483,7 @@ require('lazy').setup({
       cmdline = {
         keymap = { preset = 'cmdline' },
         completion = {
-          menu = { auto_show = true },
+          menu = { auto_show = false },
           list = { selection = { preselect = false, auto_insert = true } },
         },
         sources = { 'cmdline' },
