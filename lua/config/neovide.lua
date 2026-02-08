@@ -1,6 +1,6 @@
 if vim.g.neovide then
-  -- vim.o.guifont = 'JetBrainsMono Nerd Font:h13'
-  vim.opt.guifont = { 'Liga SFMono Nerd Font:h12.5' }
+  vim.o.guifont = 'JetBrainsMono Nerd Font:h12.5'
+  -- vim.opt.guifont = { 'Liga SFMono Nerd Font:h12.5' }
   -- vim.o.guifont = 'SauceCodePro Nerd Font'
   -- vim.g.neovide_scroll_animation_length = 0
   vim.g.neovide_position_animation_length = 0

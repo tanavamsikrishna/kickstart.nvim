@@ -1,10 +1,24 @@
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = '*.py',
+  callback = function()
+    local lines = vim.api.nvim_buf_get_lines(0, 0, 5, false)
+    for _, line in ipairs(lines) do
+      if line:match 'import marimo' then
+        vim.b.disable_autoformat = true
+        break
+      end
+    end
+  end,
+})
+
 ---@module 'conform'
 ---@type conform.setupOpts
 local opts = {
   notify_on_error = true,
-  format_on_save = {
-    lsp_format = 'fallback',
-  },
+  format_on_save = function(bufnr)
+    if vim.b[bufnr].disable_autoformat then return end
+    return { lsp_format = 'fallback' }
+  end,
   formatters = {
     topiary_nushell = {
       command = os.getenv 'SCRIPTS_FOLDER' .. '/bin/format.nu',
