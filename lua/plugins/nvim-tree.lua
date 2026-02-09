@@ -6,7 +6,7 @@ local WIDTH_RATIO = 0.5 -- You can change this too
 ---@type nvim_tree.config
 local nvim_tree_config = {
   filters = { dotfiles = true, custom = { '__marimo__', '__pycache__', '\\.egg-info' } },
-  git = { enable = false },
+  git = { enable = true },
   view = {
     float = {
       enable = true,
@@ -28,6 +28,16 @@ local nvim_tree_config = {
           height = window_h_int,
         }
       end,
+    },
+  },
+  renderer = {
+    highlight_git = 'name',
+    icons = {
+      show = {
+        git = false,
+        file = true,
+        folder = false,
+      },
     },
   },
 }

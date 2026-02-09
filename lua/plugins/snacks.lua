@@ -22,6 +22,7 @@ return {
     lazy = false,
     ---@type snacks.Config
     opts = {
+      quickfile = {},
       picker = {
         enabled = true,
         -- Define custom layouts
