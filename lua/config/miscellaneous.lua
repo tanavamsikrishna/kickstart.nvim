@@ -14,6 +14,9 @@ vim.opt.titlestring = vim.fn.getcwd()
 -- exrc
 vim.o.exrc = true
 
+-- virtualedit (for cursor movement)
+vim.opt.virtualedit = { 'block' }
+
 -- Abbrevations/Remappings
 vim.keymap.set('ca', 'w', function()
   if vim.fn.getcmdtype() == ':' and vim.fn.getcmdline() == 'w' then
