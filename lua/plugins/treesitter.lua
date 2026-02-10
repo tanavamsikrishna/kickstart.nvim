@@ -11,7 +11,8 @@ local function get_parsers(filetype)
 end
 
 ---@param parsers string[] A list of parsers to be installed if already not
-local function load_parsers(parsers)
+---@param start boolean Whether to start treesitter syntax highlighting
+local function load_parsers(parsers, start)
   -- Start the treesitter
   local async = require 'nvim-treesitter.async'
   local ts = require 'nvim-treesitter'
@@ -24,7 +25,7 @@ local function load_parsers(parsers)
       async.await(ts.install(installation_needed))
       vim.tbl_map(vim.treesitter.language.add, installation_needed)
     end
-    -- vim.treesitter.start(bufnr, parsers[1])
+    if start then vim.treesitter.start(0, parsers[1]) end
   end)
 end
 
@@ -71,7 +72,7 @@ return {
         end
 
         -- Need to load the required parsers
-        load_parsers(parsers)
+        load_parsers(parsers, true)
       end,
     })
   end,
