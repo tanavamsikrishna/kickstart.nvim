@@ -12,7 +12,7 @@ end
 
 ---@param parsers string[] A list of parsers to be installed if already not
 ---@param start boolean Whether to start treesitter syntax highlighting
-local function load_parsers(parsers, start)
+local function install_load_and_start(parsers, start)
   -- Start the treesitter
   local async = require 'nvim-treesitter.async'
   local ts = require 'nvim-treesitter'
@@ -71,8 +71,8 @@ return {
           if #line > 1000 then return end
         end
 
-        -- Need to load the required parsers
-        load_parsers(parsers, true)
+        -- Prepare the required parsers
+        install_load_and_start(parsers, true)
       end,
     })
   end,
