@@ -10,6 +10,24 @@ local function get_parsers(filetype)
   end
 end
 
+---@param parsers string[] A list of parsers to be installed if already not
+local function load_parsers(parsers)
+  -- Start the treesitter
+  local async = require 'nvim-treesitter.async'
+  local ts = require 'nvim-treesitter'
+  async.arun(function()
+    local installation_needed = vim.tbl_filter(
+      function(parser) return not vim.treesitter.language.add(parser) end,
+      parsers
+    )
+    if #installation_needed > 0 then
+      async.await(ts.install(installation_needed))
+      vim.tbl_map(vim.treesitter.language.add, installation_needed)
+    end
+    -- vim.treesitter.start(bufnr, parsers[1])
+  end)
+end
+
 return {
   'nvim-treesitter/nvim-treesitter',
   lazy = false,
@@ -52,18 +70,8 @@ return {
           if #line > 1000 then return end
         end
 
-        -- Start the treesitter
-        local async = require 'nvim-treesitter.async'
-        local ts = require 'nvim-treesitter'
-        async.arun(function()
-          local installation_needed = vim.tbl_filter(
-            function(parser) return not vim.treesitter.language.add(parser) end,
-            parsers
-          )
-          if #installation_needed > 0 then async.await(ts.install(installation_needed)) end
-          vim.tbl_map(vim.treesitter.language.add, installation_needed)
-          vim.treesitter.start(bufnr, parsers[1])
-        end)
+        -- Need to load the required parsers
+        load_parsers(parsers)
       end,
     })
   end,
