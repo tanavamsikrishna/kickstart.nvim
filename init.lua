@@ -513,7 +513,8 @@ require('lazy').setup({
     -- 'oskarnurm/koda.nvim',
     -- 'Mofiqul/vscode.nvim',
     -- 'lunacookies/vim-colors-xcode',
-    'morhetz/gruvbox',
+    -- 'morhetz/gruvbox',
+    'ellisonleao/gruvbox.nvim',
     -- 'robertmeta/nofrils',
     -- 'p00f/alabaster.nvim',
     -- 'altercation/vim-colors-solarized',
@@ -527,11 +528,14 @@ require('lazy').setup({
       -- vim.cmd.colorscheme 'vscode'
       -- vim.cmd.colorscheme 'xcodelight'
 
+      require('gruvbox').setup {}
       vim.cmd.colorscheme 'gruvbox'
-      vim.api.nvim_set_hl(0, 'Visual', { link = 'Search' })
-      vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal' }) -- For floating windows
-      vim.api.nvim_set_hl(0, 'BlinkCmpGhostText', { link = 'Comment', italic = true })
-      vim.api.nvim_set_hl(0, 'GruvBoxGreenBold', { fg = '#79740e' })
+
+      -- vim.cmd.colorscheme 'gruvbox'
+      -- vim.api.nvim_set_hl(0, 'Visual', { link = 'Search' })
+      -- vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal' }) -- For floating windows
+      -- vim.api.nvim_set_hl(0, 'BlinkCmpGhostText', { link = 'Comment', italic = true })
+      -- vim.api.nvim_set_hl(0, 'GruvBoxGreenBold', { fg = '#79740e' })
 
       -- vim.cmd.colorscheme 'solarized'
 

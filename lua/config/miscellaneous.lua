@@ -1,11 +1,8 @@
 -- Fix UI issues
-vim.api.nvim_set_hl(0, 'LspSignatureActiveParameter', { bold = true })
-vim.api.nvim_set_hl(0, 'DiagnosticFloatingHint', { link = 'DiagnosticFloatingInfo' })
+-- vim.api.nvim_set_hl(0, 'LspSignatureActiveParameter', { bold = true })
+-- vim.api.nvim_set_hl(0, 'DiagnosticFloatingHint', { link = 'DiagnosticFloatingInfo' })
 -- vim.api.nvim_set_hl(0, 'MiniStatuslineFilename', { foreground = 'darkgreen' })
-vim.api.nvim_set_hl(0, 'MatchParen', { bold = true, fg = 'black', underline = true })
-vim.api.nvim_set_hl(0, 'TelescopeMatching', { link = 'Normal' })
-vim.api.nvim_set_hl(0, 'NeoTreeFloatBorder', { link = 'Normal' })
-vim.api.nvim_set_hl(0, 'NeoTreeTitleBar', { link = 'Normal' })
+-- vim.api.nvim_set_hl(0, 'MatchParen', { bold = true, fg = 'black', underline = true })
 
 -- Set title to the current working directory
 vim.opt.title = true
@@ -25,4 +22,3 @@ vim.keymap.set('ca', 'w', function()
     return 'w'
   end
 end, { expr = true })
-vim.keymap.set('n', 'gb', '<cmd>b #<CR>', { desc = 'Go to alternate file' })
