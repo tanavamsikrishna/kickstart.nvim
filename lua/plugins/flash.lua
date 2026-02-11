@@ -1,5 +1,11 @@
 ---@type Flash.Config
-local config_options = {}
+local config_options = {
+  modes = {
+    treesitter = {
+      label = { style = 'overlay' },
+    },
+  },
+}
 
 return {
   'folke/flash.nvim',
@@ -22,6 +28,5 @@ return {
   config = function(_, opts)
     require('flash').setup(opts)
     vim.api.nvim_set_hl(0, 'FlashLabel', { bg = '#b16286', fg = '#fbf1c7', bold = true })
-    vim.api.nvim_set_hl(0, 'FlashMatch', { link = 'Search' })
   end,
 }
