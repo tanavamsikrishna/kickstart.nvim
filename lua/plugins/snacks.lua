@@ -20,6 +20,14 @@ return {
     'folke/snacks.nvim',
     priority = 1000,
     lazy = false,
+    init = function()
+      vim.api.nvim_create_autocmd('ColorScheme', {
+        callback = function()
+          vim.api.nvim_set_hl(0, 'SnacksPickerMatch', {})
+          vim.api.nvim_set_hl(0, 'SnacksPickerSearch', {})
+        end,
+      })
+    end,
     ---@type snacks.Config
     opts = {
       quickfile = {},
