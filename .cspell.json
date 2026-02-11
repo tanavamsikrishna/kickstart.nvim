@@ -1,11 +1,6 @@
 {
-  "words": [
-    "lspconfig",
-    "nvim",
-    "jsonlint",
-    "tombi",
-    "jsonls",
-    "cssls",
-    "luasnip"
-  ]
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "allowCompoundWords": true,
+  "words": ["lspconfig", "nvim", "tombi", "cssls", "jsonls"],
+  "ignoreRegExpList": ["/\\[.*\\]/g"]
 }
