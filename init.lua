@@ -104,7 +104,12 @@ vim.diagnostic.config {
   jump = { float = true },
 }
 
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set(
+  'n',
+  '<leader>q',
+  vim.diagnostic.setloclist,
+  { desc = 'Open diagnostic [Q]uickfix list' }
+)
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -152,7 +157,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+  local out =
+    vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
   if vim.v.shell_error ~= 0 then error('Error cloning lazy.nvim:\n' .. out) end
 end
 
@@ -313,21 +319,39 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('gw', function() Snacks.picker.lsp_workspace_symbols() end, '[G]oto [W]orkspace Symbols')
+          map(
+            'gw',
+            function() Snacks.picker.lsp_workspace_symbols() end,
+            '[G]oto [W]orkspace Symbols'
+          )
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
-          map('grt', function() Snacks.picker.lsp_type_definitions() end, '[G]oto [T]ype Definition')
+          map(
+            'grt',
+            function() Snacks.picker.lsp_type_definitions() end,
+            '[G]oto [T]ype Definition'
+          )
 
           -- Showing & navigating diagnostics
           vim.diagnostic.config { virtual_text = false }
           map('<leader>d', vim.diagnostic.open_float, '[S]how [D]iagnostic on the current line')
           local function _jump_to_target_diagnostic(target_diagnostic)
-            if target_diagnostic then vim.diagnostic.jump { diagnostic = target_diagnostic, float = true } end
+            if target_diagnostic then
+              vim.diagnostic.jump { diagnostic = target_diagnostic, float = true }
+            end
           end
-          map(']d', function() _jump_to_target_diagnostic(vim.diagnostic.get_next()) end, '[N]ext [D]iagnostic')
-          map('[d', function() _jump_to_target_diagnostic(vim.diagnostic.get_prev()) end, '[P]revious [D]iagnostic')
+          map(
+            ']d',
+            function() _jump_to_target_diagnostic(vim.diagnostic.get_next()) end,
+            '[N]ext [D]iagnostic'
+          )
+          map(
+            '[d',
+            function() _jump_to_target_diagnostic(vim.diagnostic.get_prev()) end,
+            '[P]revious [D]iagnostic'
+          )
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -343,7 +367,9 @@ require('lazy').setup({
           if client and client:supports_method('textDocument/inlayHint', event.buf) then
             map(
               '<leader>th',
-              function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end,
+              function()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+              end,
               '[T]oggle Inlay [H]ints'
             )
           end

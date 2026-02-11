@@ -1,6 +1,10 @@
 return {
   'MeanderingProgrammer/render-markdown.nvim',
-  dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons', '3rd/image.nvim' },
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter',
+    'nvim-tree/nvim-web-devicons',
+    '3rd/image.nvim',
+  },
   ft = { 'markdown', 'quarto', 'rmd' }, -- lazy-load (optional but good)
   config = function()
     require('render-markdown').setup {
