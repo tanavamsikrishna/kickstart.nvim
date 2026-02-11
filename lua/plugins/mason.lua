@@ -2,7 +2,9 @@ return {
   'WhoIsSethDaniel/mason-tool-installer.nvim',
   dependencies = {
     { 'mason-org/mason.nvim', opts = {} },
-    'mason-org/mason-lspconfig.nvim', -- This lets mason-tool-installer use the lsp names of mason tools
+
+    -- This lets mason-tool-installer use the lsp names of mason tools
+    'mason-org/mason-lspconfig.nvim',
   },
   config = function()
     local installation_skipped = require 'config.required_tools' 'installation_skipped'

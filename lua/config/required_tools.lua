@@ -11,12 +11,12 @@ local tools = {
     'tombi',
     'ts_ls',
     'zls',
+    'cspell_ls',
   },
   others = {
     'stylua',
     'prettierd',
     'jq',
-    'tombi',
     'tree-sitter-cli',
     'jsonlint',
   },
