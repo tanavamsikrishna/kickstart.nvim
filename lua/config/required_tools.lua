@@ -2,23 +2,24 @@
 local tools = {
   lsp = {
     'cssls',
+    'harper_ls',
     'jsonls',
-    { 'lua_ls', version = '3.16.4' }, -- Fix for lsp not loading on a single file
     'nushell',
     'pyright',
     'rust_analyzer',
     'svelte',
     'tombi',
     'ts_ls',
+    'typos_lsp',
     'zls',
-    'cspell_ls',
+    { 'lua_ls', version = '3.16.4' }, -- Fix for LSP not loading on a single file
   },
   others = {
-    'stylua',
-    'prettierd',
     'jq',
-    'tree-sitter-cli',
     'jsonlint',
+    'prettierd',
+    'stylua',
+    'tree-sitter-cli',
   },
   installation_skipped = { 'nushell' },
 }
