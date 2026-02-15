@@ -13,6 +13,7 @@ local tools = {
     'typos_lsp',
     'zls',
     'gopls',
+    'sourcekit',
     { 'lua_ls', version = '3.16.4' }, -- Fix for LSP not loading on a single file
   },
   others = {
@@ -22,7 +23,7 @@ local tools = {
     'stylua',
     'tree-sitter-cli',
   },
-  installation_skipped = { 'nushell' },
+  installation_skipped = { 'nushell', 'sourcekit' },
 }
 
 ---@param tool_type 'lsp'|'others'|'installation_skipped'
