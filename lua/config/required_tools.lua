@@ -12,6 +12,7 @@ local tools = {
     'ts_ls',
     'typos_lsp',
     'zls',
+    'gopls',
     { 'lua_ls', version = '3.16.4' }, -- Fix for LSP not loading on a single file
   },
   others = {
