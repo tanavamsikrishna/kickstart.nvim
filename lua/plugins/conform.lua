@@ -37,6 +37,7 @@ local opts = {
     fish = { 'fish_indent' },
     html = { 'prettierd' },
     javascript = { 'prettierd' },
+    typescript = { 'prettierd' },
     json = { 'prettierd' },
     json5 = { 'json5' },
     lua = { 'stylua' },
