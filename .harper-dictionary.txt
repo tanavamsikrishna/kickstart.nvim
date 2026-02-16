@@ -1,2 +1,5 @@
 MB
+autocommands
+neovim
+nvim
 vimdoc

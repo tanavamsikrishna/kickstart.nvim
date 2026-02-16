@@ -40,10 +40,10 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- Keep signcolumn on by default
+-- Keep `signcolumn` on by default
 vim.o.signcolumn = 'yes'
 
--- Keep foldcolumn hidden
+-- Keep `foldcolumn` hidden
 vim.o.foldcolumn = '0'
 
 -- Decrease update time
@@ -56,11 +56,11 @@ vim.o.timeoutlen = 300
 vim.o.splitright = true
 vim.o.splitbelow = true
 
--- Sets how neovim will display certain whitespace characters in the editor.
+-- Sets how Neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
 --
---  Notice listchars is set using `vim.opt` instead of `vim.o`.
+--  Notice `listchars` is set using `vim.opt` instead of `vim.o`.
 --  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
 --   See `:help lua-options`
 --   and `:help lua-guide-options`
@@ -76,8 +76,8 @@ vim.o.cursorline = false
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 5
 
--- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
--- instead raise a dialog asking if you wish to save the current file(s)
+-- If performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
+-- instead raise a dialog asking if you wish to save any current files
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
@@ -98,7 +98,7 @@ vim.diagnostic.config {
 
   -- Can switch between these as you prefer
   virtual_text = true, -- Text shows up at the end of the line
-  virtual_lines = false, -- Teest shows up underneath the line, with virtual lines
+  virtual_lines = false, -- Text shows up underneath the line, with virtual lines
 
   -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
   jump = { float = true },
@@ -112,7 +112,7 @@ vim.keymap.set(
 )
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
+-- for people to discover. Otherwise, you normally need to press `<C-\><C-n>`, which
 -- is not what someone will guess without a bit more experience.
 --
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
@@ -126,19 +126,13 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
+--  Use `CTRL+<hjkl>` to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
--- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -152,7 +146,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function() vim.hl.on_yank() end,
 })
 
--- [[ Install `lazy.nvim` plugin manager ]]
+-- [[ Plugin Manager: `lazy.nvim` ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -178,7 +172,7 @@ rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  -- NOTE: Plugins can be added via a link or github org/name. To run setup automatically, use `opts = {}`
+  -- NOTE: Plugins can be added via a link or GitHub org/name. To run setup automatically, use `opts = {}`
   { 'NMAC427/guess-indent.nvim', opts = {} },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -187,9 +181,9 @@ require('lazy').setup({
   -- lazy loading plugins that don't need to be loaded immediately at startup.
   --
   -- For example, in the following configuration, we use:
-  --  event = 'VimEnter'
+  --  `event = 'VimEnter'`
   --
-  -- which loads which-key before all the UI elements are loaded. Events can be
+  -- Which loads which-key before all the UI elements are loaded. Events can be
   -- normal autocommands events (`:help autocmd-events`).
   --
   -- Then, because we use the `opts` key (recommended), the configuration runs
@@ -199,7 +193,7 @@ require('lazy').setup({
     'folke/which-key.nvim',
     event = 'VimEnter',
     opts = {
-      -- delay between pressing a key and opening which-key (milliseconds)
+      -- Delay between pressing a key and opening which-key (milliseconds)
       delay = 500,
       icons = { mappings = vim.g.have_nerd_font },
 
@@ -214,20 +208,20 @@ require('lazy').setup({
 
   -- NOTE: Plugins can specify dependencies.
   --
-  -- The dependencies are proper plugin specifications as well - anything
+  -- The dependencies are themselves proper plugin specifications as well - anything
   -- you do for a plugin at the top level, you can do for a dependency.
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
   -- LSP Plugins
   {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
+    -- `lazydev` configures Lua LSP for your Neovim config, runtime, and plugins
+    -- used for completion, annotations, and signatures of Neovim APIs
     'folke/lazydev.nvim',
     ft = 'lua',
     opts = {
       library = {
-        -- Load luvit types when the `vim.uv` word is found
+        -- Load `luvit` types when the `vim.uv` word is found
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
       },
       enabled = function(_) return vim.g.lazydev_enabled == true end,
@@ -238,12 +232,12 @@ require('lazy').setup({
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     dependencies = {
-      'WhoIsSethDaniel/mason-tool-installer.nvim', -- Wait for lsp tools to be installed
+      'WhoIsSethDaniel/mason-tool-installer.nvim', -- Wait for LSP tools to be installed
 
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
 
-      -- Allows extra capabilities provided by blink.cmp
+      -- Allows extra capabilities provided by `blink.cmp`
       'saghen/blink.cmp',
     },
     config = function()
@@ -256,7 +250,7 @@ require('lazy').setup({
       --
       -- In general, you have a "server" which is some tool built to understand a particular
       -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
-      -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
+      -- (sometimes called LSP servers, but that's kind of like ATM machines) are standalone
       -- processes that communicate with some "client" - in this case, Neovim!
       --
       -- LSP provides Neovim with features like:
@@ -378,9 +372,9 @@ require('lazy').setup({
 
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
-      --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
+      --  When you add `blink.cmp`, `luasnip`, etc. Neovim now has *more* capabilities.
+      --  So, we create new capabilities with `blink.cmp`, and then broadcast that to the servers.
+      local capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
       -- Sets capabilities for EVERY server globally
       vim.lsp.config('*', { capabilities = capabilities })
       local lsp_names = vim.tbl_map(
@@ -408,7 +402,7 @@ require('lazy').setup({
           return 'make install_jsregexp'
         end)(),
         dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
+          -- `friendly-snippets` contains a variety of pre made snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
           {
