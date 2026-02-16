@@ -9,7 +9,6 @@ local tools = {
     'rust_analyzer',
     'svelte',
     'tombi',
-    -- 'ts_ls', -- Use vtsls instead
     'typos_lsp',
     'vtsls',
     'zls',
