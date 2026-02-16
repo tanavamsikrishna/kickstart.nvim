@@ -21,7 +21,8 @@ local opts = {
   end,
   formatters = {
     topiary_nushell = {
-      command = os.getenv 'SCRIPTS_FOLDER' .. '/bin/format.nu',
+      command = 'topiary',
+      args = { 'format', '--language', 'nu' },
     },
     json5 = {
       command = 'json5',

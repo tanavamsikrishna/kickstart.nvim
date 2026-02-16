@@ -16,7 +16,8 @@ vim.opt.titlestring = vim.fn.getcwd()
 vim.o.exrc = true
 
 -- wrapping
-vim.opt.linebreak = true
+vim.o.wrap = true
+vim.opt.linebreak = false
 
 -- virtualedit (for cursor movement)
 vim.opt.virtualedit = { 'block' }
