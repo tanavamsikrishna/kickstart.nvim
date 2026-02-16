@@ -4,6 +4,8 @@ local function get_parsers(filetype)
     return { 'svelte', 'html', 'typescript', 'css', 'javascript', 'html_tags' }
   elseif filetype == 'markdown' then
     return { 'markdown', 'markdown_inline', 'html', 'latex', 'yaml' }
+  elseif filetype == 'text' then
+    return {}
   else
     local parser = vim.treesitter.language.get_lang(filetype) or filetype
     return { parser }
@@ -13,7 +15,7 @@ end
 ---@param parsers string[] A list of parsers to be installed if already not
 ---@param start boolean Whether to start treesitter syntax highlighting
 local function install_load_and_start(parsers, start)
-  -- Start the treesitter
+  -- Start the Tree-sitter
   local async = require 'nvim-treesitter.async'
   local ts = require 'nvim-treesitter'
   async.arun(function()
@@ -37,7 +39,7 @@ return {
   config = function()
     vim.o.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 
-    -- To install the required treesitter parsers on demand
+    -- To install the required Tree-sitter parsers on demand
     local ts_manager_group = vim.api.nvim_create_augroup('TreesitterManager', { clear = true })
     vim.api.nvim_create_autocmd('FileType', {
       group = ts_manager_group,
@@ -50,13 +52,14 @@ return {
         if ft == '' or vim.bo[bufnr].buftype ~= '' then return end
 
         -- Translate Filetype to Parser Name (e.g., help -> vimdoc)
-        local parsers = get_parsers(ft)
+        local necessary_parsers = get_parsers(ft)
+        if #necessary_parsers == 0 then return end
 
         -- Skip list for common non-code or meta-filetypes
         local ignored_langs = { 'gitcommit', 'gitrebase', 'checkhealth', 'log' }
-        if #parsers == 1 then
+        if #necessary_parsers == 1 then
           for _, v in ipairs(ignored_langs) do
-            if parsers[1] == v then return end
+            if necessary_parsers[1] == v then return end
           end
         end
 
@@ -72,7 +75,7 @@ return {
         end
 
         -- Prepare the required parsers
-        install_load_and_start(parsers, true)
+        install_load_and_start(necessary_parsers, true)
       end,
     })
   end,
