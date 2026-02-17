@@ -12,17 +12,17 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 vim.opt.title = true
 vim.opt.titlestring = vim.fn.getcwd()
 
--- exrc
+-- `exrc`
 vim.o.exrc = true
 
 -- wrapping
 vim.o.wrap = true
 vim.opt.linebreak = false
 
--- virtualedit (for cursor movement)
+-- `virtualedit` (for cursor movement)
 vim.opt.virtualedit = { 'block' }
 
--- Abbrevations/Remappings
+-- Abbreviations/Remapping
 vim.keymap.set('ca', 'w', function()
   if vim.fn.getcmdtype() == ':' and vim.fn.getcmdline() == 'w' then
     return 'update'

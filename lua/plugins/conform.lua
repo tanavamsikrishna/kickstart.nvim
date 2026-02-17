@@ -1,3 +1,4 @@
+-- Disable formatting for Marimo notebooks
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = '*.py',
   callback = function()
@@ -50,9 +51,17 @@ local opts = {
   stop_after_first = true,
 }
 
+---@type LazyPluginSpec
 return {
   'stevearc/conform.nvim',
   event = { 'BufWritePre' },
   cmd = { 'ConformInfo' },
   opts = opts,
+  keys = {
+    {
+      '<localleader>f',
+      function() require('conform').format { async = true, lsp_format = 'fallback' } end,
+      desc = 'Format current buffer',
+    },
+  },
 }
