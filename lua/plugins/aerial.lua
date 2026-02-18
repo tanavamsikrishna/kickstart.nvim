@@ -1,6 +1,6 @@
 return {
   'stevearc/aerial.nvim',
-  enabled = true,
+  enabled = false,
   opts = {},
   -- Optional dependencies
   dependencies = {
@@ -9,7 +9,7 @@ return {
   },
   config = function()
     require('aerial').setup {
-      -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+      -- Optionally use on_attach to set keymaps when aerial has attached to a buffer
       on_attach = function(bufnr)
         -- Jump forwards/backwards with '{' and '}'
         vim.keymap.set('n', '(', '<cmd>AerialPrev<CR>', { buffer = bufnr })
@@ -17,6 +17,6 @@ return {
       end,
     }
     -- You probably also want to set a keymap to toggle aerial
-    vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle!<CR>')
+    vim.keymap.set('n', '<localleader>a', '<cmd>AerialToggle!<CR>')
   end,
 }
