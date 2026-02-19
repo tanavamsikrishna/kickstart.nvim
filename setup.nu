@@ -1,1 +1,1 @@
-ln -sf $env.FILE_PWD ~/.config/nvim
+ln -sfh $env.FILE_PWD ~/.config/nvim
