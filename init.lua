@@ -574,7 +574,7 @@ require('lazy').setup({
     end,
   },
 
-  -- Highlight todo, notes, etc in comments
+  -- Highlight TODO, NOTE, etc. in comments
   {
     'folke/todo-comments.nvim',
     event = 'VimEnter',
@@ -585,7 +585,7 @@ require('lazy').setup({
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
     config = function()
-      -- mini icons for use with statusline etc
+      -- Mini icons for use with statusline etc.
       require('mini.icons').setup()
 
       -- session management
