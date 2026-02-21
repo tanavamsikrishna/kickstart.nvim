@@ -32,6 +32,8 @@ return {
 
       -- If you later want images: add { '3rd/image.nvim' } to deps and enable below
       html = { enabled = true }, -- for <img> tags if using image.nvim
+
+      anti_conceal = { enabled = false },
     }
   end,
 }
