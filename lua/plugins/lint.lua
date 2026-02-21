@@ -5,6 +5,8 @@ return {
   config = function()
     local lint = require 'lint'
 
+    vim.env.ESLINT_D_PPID = vim.fn.getpid()
+
     lint.linters_by_ft = {
       -- markdown = { 'markdownlint' },
       lua = { 'luacheck' },
@@ -12,6 +14,9 @@ return {
       json5 = { 'json5' },
       json = { 'jsonlint' },
       python = { 'ruff' },
+      svelte = { 'eslint_d' },
+      javascript = { 'eslint_d' },
+      typescript = { 'eslint_d' },
     }
 
     -- Create autocommand which carries out the actual linting
