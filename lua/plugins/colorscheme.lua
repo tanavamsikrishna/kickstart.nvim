@@ -23,7 +23,14 @@ return { -- You can easily change to a different colorscheme.
     -- vim.cmd.colorscheme 'vscode'
     -- vim.cmd.colorscheme 'xcodelight'
 
-    require('gruvbox').setup {}
+    require('gruvbox').setup {
+      palette_overrides = {
+        light0 = '#f5f5dc',
+        light1 = '#e8e8d0',
+        dark0 = '#1a1a1a',
+        dark1 = '#1a1a1a',
+      },
+    }
     vim.cmd.colorscheme 'gruvbox'
 
     -- vim.cmd.colorscheme 'gruvbox'
