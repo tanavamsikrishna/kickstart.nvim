@@ -4,24 +4,27 @@ return { -- You can easily change to a different colorscheme.
   --
   -- If you want to see what colorschemes are already installed, you can use `:lua Snacks.picker.colorschemes()`.
 
+  -- ACTIVE COLORSCHEME
+  'ellisonleao/gruvbox.nvim',
+
+  -- ALTERNATIVE COLORSCHEME PLUGINS (Commented out)
   -- 'projekt0n/github-nvim-theme',
   -- 'oskarnurm/koda.nvim',
   -- 'Mofiqul/vscode.nvim',
   -- 'lunacookies/vim-colors-xcode',
   -- 'morhetz/gruvbox',
-  'ellisonleao/gruvbox.nvim',
   -- 'robertmeta/nofrils',
   -- 'p00f/alabaster.nvim',
   -- 'altercation/vim-colors-solarized',
   -- 'catppuccin/nvim',
   -- 'calind/selenized.nvim',
+
   priority = 1000, -- Make sure to load this before all the other start plugins.
   config = function()
+    -- =========================================================================
+    -- GRUVBOX CONFIGURATION (Active)
+    -- =========================================================================
     vim.o.background = 'light'
-    -- vim.cmd.colorscheme 'koda'
-    -- vim.cmd.colorscheme 'github_light'
-    -- vim.cmd.colorscheme 'vscode'
-    -- vim.cmd.colorscheme 'xcodelight'
 
     require('gruvbox').setup {
       palette_overrides = {
@@ -46,6 +49,7 @@ return { -- You can easily change to a different colorscheme.
       },
       overrides = {
         Search = { bg = '#d7d7b8', fg = '#1a1a1a' },
+        IncSearch = { bg = '#c1c198', fg = '#000000' },
         CurSearch = { bg = '#c1c198', fg = '#000000', bold = true },
         Visual = { bg = '#d7d7b8' },
         SignColumn = { bg = '#f5f5dc' },
@@ -60,29 +64,36 @@ return { -- You can easily change to a different colorscheme.
         NormalFloat = { bg = '#f5f5dc' },
         Pmenu = { bg = '#ebebd0', fg = '#1a1a1a' },
         PmenuSel = { bg = '#d7d7b8', fg = '#0f0f0f', bold = true },
+        -- Optional legacy overrides:
+        -- Visual = { link = 'Search' },
+        -- NormalFloat = { link = 'Normal' },
+        -- BlinkCmpGhostText = { link = 'Comment', italic = true },
+        -- GruvBoxGreenBold = { fg = '#79740e' },
       },
     }
     vim.cmd.colorscheme 'gruvbox'
 
-    -- vim.cmd.colorscheme 'gruvbox'
-    -- vim.api.nvim_set_hl(0, 'Visual', { link = 'Search' })
-    -- vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal' }) -- For floating windows
-    -- vim.api.nvim_set_hl(0, 'BlinkCmpGhostText', { link = 'Comment', italic = true })
-    -- vim.api.nvim_set_hl(0, 'GruvBoxGreenBold', { fg = '#79740e' })
-
+    -- =========================================================================
+    -- ALTERNATIVE COLORSCHEME CONFIGS (Commented out)
+    -- =========================================================================
+    -- vim.cmd.colorscheme 'koda'
+    -- vim.cmd.colorscheme 'github_light'
+    -- vim.cmd.colorscheme 'vscode'
+    -- vim.cmd.colorscheme 'xcodelight'
     -- vim.cmd.colorscheme 'solarized'
-
-    -- vim.cmd.colorscheme 'nofrils-acme'
-    -- vim.api.nvim_set_hl(0, 'Comment', { fg = 'grey30', italic = true })
-
-    -- vim.cmd.colorscheme 'alabaster'
-    -- vim.api.nvim_set_hl(0, 'Normal', { bg = '#FDF6E3' })
-    -- vim.api.nvim_set_hl(0, 'NormalNC', { bg = '#FDF6E3' }) -- For inactive windows
-    -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#FDF6E3' }) -- For floating windows
-    -- vim.api.nvim_set_hl(0, 'FloatBorder', { bg = '#FDF6E3' })
-
     -- vim.cmd.colorscheme 'catppuccin-latte'
     -- vim.cmd.colorscheme 'selenized'
     -- vim.api.nvim_set_hl(0, 'Identifier', { fg = '#53676d' })
+
+    -- nofrils-acme:
+    -- vim.cmd.colorscheme 'nofrils-acme'
+    -- vim.api.nvim_set_hl(0, 'Comment', { fg = 'grey30', italic = true })
+
+    -- alabaster:
+    -- vim.cmd.colorscheme 'alabaster'
+    -- vim.api.nvim_set_hl(0, 'Normal', { bg = '#FDF6E3' })
+    -- vim.api.nvim_set_hl(0, 'NormalNC', { bg = '#FDF6E3' })
+    -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#FDF6E3' })
+    -- vim.api.nvim_set_hl(0, 'FloatBorder', { bg = '#FDF6E3' })
   end,
 }
