@@ -27,7 +27,7 @@ local function install_load_and_start(parsers, start)
       async.await(ts.install(installation_needed))
       vim.tbl_map(vim.treesitter.language.add, installation_needed)
     end
-    if start then vim.treesitter.start(0, parsers[1]) end
+    if start then vim.treesitter.start(0) end
   end)
 end
 
