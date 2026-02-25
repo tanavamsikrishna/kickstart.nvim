@@ -4,6 +4,7 @@ local tools = {
     'cssls',
     'harper_ls',
     'jsonls',
+    'marksman',
     'nushell',
     'pyright',
     'rust_analyzer',

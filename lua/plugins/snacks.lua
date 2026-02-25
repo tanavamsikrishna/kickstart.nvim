@@ -1,4 +1,7 @@
 local function get_picker_layout()
+  return 'vertical_no_preview'
+
+  --[[
   local cols = vim.o.columns
   local lines = vim.o.lines
 
@@ -10,9 +13,9 @@ local function get_picker_layout()
   -- We assume a char aspect ratio of ~1:2 (width:height)
   -- So physical width > physical height approximately implies cols * 1 > lines * 2
   if cols >= lines * 2.2 then return 'default' end
-
   -- 3. Portrait -> Up-Down ('vertical' layout)
-  return 'vertical'
+  return 'vertical_no_preview'
+]]
 end
 
 return {
@@ -46,7 +49,7 @@ return {
               border = false,
               title = '{title} {live} {flags}',
               title_pos = 'center',
-              { win = 'input', height = 1, border = 'bottom' },
+              { win = 'input', height = 1, border = 'rounded' },
               { win = 'list', border = 'none' },
             },
           },
@@ -54,6 +57,7 @@ return {
         layout = {
           -- Cycle through custom layouts
           cycle = true,
+          hidden = { 'preview' },
           preset = get_picker_layout(),
         },
       },
