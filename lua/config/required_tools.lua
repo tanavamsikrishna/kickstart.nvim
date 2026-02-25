@@ -20,6 +20,7 @@ local tools = {
     'prettierd',
     'stylua',
     'tree-sitter-cli',
+    'luacheck',
   },
   installation_skipped = { 'nushell', 'sourcekit' },
 }
