@@ -1,23 +1,3 @@
-local function get_picker_layout()
-  return 'vertical_no_preview'
-
-  --[[
-  local cols = vim.o.columns
-  local lines = vim.o.lines
-
-  -- 1. If too small, hide preview
-  -- A width of < 100 is typically too cramped for a preview + list
-  if cols < 100 then return 'vertical_no_preview' end
-
-  -- 2. Landscape (Width > Height) -> Side by Side ('default' layout)
-  -- We assume a char aspect ratio of ~1:2 (width:height)
-  -- So physical width > physical height approximately implies cols * 1 > lines * 2
-  if cols >= lines * 2.2 then return 'default' end
-  -- 3. Portrait -> Up-Down ('vertical' layout)
-  return 'vertical_no_preview'
-]]
-end
-
 return {
   {
     'folke/snacks.nvim',
@@ -38,27 +18,29 @@ return {
         enabled = true,
         -- Define custom layouts
         layouts = {
-          vertical_no_preview = {
+          custom = {
+            hidden = { 'preview' },
             layout = {
               backdrop = false,
-              width = 0.5,
-              min_width = 80,
-              height = 0.8,
-              min_height = 30,
+              width = 0.75,
+              min_width = 50,
+              max_width = 100,
+              height = 0.4,
+              min_height = 2,
               box = 'vertical',
               border = false,
-              title = '{title} {live} {flags}',
+              title = '{title}',
               title_pos = 'center',
               { win = 'input', height = 1, border = 'rounded' },
               { win = 'list', border = 'none' },
+              { win = 'preview', title = '{preview}', height = 0.4, border = 'top' },
             },
           },
         },
         layout = {
           -- Cycle through custom layouts
           cycle = true,
-          hidden = { 'preview' },
-          preset = get_picker_layout(),
+          preset = 'custom',
         },
       },
     },
