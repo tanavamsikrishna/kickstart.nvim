@@ -19,13 +19,12 @@ return {
         -- Define custom layouts
         layouts = {
           custom = {
-            hidden = { 'preview' },
             layout = {
               backdrop = false,
               width = 0.75,
               min_width = 50,
               max_width = 100,
-              height = 0.4,
+              height = 0.75,
               min_height = 2,
               box = 'vertical',
               border = false,
@@ -33,7 +32,7 @@ return {
               title_pos = 'center',
               { win = 'input', height = 1, border = 'rounded' },
               { win = 'list', border = 'none' },
-              { win = 'preview', title = '{preview}', height = 0.4, border = 'top' },
+              { win = 'preview', title = '{preview}', height = 0.65, border = 'top' },
             },
           },
         },
