@@ -1,3 +1,5 @@
+local is_gui = vim.fn.has 'gui_running' == 1
+
 return {
   {
     'folke/snacks.nvim',
@@ -27,7 +29,7 @@ return {
               height = 0.75,
               min_height = 2,
               box = 'vertical',
-              border = false,
+              border = not is_gui and 'rounded' or false,
               title = '{title}',
               title_pos = 'center',
               { win = 'input', height = 1, border = 'rounded' },

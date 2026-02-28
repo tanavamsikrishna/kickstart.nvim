@@ -55,6 +55,14 @@ Ensure the following tools are installed on your system:
 - **Keymaps**: Custom keymaps generally use the `<leader>` key (mapped to `Space`).
 - **LSP Configuration**: Managed via `nvim-lspconfig` with `blink.cmp` for autocompletion. Required LSPs should be added to `lua/config/required_tools.lua`.
 
+## GUI Testing & Verification
+
+- **GUI Detection**: When testing or verifying GUI-specific behavior (e.g., `has('gui_running')`, `vim.g.neovide`), do NOT use `nvim --headless`. Headless mode does not attach a UI and will return false for these checks.
+- **Verification Command**: To verify GUI state from the shell, use Neovide's blocking mode:
+  ```bash
+  neovide --no-fork -- -c "lua print(vim.fn.has('gui_running'))" -c "qa"
+  ```
+
 ## Key Plugins and Integrations
 
 - **LSP**: `nvim-lspconfig`, `mason.nvim`.
