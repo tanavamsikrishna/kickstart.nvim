@@ -16,12 +16,13 @@ local tools = {
     { 'lua_ls', version = '3.16.4' }, -- Fix for LSP not loading on a single file
   },
   others = {
+    'eslint_d',
     'jq',
     'jsonlint',
+    'luacheck',
     'prettierd',
     'stylua',
     'tree-sitter-cli',
-    'luacheck',
   },
   installation_skipped = { 'nushell', 'sourcekit' },
 }
