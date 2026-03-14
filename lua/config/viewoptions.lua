@@ -20,7 +20,9 @@ vim.api.nvim_create_autocmd({ 'BufWinLeave', 'BufWritePost', 'WinLeave' }, {
 
     -- 5. Save
     -- Use 'mkview!' to force overwrite.
-    vim.cmd 'mkview!'
+    if vim.fn.expand('%') ~= '' then
+      vim.cmd 'mkview!'
+    end
   end,
 })
 
