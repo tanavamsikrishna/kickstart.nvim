@@ -1,5 +1,5 @@
 if vim.g.neovide then
-  vim.o.guifont = 'MonaspiceNe Nerd Font:h12.5'
+  vim.o.guifont = 'MonaspiceNe Nerd Font Propo:h13'
   -- vim.o.guifont = 'JetBrainsMono Nerd Font:h12.5'
   -- vim.opt.guifont = { 'Liga SFMono Nerd Font:h12.5' }
   -- vim.o.guifont = 'SauceCodePro Nerd Font'
