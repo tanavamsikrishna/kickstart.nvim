@@ -21,32 +21,6 @@ The configuration is structured to be both modular and easy to navigate:
 
 ## Building and Running
 
-### Prerequisites
-Ensure the following tools are installed on your system:
-- **Neovim** (v0.10+)
-- **Build Tools**: `git`, `make`, `unzip`, `gcc` (or another C compiler).
-- **CLI Utilities**: `ripgrep` (`rg`), `fd-find` (`fd`).
-- **Font**: A [Nerd Font](https://www.nerdfonts.com/) is highly recommended for proper icon rendering.
-
-### Installation
-1. Clone this repository to your Neovim configuration path:
-   ```bash
-   git clone https://github.com/vamsi/kickstart.nvim.git ~/.config/nvim
-   ```
-2. Launch Neovim:
-   ```bash
-   nvim
-   ```
-   On the first run, `lazy.nvim` will automatically download and install all configured plugins.
-
-### Key Commands
-- `:Lazy`: Open the plugin manager interface.
-- `:Mason`: Manage LSP servers, linters, and formatters.
-- `<leader>sf`: Search files using the Snacks picker.
-- `<leader>sg`: Live grep through the project.
-- `<leader>sh`: Search help documentation.
-- `<leader>sk`: Search keymaps.
-
 ## Development Conventions
 
 - **Code Style**: Lua code is formatted using `stylua` (see `.stylua.toml`).
@@ -63,13 +37,10 @@ Ensure the following tools are installed on your system:
   neovide --no-fork -- -c "lua print(vim.fn.has('gui_running'))" -c "qa"
   ```
 
-## Key Plugins and Integrations
+## Plugin install location
+1. Plugins are installed to the directory `~/.local/share/nvim/lazy`. Each plugin is installed in a directory at the root of this directory. Search inside this directory if you are looking for plugin related code. Limit your search to with specific plugin directories if viable.
+2. Most of the relevant Neovim source code is located at `/opt/homebrew/Cellar/neovim/<neovim-version>/share/nvim/runtime` (`<neovim-version>` is of the format `<major>.<minor>.<patch>` You can get the version details using `nvim --version`).
 
-- **LSP**: `nvim-lspconfig`, `mason.nvim`.
-- **Completion**: `blink.cmp` (fast, Rust-based fuzzy matching).
-- **Syntax**: `nvim-treesitter` for advanced highlighting and text objects.
-- **Fuzzy Finder**: `snacks.nvim` (Picker module).
-- **Git**: `gitsigns.nvim` for gutter signs and hunk management.
-- **UI**: `mini.statusline` for a lightweight status bar, `mini.icons` for iconography, `fidget.nvim` for notifications.
-- **Productivity**:  `flash.nvim`, `todo-comments.nvim`.
-- **Debugging**: `nvim-dap` for integrated debugging.
+Both of these two locations will have a lot files and code. The `lua` files are the most useful if you want to understand the functionality.
+To inspect the runtime behaviour of neovim you can connect to a running neovim instance using 
+`nvim --clean --headless --server ./.nvim_socket --remote-send $'<C-\><C-n>:($cmd)<CR>'` For example to show a message `nvim --clean --headless --server ./.nvim_socket --remote-send $'<C-\><C-n>:lua print("a message")<CR>'`

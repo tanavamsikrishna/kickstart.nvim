@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 
 -- Set title to the current working directory
 vim.opt.title = true
-vim.opt.titlestring = vim.fn.getcwd()
+vim.opt.titlestring = 'Neovide ' .. vim.fn.getcwd()
 
 -- `exrc`
 vim.o.exrc = true
