@@ -43,4 +43,4 @@ The configuration is structured to be both modular and easy to navigate:
 
 Both of these two locations will have a lot files and code. The `lua` files are the most useful if you want to understand the functionality.
 To inspect the runtime behaviour of neovim you can connect to a running neovim instance using 
-`nvim --clean --headless --server ./.nvim_socket --remote-send $'<C-\><C-n>:($cmd)<CR>'` For example to show a message `nvim --clean --headless --server ./.nvim_socket --remote-send $'<C-\><C-n>:lua print("a message")<CR>'`
+`nvim --clean --headless --server ./.nvim_socket ...` style commands.
