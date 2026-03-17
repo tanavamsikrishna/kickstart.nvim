@@ -5,7 +5,6 @@ local opts = {
   },
 }
 
-require 'fidget'
 return {
   'j-hui/fidget.nvim',
   opts = opts,

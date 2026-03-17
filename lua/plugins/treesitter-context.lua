@@ -1,5 +1,5 @@
 local opts = {
-  enable = true,
+  enable = false,
   max_lines = 5,
   multiline_threshold = 1,
 }

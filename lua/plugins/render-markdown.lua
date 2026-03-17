@@ -23,9 +23,6 @@ return {
       code = {
         sign = false,
         width = 'block', -- or 'full' if you prefer; 'block' is narrower/cleaner
-        border = 'thin', -- subtle border instead of default 'hide' or full
-        left_pad = 1,
-        right_pad = 1,
       },
 
       max_file_size = 1.5, -- in MB (default is 10.0)
