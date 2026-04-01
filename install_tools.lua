@@ -51,7 +51,8 @@ for _, tool in ipairs(all_tools) do
       print('Installing ' .. name .. ' via ' .. tool.manager .. '...\n')
       local success, reason, status = os.execute(cmd)
       if not success then
-        print('Warning: failed to install ' .. name .. ' (status ' .. tostring(status) .. ')')
+        print('Error: failed to install ' .. name .. ' (' .. reason .. ' status: ' .. tostring(status) .. ')')
+        os.exit(1)
       end
     end
   end
