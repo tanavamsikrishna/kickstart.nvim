@@ -64,10 +64,9 @@ local tools = {
       bin_name = 'tree-sitter',
     },
   },
-  installation_skipped = { 'nushell', 'sourcekit' },
 }
 
----@param tool_type 'lsp'|'others'|'installation_skipped'
+---@param tool_type 'lsp'|'others'
 ---@return string[]
 local function get_necessary_tools(tool_type) return tools[tool_type] end
 

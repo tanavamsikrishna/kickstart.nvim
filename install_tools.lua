@@ -2,7 +2,6 @@
 local get_tools = require 'lua.config.required_tools'
 local lsp_tools = get_tools 'lsp'
 local other_tools = get_tools 'others'
-local skipped = get_tools 'installation_skipped'
 
 local all_tools = {}
 for _, tool in ipairs(lsp_tools) do
@@ -10,13 +9,6 @@ for _, tool in ipairs(lsp_tools) do
 end
 for _, tool in ipairs(other_tools) do
   table.insert(all_tools, tool)
-end
-
-local function is_skipped(name)
-  for _, s in ipairs(skipped) do
-    if s == name then return true end
-  end
-  return false
 end
 
 local function build_bin_command(tool)
@@ -52,7 +44,7 @@ local cmd_map = {
 
 for _, tool in ipairs(all_tools) do
   local name = type(tool) == 'string' and tool or tool[1]
-  if type(tool) == 'table' and tool.pkg and tool.manager and not is_skipped(name) then
+  if type(tool) == 'table' and tool.pkg and tool.manager then
     local builder = cmd_map[tool.manager]
     if builder then
       local cmd = builder(tool)
