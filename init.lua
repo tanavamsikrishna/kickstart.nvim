@@ -232,8 +232,6 @@ require('lazy').setup({
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     dependencies = {
-      'WhoIsSethDaniel/mason-tool-installer.nvim', -- Wait for LSP tools to be installed
-
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
 
