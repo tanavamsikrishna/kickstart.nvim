@@ -1,15 +1,9 @@
--- install_tools.lua
 local get_tools = require 'lua.config.required_tools'
 local lsp_tools = get_tools 'lsp'
 local other_tools = get_tools 'others'
 
-local all_tools = {}
-for _, tool in ipairs(lsp_tools) do
-  table.insert(all_tools, tool)
-end
-for _, tool in ipairs(other_tools) do
-  table.insert(all_tools, tool)
-end
+local all_tools = vim.deepcopy(lsp_tools)
+vim.list_extend(all_tools, other_tools)
 
 local function build_bin_command(tool)
   local repo_url = tool.pkg
@@ -51,7 +45,15 @@ for _, tool in ipairs(all_tools) do
       print('Installing ' .. name .. ' via ' .. tool.manager .. '...\n')
       local success, reason, status = os.execute(cmd)
       if not success then
-        print('Error: failed to install ' .. name .. ' (' .. reason .. ' status: ' .. tostring(status) .. ')')
+        print(
+          'Error: failed to install '
+            .. name
+            .. ' ('
+            .. reason
+            .. ' status: '
+            .. tostring(status)
+            .. ')'
+        )
         os.exit(1)
       end
     end
