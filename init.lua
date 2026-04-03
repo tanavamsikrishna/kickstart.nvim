@@ -592,6 +592,7 @@ require 'config.mksession'
 require 'config.viewoptions'
 require 'config.neovide'
 require 'config.folding'
+require 'config.undotree'
 -- require 'config._debug'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
