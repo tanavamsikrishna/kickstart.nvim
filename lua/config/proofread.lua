@@ -2,7 +2,7 @@ local M = {}
 
 local session_id = 0
 
---- Opens a side-by-side diff to preview changes.
+--- Opens an inline diff to preview changes.
 --- @param original_buf number The buffer where text originated.
 --- @param s_row number Start row (0-indexed).
 --- @param e_row number End row (0-indexed).
@@ -11,35 +11,34 @@ local session_id = 0
 local function show_diff(original_buf, s_row, e_row, original_lines, replacement_lines)
   session_id = session_id + 1
 
-  -- Create scratch buffers for the diff view
-  local buf_orig = vim.api.nvim_create_buf(false, true)
-  local buf_new = vim.api.nvim_create_buf(false, true)
+  local orig_text = table.concat(original_lines, '\n') .. '\n'
+  local new_text = table.concat(replacement_lines, '\n') .. '\n'
 
-  -- Ensure buffers are wiped when closed
-  vim.bo[buf_orig].bufhidden = 'wipe'
-  vim.bo[buf_new].bufhidden = 'wipe'
+  -- Generate unified diff string
+  local diff = vim.diff(orig_text, new_text, { ctxlen = 3 })
+  if diff == '' then
+    vim.notify('Proofread: No changes suggested', vim.log.levels.INFO)
+    return
+  end
 
-  vim.api.nvim_buf_set_lines(buf_orig, 0, -1, false, original_lines)
-  vim.api.nvim_buf_set_lines(buf_new, 0, -1, false, replacement_lines)
+  -- Create scratch buffer for the inline diff view
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.bo[buf].bufhidden = 'wipe'
+  vim.bo[buf].filetype = 'diff'
+  vim.api.nvim_buf_set_name(buf, 'Proofread Preview://' .. session_id)
 
-  -- Set unique names to avoid collisions
-  vim.api.nvim_buf_set_name(buf_orig, 'Original://' .. session_id)
-  vim.api.nvim_buf_set_name(buf_new, 'Suggested://' .. session_id)
+  local diff_lines = vim.split(diff, '\n', { plain = true })
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, diff_lines)
 
-  -- Open side-by-side in a new tab to avoid messing with current layout
+  -- Open in a new tab
   vim.cmd 'tabnew'
-  vim.api.nvim_win_set_buf(0, buf_orig)
-  vim.cmd 'diffthis'
+  vim.api.nvim_win_set_buf(0, buf)
 
-  vim.cmd 'split'
-  vim.api.nvim_win_set_buf(0, buf_new)
-  vim.cmd 'diffthis'
+  vim.b[buf].proofread_instructions = 'Press <CR> to Apply, <Esc> to Cancel'
 
-  -- Set some helpful buffer-local status information
-  vim.b[buf_new].proofread_instructions = 'Press <CR> to Apply, <Esc> to Cancel'
-
-  -- Map <CR> to apply and <Esc>/q to cancel in the new buffer
-  local function close_diff() vim.cmd 'tabclose' end
+  local function close_diff()
+    vim.cmd 'tabclose'
+  end
 
   local function apply_changes()
     vim.api.nvim_buf_set_lines(original_buf, s_row, e_row + 1, false, replacement_lines)
@@ -47,14 +46,11 @@ local function show_diff(original_buf, s_row, e_row, original_lines, replacement
     vim.notify 'Proofread changes applied'
   end
 
-  vim.keymap.set('n', '<CR>', apply_changes, { buffer = buf_new, desc = 'Apply proofread changes' })
-  vim.keymap.set('n', '<Esc>', close_diff, { buffer = buf_new, desc = 'Cancel proofread' })
-  vim.keymap.set('n', 'q', close_diff, { buffer = buf_new, desc = 'Cancel proofread' })
-
-  -- Also map for the original buffer in the diff view
-  vim.keymap.set('n', '<Esc>', close_diff, { buffer = buf_orig, desc = 'Cancel proofread' })
-  vim.keymap.set('n', 'q', close_diff, { buffer = buf_orig, desc = 'Cancel proofread' })
+  vim.keymap.set('n', '<CR>', apply_changes, { buffer = buf, desc = 'Apply proofread changes' })
+  vim.keymap.set('n', '<Esc>', close_diff, { buffer = buf, desc = 'Cancel proofread' })
+  vim.keymap.set('n', 'q', close_diff, { buffer = buf, desc = 'Cancel proofread' })
 end
+
 
 --- Proofread the selected text or the current line.
 --- @param opts table Command options (line1, line2, range)
