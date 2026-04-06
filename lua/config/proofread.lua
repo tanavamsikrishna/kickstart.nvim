@@ -2,6 +2,8 @@ local M = {}
 
 local session_id = 0
 
+local diff_fn = vim.text.diff
+
 --- Opens an inline diff to preview changes.
 --- @param original_buf number The buffer where text originated.
 --- @param s_row number Start row (0-indexed).
@@ -15,8 +17,8 @@ local function show_diff(original_buf, s_row, e_row, original_lines, replacement
   local new_text = table.concat(replacement_lines, '\n') .. '\n'
 
   -- Generate unified diff string with alignment
-  local diff = vim.diff(orig_text, new_text, { ctxlen = 3, linematch = 60 })
-  if diff == '' then
+  local diff = diff_fn(orig_text, new_text, { ctxlen = 3, linematch = 60 })
+  if not diff or diff == '' then
     vim.notify('Proofread: No changes suggested', vim.log.levels.INFO)
     return
   end
@@ -27,12 +29,13 @@ local function show_diff(original_buf, s_row, e_row, original_lines, replacement
   vim.bo[buf].filetype = 'diff'
   vim.api.nvim_buf_set_name(buf, 'Proofread Preview://' .. session_id)
 
+  ---@cast diff string
   local diff_lines = vim.split(diff:gsub('\n$', ''), '\n', { plain = true })
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, diff_lines)
 
   -- Add character-level highlights for adjacent deletions/additions
   local ns = vim.api.nvim_create_namespace 'proofread_diff'
-  
+
   -- Define custom intense red/green highlights for the fine-grained diffs
   vim.api.nvim_set_hl(0, 'ProofreadDiffDelete', { bg = '#8A1F1F', fg = '#FFFFFF', default = true })
   vim.api.nvim_set_hl(0, 'ProofreadDiffAdd', { bg = '#1F6B33', fg = '#FFFFFF', default = true })
@@ -48,16 +51,25 @@ local function show_diff(original_buf, s_row, e_row, original_lines, replacement
       local s1_nl = s1:gsub('.', '%1\n')
       local s2_nl = s2:gsub('.', '%1\n')
 
-      local indices = vim.diff(s1_nl, s2_nl, { result_type = 'indices', algorithm = 'minimal' })
-      for _, hunk in ipairs(indices) do
-        local start_a, count_a, start_b, count_b = hunk[1], hunk[2], hunk[3], hunk[4]
-        
-        -- start_a exactly matches the 0-indexed column in the line because of the prepended '-' or '+'
-        if count_a > 0 then
-          vim.api.nvim_buf_add_highlight(buf, ns, 'ProofreadDiffDelete', i - 1, start_a, start_a + count_a)
-        end
-        if count_b > 0 then
-          vim.api.nvim_buf_add_highlight(buf, ns, 'ProofreadDiffAdd', i, start_b, start_b + count_b)
+      local indices = diff_fn(s1_nl, s2_nl, { result_type = 'indices', algorithm = 'minimal' })
+      if type(indices) == 'table' then
+        for _, hunk in ipairs(indices) do
+          local start_a, count_a, start_b, count_b = hunk[1], hunk[2], hunk[3], hunk[4]
+
+          -- start_a exactly matches the 0-indexed column in the line
+          -- because of the prepended '-' or '+'
+          if count_a > 0 then
+            vim.api.nvim_buf_set_extmark(buf, ns, i - 1, start_a, {
+              end_col = start_a + count_a,
+              hl_group = 'ProofreadDiffDelete',
+            })
+          end
+          if count_b > 0 then
+            vim.api.nvim_buf_set_extmark(buf, ns, i, start_b, {
+              end_col = start_b + count_b,
+              hl_group = 'ProofreadDiffAdd',
+            })
+          end
         end
       end
     end
