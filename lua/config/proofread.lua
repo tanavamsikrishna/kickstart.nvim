@@ -18,31 +18,26 @@ local function show_diff(original_buf, s_row, e_row, original_lines, replacement
   vim.api.nvim_buf_set_lines(buf_orig, 0, -1, false, original_lines)
   vim.api.nvim_buf_set_lines(buf_new, 0, -1, false, replacement_lines)
 
-  -- Match filetype for syntax highlighting
   local ft = vim.bo[original_buf].filetype
-  vim.bo[buf_orig].filetype = ft
-  vim.bo[buf_new].filetype = ft
-  vim.bo[buf_orig].bufhidden = 'wipe'
-  vim.bo[buf_new].bufhidden = 'wipe'
+  for _, buf in ipairs { buf_orig, buf_new } do
+    vim.bo[buf].filetype = ft
+    vim.bo[buf].bufhidden = 'wipe'
+  end
 
   vim.api.nvim_buf_set_name(buf_orig, 'Original://' .. session_id)
   vim.api.nvim_buf_set_name(buf_new, 'Suggested://' .. session_id)
 
-  -- Open in a new tab with horizontal split
-  vim.cmd.tabnew()
-  vim.api.nvim_set_current_buf(buf_orig)
+  -- Open in a new tab with horizontal split using sbuffer to avoid leaked [No Name] buffers
+  vim.cmd('tab sbuffer ' .. buf_orig)
   vim.cmd.diffthis()
 
-  vim.cmd.split()
-  vim.api.nvim_set_current_buf(buf_new)
+  vim.cmd('sbuffer ' .. buf_new)
   vim.cmd.diffthis()
 
   -- Ensure we are in the suggested buffer
   vim.api.nvim_set_current_buf(buf_new)
 
-  local function close_diff()
-    vim.cmd.tabclose()
-  end
+  local function close_diff() vim.cmd.tabclose() end
 
   local function apply_changes()
     if vim.api.nvim_buf_is_valid(original_buf) then
@@ -53,7 +48,7 @@ local function show_diff(original_buf, s_row, e_row, original_lines, replacement
   end
 
   -- Keymaps for both buffers
-  for _, buf in ipairs({ buf_orig, buf_new }) do
+  for _, buf in ipairs { buf_orig, buf_new } do
     vim.keymap.set('n', 'q', close_diff, { buffer = buf, desc = 'Cancel proofread' })
     vim.keymap.set('n', '<Esc>', close_diff, { buffer = buf, desc = 'Cancel proofread' })
   end
@@ -74,9 +69,7 @@ function M.proofread(opts)
   local original_lines = vim.api.nvim_buf_get_lines(original_buf, s_row, e_row + 1, false)
   local text = table.concat(original_lines, '\n')
 
-  if text == '' then
-    return
-  end
+  if text == '' then return end
 
   -- Try to use fidget for a progress spinner if available
   local progress_handle
@@ -93,9 +86,7 @@ function M.proofread(opts)
 
   vim.system({ 'proofread' }, { stdin = text }, function(obj)
     vim.schedule(function()
-      if progress_handle then
-        progress_handle:finish()
-      end
+      if progress_handle then progress_handle:finish() end
 
       if obj.code ~= 0 then
         vim.notify('Proofread failed: ' .. (obj.stderr or 'unknown error'), vim.log.levels.ERROR)
@@ -115,7 +106,13 @@ function M.proofread(opts)
 
       local replacement = decoded.text
       if replacement then
-        local replacement_lines = vim.split(replacement:gsub('\n$', ''), '\n', { plain = true })
+        local cleaned_replacement = replacement:gsub('\n$', '')
+        if text == cleaned_replacement then
+          vim.notify('Proofread: No changes suggested', vim.log.levels.INFO)
+          return
+        end
+
+        local replacement_lines = vim.split(cleaned_replacement, '\n', { plain = true })
         show_diff(original_buf, s_row, e_row, original_lines, replacement_lines)
       end
     end)
