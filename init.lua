@@ -30,6 +30,14 @@ vim.o.showmode = false
 --  See `:help 'clipboard'`
 vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 
+-- Paste from system clipboard in Normal, Insert, Visual, and Command modes
+vim.keymap.set(
+  { 'n', 'v', 's', 'x', 'i', 'c', 't' },
+  '<D-v>',
+  function() vim.api.nvim_paste(vim.fn.getreg '+', true, -1) end,
+  { desc = 'Paste from system clipboard' }
+)
+
 -- Enable break indent
 vim.o.breakindent = true
 
