@@ -7,12 +7,12 @@
 local tools = {
   lsp = {
     { 'cssls', pkg = 'vscode-langservers-extracted', manager = 'bun' },
-    {
+    --[[ {
       'harper_ls',
       pkg = 'https://github.com/elijah-potter/harper',
       manager = 'bin',
       bin_name = 'harper-ls',
-    },
+    }, ]]
     { 'jsonls', pkg = 'vscode-langservers-extracted', manager = 'bun' },
     {
       'marksman',
