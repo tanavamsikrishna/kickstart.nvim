@@ -30,9 +30,11 @@ local function show_diff(original_buf, s_row, e_row, original_lines, replacement
   -- Open in a new tab with horizontal split using sbuffer to avoid leaked [No Name] buffers
   vim.cmd('tab sbuffer ' .. buf_orig)
   vim.cmd.diffthis()
+  vim.wo[vim.api.nvim_get_current_win()].wrap = true
 
   vim.cmd('sbuffer ' .. buf_new)
   vim.cmd.diffthis()
+  vim.wo[vim.api.nvim_get_current_win()].wrap = true
 
   -- Ensure we are in the suggested buffer
   vim.api.nvim_set_current_buf(buf_new)
