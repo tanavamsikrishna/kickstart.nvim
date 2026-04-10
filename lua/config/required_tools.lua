@@ -38,12 +38,7 @@ local tools = {
     },
     { 'vtsls', pkg = '@vtsls/language-server', manager = 'bun' },
     { 'zls', pkg = 'https://github.com/zigtools/zls', manager = 'bin', bin_name = 'zls' },
-    {
-      'lua_ls',
-      pkg = 'https://github.com/LuaLS/lua-language-server',
-      manager = 'bin',
-      bin_name = 'lua-language-server',
-    },
+    { 'lua_ls', pkg = 'lua-language-server', manager = 'brew ' },
   },
   others = {
     { 'eslint_d', pkg = 'eslint_d', manager = 'bun' },

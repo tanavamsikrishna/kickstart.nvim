@@ -34,6 +34,7 @@ local cmd_map = {
     end
     return string.format('mise exec lua@%s -- %s', lua_version, luarocks_cmd)
   end,
+  brew = function(tool) return string.format('brew install %s', tool.pkg) end,
 }
 
 for _, tool in ipairs(all_tools) do
