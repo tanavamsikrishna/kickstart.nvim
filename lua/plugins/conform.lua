@@ -41,6 +41,7 @@ local opts = {
     javascript = { 'prettierd' },
     json = { 'prettierd' },
     json5 = { 'json5' },
+    lisp = { 'cljfmt' },
     lua = { 'stylua' },
     nu = { 'topiary_nushell' },
     python = { 'ruff_organize_imports', 'ruff_format' },

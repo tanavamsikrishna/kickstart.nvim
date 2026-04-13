@@ -53,6 +53,12 @@ local tools = {
       bin_name = 'stylua',
     },
     {
+      'cljfmt',
+      pkg = 'https://github.com/weavejester/cljfmt',
+      manager = 'bin',
+      bin_name = 'cljfmt',
+    },
+    {
       'tree-sitter-cli',
       pkg = 'https://github.com/tree-sitter/tree-sitter',
       manager = 'bin',
