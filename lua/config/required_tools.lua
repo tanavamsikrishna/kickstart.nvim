@@ -30,6 +30,7 @@ local tools = {
     },
     { 'svelte', pkg = 'svelte-language-server', manager = 'bun' },
     { 'tombi', pkg = 'tombi', manager = 'uv' },
+    { 'mdformat', pkg = 'mdformat', manager = 'uv', with_pkgs = { 'mdformat-frontmatter' } },
     {
       'typos_lsp',
       pkg = 'https://github.com/tekumara/typos-vscode',

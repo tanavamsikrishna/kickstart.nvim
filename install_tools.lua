@@ -23,7 +23,14 @@ end
 local cmd_map = {
   bun = function(tool) return string.format('bun install -g %s', tool.pkg) end,
   bin = build_bin_command,
-  uv = function(tool) return string.format('uv tool install %s', tool.pkg) end,
+  uv = function(tool)
+    local with_pkgs_argument = vim.tbl_map(
+      function(with_pkg) return ' --with ' .. with_pkg .. ' ' end,
+      tool.with_pkgs or {}
+    )
+    local with_pkgs_argument_str = table.concat(with_pkgs_argument, ' ')
+    return string.format('uv tool install %s %s', with_pkgs_argument_str, tool.pkg)
+  end,
   luarocks = function(tool)
     local pkg = tool.pkg
     if tool.version then pkg = pkg .. ' ' .. tool.version end
@@ -44,6 +51,7 @@ for _, tool in ipairs(all_tools) do
     if builder then
       local cmd = builder(tool)
       print('Installing ' .. name .. ' via ' .. tool.manager .. '...\n')
+      print('> ' .. cmd .. '\n')
       local success, reason, status = os.execute(cmd)
       if not success then
         print(
