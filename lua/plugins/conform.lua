@@ -54,6 +54,7 @@ local opts = {
   stop_after_first = true,
 }
 
+---@module 'lazy'
 ---@type LazyPluginSpec
 return {
   'stevearc/conform.nvim',
