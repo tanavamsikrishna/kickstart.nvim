@@ -47,7 +47,9 @@ return {
   },
   config = function(_, opts)
     local illuminate = require 'illuminate'
+    local keymap_utils = require 'config.keymap_utils'
     illuminate.configure(opts)
+    local run_previous_esc = keymap_utils.capture_map_runner('<Esc>', 'n')
 
     vim.api.nvim_create_autocmd('BufEnter', {
       group = vim.api.nvim_create_augroup(
@@ -55,8 +57,10 @@ return {
         { clear = true }
       ),
       callback = function(args)
-        illuminate.unfreeze_buf(args.buf)
-        illuminate.pause_buf(args.buf)
+        vim.api.nvim_buf_call(args.buf, function()
+          illuminate.unfreeze_buf()
+          illuminate.pause_buf()
+        end)
       end,
     })
 
@@ -67,7 +71,7 @@ return {
     -- Explicit clear, similar to '*' + hlsearch semantics.
     vim.keymap.set('n', '<Esc>', function()
       clear_manual_highlight()
-      vim.cmd.nohlsearch()
-    end, { desc = 'Clear search and references' })
+      run_previous_esc()
+    end, { desc = 'Clear references, then run existing <Esc>' })
   end,
 }
