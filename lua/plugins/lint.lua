@@ -17,6 +17,7 @@ return {
       svelte = { 'eslint_d' },
       javascript = { 'eslint_d' },
       typescript = { 'eslint_d' },
+      yaml = { 'yamllint' },
     }
 
     -- Create autocommand which carries out the actual linting

@@ -30,7 +30,6 @@ local tools = {
     },
     { 'svelte', pkg = 'svelte-language-server', manager = 'bun' },
     { 'tombi', pkg = 'tombi', manager = 'uv' },
-    { 'mdformat', pkg = 'mdformat', manager = 'uv', with_pkgs = { 'mdformat-frontmatter' } },
     {
       'typos_lsp',
       pkg = 'https://github.com/tekumara/typos-vscode',
@@ -42,9 +41,12 @@ local tools = {
     { 'lua_ls', pkg = 'lua-language-server', manager = 'brew ' },
   },
   others = {
+    { 'json5', pkg = 'json5', manager = 'bun' },
+    { 'mdformat', pkg = 'mdformat', manager = 'uv', with_pkgs = { 'mdformat-frontmatter' } },
     { 'eslint_d', pkg = 'eslint_d', manager = 'bun' },
     { 'jq', pkg = 'https://github.com/stedolan/jq', manager = 'bin', bin_name = 'jq' },
     { 'jsonlint', pkg = 'jsonlint', manager = 'bun' },
+    { 'yamllint', pkg = 'yamllint', manager = 'uv' },
     { 'luacheck', pkg = 'luacheck', manager = 'luarocks', lua_version = '5.4' },
     { 'prettierd', pkg = '@fsouza/prettierd', manager = 'bun' },
     {
