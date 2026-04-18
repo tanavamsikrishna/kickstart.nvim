@@ -1,3 +1,3 @@
 globals = { 'vim' }
 std = 'luajit'
-max_line_length = 100
+max_line_length = 88
