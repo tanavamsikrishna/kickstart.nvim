@@ -64,6 +64,20 @@ return { -- You can easily change to a different colorscheme.
         NormalFloat = { bg = '#f5f5dc' },
         Pmenu = { bg = '#ebebd0', fg = '#1a1a1a' },
         PmenuSel = { bg = '#d7d7b8', fg = '#0f0f0f', bold = true },
+        KickstartLspReference = {
+          bg = '#f3ddb1',
+          fg = '#1a1a1a',
+          underline = true,
+          reverse = false,
+        },
+        IlluminatedWordText = { link = 'KickstartLspReference' },
+        IlluminatedWordRead = { link = 'KickstartLspReference' },
+        IlluminatedWordWrite = {
+          bg = '#efc98f',
+          fg = '#1a1a1a',
+          bold = true,
+          underline = true,
+        },
         -- Optional legacy overrides:
         -- Visual = { link = 'Search' },
         -- NormalFloat = { link = 'Normal' },
