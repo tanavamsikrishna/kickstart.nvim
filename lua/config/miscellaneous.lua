@@ -19,6 +19,16 @@ vim.o.exrc = true
 vim.o.wrap = true
 vim.opt.linebreak = false
 
+local linebreak_filetypes = { 'markdown', 'quarto', 'rmd', 'text', 'gitcommit' }
+
+vim.api.nvim_create_autocmd({ 'FileType', 'BufEnter', 'WinEnter' }, {
+  desc = 'Use linebreak only for prose windows',
+  group = vim.api.nvim_create_augroup('ProseLinebreak', { clear = true }),
+  callback = function()
+    vim.opt_local.linebreak = vim.tbl_contains(linebreak_filetypes, vim.bo.filetype)
+  end,
+})
+
 -- `virtualedit` (for cursor movement)
 vim.opt.virtualedit = { 'block' }
 
