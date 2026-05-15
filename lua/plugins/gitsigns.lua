@@ -81,8 +81,18 @@ return {
           function() gitsigns.diffthis '@' end,
           { desc = 'git [D]iff against last commit' }
         )
-        map('n', '<leader>hQ', function() gitsigns.setqflist 'all' end)
-        map('n', '<leader>hq', gitsigns.setqflist)
+        map(
+          'n',
+          '<leader>hQ',
+          function() gitsigns.setqflist 'all' end,
+          { desc = 'git hunk [Q]uickfix list (all files in repo)' }
+        )
+        map(
+          'n',
+          '<leader>hq',
+          gitsigns.setqflist,
+          { desc = 'git hunk [q]uickfix list (all changes in this file)' }
+        )
         -- Toggles
         map(
           'n',
@@ -90,7 +100,12 @@ return {
           gitsigns.toggle_current_line_blame,
           { desc = '[T]oggle git show [b]lame line' }
         )
-        map('n', '<leader>tw', gitsigns.toggle_word_diff, { desc = 'Toggle word diff' })
+        map(
+          'n',
+          '<leader>tw',
+          gitsigns.toggle_word_diff,
+          { desc = '[T]oggle git intra-line [w]ord diff' }
+        )
         map({ 'o', 'x' }, 'ih', gitsigns.select_hunk)
       end,
     },

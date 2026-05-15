@@ -140,7 +140,7 @@ return {
           )
           local function _jump_to_target_diagnostic(target_diagnostic)
             if target_diagnostic then
-              vim.diagnostic.jump { diagnostic = target_diagnostic, float = true }
+              vim.diagnostic.jump { diagnostic = target_diagnostic }
             end
           end
           map(

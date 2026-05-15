@@ -12,13 +12,24 @@ local function get_parsers(filetype)
   end
 end
 
+---@param bufnr integer
+---@param parser string
+local function maybe_enable_indent(bufnr, parser)
+  if vim.treesitter.query.get(parser, 'indents') then
+    vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end
+end
+
 ---@param parsers string[] A list of parsers to be installed if already not
+---@param bufnr integer
 ---@param start boolean Whether to start treesitter syntax highlighting
-local function install_load_and_start(parsers, start)
+local function install_load_and_start(parsers, bufnr, start)
   -- Start the Tree-sitter
   local async = require 'nvim-treesitter.async'
   local ts = require 'nvim-treesitter'
   async.arun(function()
+    if not vim.api.nvim_buf_is_valid(bufnr) then return end
+
     local installation_needed = vim.tbl_filter(
       function(parser) return not vim.treesitter.language.add(parser) end,
       parsers
@@ -27,7 +38,10 @@ local function install_load_and_start(parsers, start)
       async.await(ts.install(installation_needed))
       vim.tbl_map(vim.treesitter.language.add, installation_needed)
     end
-    if start then vim.treesitter.start(0) end
+    if not vim.api.nvim_buf_is_valid(bufnr) then return end
+
+    if start then vim.treesitter.start(bufnr) end
+    maybe_enable_indent(bufnr, parsers[1])
   end)
 end
 
@@ -37,10 +51,9 @@ return {
   build = ':TSUpdate',
   branch = 'main',
   config = function()
-    vim.o.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-
     -- To install the required Tree-sitter parsers on demand
-    local ts_manager_group = vim.api.nvim_create_augroup('TreesitterManager', { clear = true })
+    local ts_manager_group =
+      vim.api.nvim_create_augroup('TreesitterManager', { clear = true })
     vim.api.nvim_create_autocmd('FileType', {
       group = ts_manager_group,
       pattern = '*',
@@ -75,7 +88,7 @@ return {
         end
 
         -- Prepare the required parsers
-        install_load_and_start(necessary_parsers, true)
+        install_load_and_start(necessary_parsers, bufnr, true)
       end,
     })
   end,
