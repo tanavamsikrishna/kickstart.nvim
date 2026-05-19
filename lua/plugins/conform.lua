@@ -32,6 +32,10 @@ local opts = {
     dockerfmt = {
       command = 'dockerfmt',
     },
+    mdformat = {
+      command = 'mdformat',
+      args = { '--number', '-' },
+    },
   },
   formatters_by_ft = {
     css = { 'prettierd' },
