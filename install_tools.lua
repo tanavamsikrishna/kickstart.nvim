@@ -41,18 +41,12 @@ local function run_command(cmd, timeout_ms)
 end
 
 local function build_bin_command(tool)
-  local repo_url = tool.pkg
+  local repo_details = tool.pkg
   local bin_name = tool.bin_name
-  assert(repo_url and repo_url ~= '', 'tool.pkg must be set and not empty')
+  assert(repo_details and repo_details ~= '', 'tool.pkg must be set and not empty')
   assert(bin_name and bin_name ~= '', 'tool.bin_name must be set and not empty')
 
-  -- Derive the module path from the config directory to avoid hardcoding the full path
-  local inner_cmd = string.format(
-    'use ($nu.config-path | path dirname | path join modules bin.nu); bin install %s %s',
-    repo_url,
-    bin_name
-  )
-  return { 'nu', '-c', inner_cmd }
+  return { 'bin', 'install', repo_details, bin_name }
 end
 
 local cmd_map = {
