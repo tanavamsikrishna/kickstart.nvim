@@ -18,7 +18,7 @@
   "log-highlight.nvim": { "branch": "main", "commit": "b2e00cfd41ca94338265a595f3f3f423d9f9322e" },
   "mason-nvim-dap.nvim": { "branch": "main", "commit": "9a10e096703966335bd5c46c8c875d5b0690dade" },
   "mason.nvim": { "branch": "main", "commit": "16ba83bfc8a25f52bb545134f5bee082b195c460" },
-  "mini.nvim": { "branch": "main", "commit": "d5e6f5b843f1d813d9c4bfb242b751dc5ab6f8ae" },
+  "mini.nvim": { "branch": "main", "commit": "ff8b3580935818ef2f21bdd651f057a2ae071eab" },
   "nvim-autopairs": { "branch": "master", "commit": "7b9923abad60b903ece7c52940e1321d39eccc79" },
   "nvim-dap": { "branch": "master", "commit": "531771530d4f82ad2d21e436e3cc052d68d7aebb" },
   "nvim-dap-python": { "branch": "master", "commit": "1808458eba2b18f178f990e01376941a42c7f93b" },
