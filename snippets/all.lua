@@ -11,7 +11,10 @@ return {
       local comments = util.buffer_comment_chars()
       return comments[1]
     end),
-    t ' <ai-todo> ',
+    -- The xml tag below has been split so that parsers searching for todos do not think
+    -- that it is actually a todo task
+    t ' <',
+    t 'ai-todo> ',
     i(1, '...'),
     t ' </ai-todo>',
   }),
