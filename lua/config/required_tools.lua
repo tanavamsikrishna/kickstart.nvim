@@ -42,13 +42,19 @@ local tools = {
   },
   others = {
     { 'json5', pkg = 'json5', manager = 'bun' },
-    { 'mdformat', pkg = 'mdformat', manager = 'uv', with_pkgs = { 'mdformat-frontmatter' } },
+    {
+      'mdformat',
+      pkg = 'mdformat',
+      manager = 'uv',
+      with_pkgs = { 'mdformat-frontmatter' },
+    },
     { 'eslint_d', pkg = 'eslint_d', manager = 'bun' },
     { 'jq', pkg = 'stedolan/jq', manager = 'bin', bin_name = 'jq' },
     { 'jsonlint', pkg = 'jsonlint', manager = 'bun' },
     { 'yamllint', pkg = 'yamllint', manager = 'uv' },
     { 'luacheck', pkg = 'luacheck', manager = 'luarocks', lua_version = '5.4' },
     { 'prettierd', pkg = '@fsouza/prettierd', manager = 'bun' },
+    { 'biome', pkg = '@biomejs/biome', manager = 'bun' },
     {
       'stylua',
       pkg = 'johnnymorganz/stylua',
