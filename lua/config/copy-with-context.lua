@@ -1,8 +1,7 @@
--- Copy selected lines with filepath and filetype context to clipboard
-vim.keymap.set('v', '<leader>yl', function()
-  local start_line = vim.fn.line 'v'
-  local end_line = vim.fn.line '.'
-
+--- Copy lines with filepath and filetype context to clipboard
+---@param start_line integer
+---@param end_line integer
+local function copy_with_context(start_line, end_line)
   if start_line > end_line then
     start_line, end_line = end_line, start_line
   end
@@ -23,4 +22,18 @@ vim.keymap.set('v', '<leader>yl', function()
 
   vim.fn.setreg('+', output)
   print('Copied lines ' .. start_line .. ' to ' .. end_line)
+end
+
+vim.keymap.set('n', '<localleader>y', function()
+  local line = vim.fn.line '.'
+  copy_with_context(line, line)
+end, { desc = 'Copy current line with context to clipboard' })
+
+vim.keymap.set('v', '<localleader>y', function()
+  copy_with_context(vim.fn.line 'v', vim.fn.line '.')
+  vim.api.nvim_feedkeys(
+    vim.api.nvim_replace_termcodes('<Esc>', true, false, true),
+    'nt',
+    false
+  )
 end, { desc = 'Copy selected lines with context to clipboard' })
