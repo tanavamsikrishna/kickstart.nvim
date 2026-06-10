@@ -43,16 +43,53 @@ return {
           cycle = true,
           preset = 'custom',
         },
+
+        -- 1. Create a global picker action to yank paths
+        actions = {
+          copy_path = function(picker, item)
+            picker:close() -- Closes the picker UI
+            if item and item.file then
+              -- Get the path relative to your current working directory
+              local path = vim.fn.fnamemodify(item.file, ':.')
+
+              -- Set the path to the system clipboard register
+              vim.fn.setreg('+', path)
+              vim.notify(
+                'Copied path: ' .. path,
+                vim.log.levels.INFO,
+                { title = 'Snacks Picker' }
+              )
+            end
+          end,
+        },
+
+        -- 2. Bind the action to a keyboard shortcut
+        win = {
+          input = {
+            keys = {
+              -- Press Alt + Y (or change to your preferred key) in the picker to copy path
+              ['<A-y>'] = { 'copy_path', mode = { 'i', 'n' } },
+            },
+          },
+        },
       },
     },
     keys = {
-      { '<leader>sh', function() require('snacks').picker.help() end, desc = '[S]earch [H]elp' },
+      {
+        '<leader>sh',
+        function() require('snacks').picker.help() end,
+        desc = '[S]earch [H]elp',
+      },
       {
         '<leader>sk',
         function() require('snacks').picker.keymaps() end,
         desc = '[S]earch [K]eymaps',
       },
-      { '<leader>sf', function() require('snacks').picker.files() end, desc = '[S]earch [F]iles' },
+      {
+        '<leader>sf',
+        function() require('snacks').picker.files { hidden = true, preview = 'none' } end,
+        desc = '[S]earch [F]iles',
+      },
       {
         '<leader>ss',
         function() require('snacks').picker.pickers() end,
@@ -63,7 +100,11 @@ return {
         function() require('snacks').picker.grep_word() end,
         desc = '[S]earch current [W]ord',
       },
-      { '<leader>sg', function() require('snacks').picker.grep() end, desc = '[S]earch by [G]rep' },
+      {
+        '<leader>sg',
+        function() require('snacks').picker.grep() end,
+        desc = '[S]earch by [G]rep',
+      },
       {
         '<leader>sd',
         function() require('snacks').picker.diagnostics() end,
