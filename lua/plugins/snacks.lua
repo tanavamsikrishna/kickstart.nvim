@@ -19,7 +19,6 @@ return {
       picker = {
         matcher = {
           fuzzy = false,
-          word = true,
           ignore_case = true,
           smart_case = true,
         },
