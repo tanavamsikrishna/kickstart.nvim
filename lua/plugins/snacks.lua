@@ -17,6 +17,12 @@ return {
     opts = {
       quickfile = {},
       picker = {
+        matcher = {
+          fuzzy = false,
+          word = true,
+          ignore_case = true,
+          smart_case = true,
+        },
         enabled = true,
         -- Define custom layouts
         layouts = {
