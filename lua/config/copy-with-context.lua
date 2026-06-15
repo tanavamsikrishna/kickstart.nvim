@@ -24,7 +24,7 @@ local function copy_with_context(start_line, end_line)
   print('Copied lines ' .. start_line .. ' to ' .. end_line)
 end
 
-local keymap = '<leader>y'
+local keymap = '<localleader>y'
 
 vim.keymap.set('n', keymap, function()
   local line = vim.fn.line '.'
