@@ -12,6 +12,14 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   end,
 })
 
+--- Frontend file formatter override.
+--- Set `vim.g.frontend_file_formatter` to a formatter name (e.g. 'prettierd')
+--- to use it for css, javascript, and typescript files.
+--- Defaults to 'biome-check' when unset or nil.
+local function frontend_formatter()
+  return { vim.g.frontend_file_formatter or 'biome-check' }
+end
+
 ---@module 'conform'
 ---@type conform.setupOpts
 local opts = {
@@ -38,11 +46,11 @@ local opts = {
     },
   },
   formatters_by_ft = {
-    css = { 'biome-check' },
+    css = frontend_formatter,
     dockerfile = { 'dockerfmt' },
     fish = { 'fish_indent' },
     html = { 'prettierd' },
-    javascript = { 'biome-check' },
+    javascript = frontend_formatter,
     json = { 'biome-check' },
     json5 = { 'json5' },
     lisp = { 'cljfmt' },
@@ -51,7 +59,7 @@ local opts = {
     nu = { 'topiary_nushell' },
     python = { 'ruff_fix', 'ruff_organize_imports', 'ruff_format' },
     toml = { 'tombi' },
-    typescript = { 'biome-check' },
+    typescript = frontend_formatter,
     xml = { 'xmllint' },
     yaml = { 'yamlfmt' },
   },
