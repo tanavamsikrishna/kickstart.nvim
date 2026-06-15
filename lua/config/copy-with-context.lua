@@ -24,12 +24,14 @@ local function copy_with_context(start_line, end_line)
   print('Copied lines ' .. start_line .. ' to ' .. end_line)
 end
 
-vim.keymap.set('n', '<localleader>y', function()
+local keymap = '<leader>y'
+
+vim.keymap.set('n', keymap, function()
   local line = vim.fn.line '.'
   copy_with_context(line, line)
 end, { desc = 'Copy current line with context to clipboard' })
 
-vim.keymap.set('v', '<localleader>y', function()
+vim.keymap.set('v', keymap, function()
   copy_with_context(vim.fn.line 'v', vim.fn.line '.')
   vim.api.nvim_feedkeys(
     vim.api.nvim_replace_termcodes('<Esc>', true, false, true),
