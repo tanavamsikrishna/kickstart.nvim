@@ -12,7 +12,7 @@ local function copy_with_context(start_line, end_line)
   local text = table.concat(lines, '\n')
 
   local output = string.format(
-    '*%s L%d:%d*\n\n```%s\n%s\n```',
+    '*%s L%d:%d*\n```%s\n%s\n```',
     filepath,
     start_line,
     end_line,
