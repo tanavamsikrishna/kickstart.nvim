@@ -1,3 +1,5 @@
+--- Structural search/replace
+
 return {
   'cshuaimin/ssr.nvim',
   enabled = true,
