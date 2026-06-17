@@ -91,6 +91,9 @@ vim.o.scrolloff = 5
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Set shell
+vim.opt.shell = 'zsh'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
