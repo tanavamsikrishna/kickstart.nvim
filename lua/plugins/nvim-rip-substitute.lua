@@ -1,3 +1,5 @@
+--- search replace with ripgrep
+
 return {
   'chrisgrieser/nvim-rip-substitute',
   enabled = false,
@@ -5,7 +7,7 @@ return {
   opts = {},
   keys = {
     {
-      '<leader>rr',
+      '<leader>rs',
       function() require('rip-substitute').sub() end,
       mode = { 'n', 'x' },
       desc = ' rip substitute',

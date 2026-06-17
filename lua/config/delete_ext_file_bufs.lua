@@ -2,7 +2,10 @@
 
 local delete_ext_file_bufs = function()
   local git_lsfiles_output = vim
-    .system({ 'git', 'ls-files', '--cached', '--others', '--exclude-standard' }, { text = true })
+    .system(
+      { 'git', 'ls-files', '--cached', '--others', '--exclude-standard' },
+      { text = true }
+    )
     :wait()
   if git_lsfiles_output.code ~= 0 then
     vim.notify('Git ls-files failed' .. (git_lsfiles_output.stderr or ''), 'error')
@@ -14,7 +17,9 @@ local delete_ext_file_bufs = function()
   local cwd = vim.fn.getcwd() .. '/'
   local is_some_buf_deleted = false
   for _, buf_id in ipairs(all_bufs) do
-    if not vim.api.nvim_get_option_value('buflisted', { buf = buf_id }) then goto continue end
+    if not vim.api.nvim_get_option_value('buflisted', { buf = buf_id }) then
+      goto continue
+    end
     local file_path = vim.api.nvim_buf_get_name(buf_id)
     if file_path == '' then goto continue end
     local pwd_string_index_start, pwd_string_index_end = file_path:find(cwd)

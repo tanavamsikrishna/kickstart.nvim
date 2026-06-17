@@ -2,7 +2,7 @@
 
 return {
   'cshuaimin/ssr.nvim',
-  enabled = true,
+  enabled = false,
   module = 'ssr',
   keys = {
     {

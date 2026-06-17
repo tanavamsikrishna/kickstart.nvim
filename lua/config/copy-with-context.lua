@@ -24,14 +24,14 @@ local function copy_with_context(start_line, end_line)
   print('Copied lines ' .. start_line .. ' to ' .. end_line)
 end
 
-local keymap = '<localleader>y'
+local context_copy_keymap = '<localleader>y'
 
-vim.keymap.set('n', keymap, function()
+vim.keymap.set('n', context_copy_keymap, function()
   local line = vim.fn.line '.'
   copy_with_context(line, line)
 end, { desc = 'Copy current line with context to clipboard' })
 
-vim.keymap.set('v', keymap, function()
+vim.keymap.set('v', context_copy_keymap, function()
   copy_with_context(vim.fn.line 'v', vim.fn.line '.')
   vim.api.nvim_feedkeys(
     vim.api.nvim_replace_termcodes('<Esc>', true, false, true),
@@ -39,3 +39,10 @@ vim.keymap.set('v', keymap, function()
     false
   )
 end, { desc = 'Copy selected lines with context to clipboard' })
+
+-- Copy relative path to system clipboard
+vim.keymap.set('n', '<localleader>p', function()
+  local path = vim.fn.expand '%:.'
+  vim.fn.setreg('+', path)
+  vim.notify('Copied relative path: ' .. path)
+end, { desc = 'Copy relative file path' })
