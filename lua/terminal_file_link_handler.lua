@@ -36,7 +36,9 @@ function M.open_file(pwd, full_file_path, whole_line, line)
   -- Prefer the explicit line (e.g. the #<line> fragment of an OSC-8 file://
   -- hyperlink); otherwise recover it by parsing the clicked line's text.
   local row, col = str_to_int(line or ''), 0
-  if row == 0 then row, col = parse_line(pwd, full_file_path, whole_line) end
+  if row == 0 then
+    row, col = parse_line(pwd, full_file_path, whole_line)
+  end
   vim.fn.cursor(row, col)
   if vim.g.neovide then vim.api.nvim_cmd({ cmd = 'NeovideFocus' }, {}) end
 end

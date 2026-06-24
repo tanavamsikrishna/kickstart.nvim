@@ -10,7 +10,11 @@ return {
   keys = function()
     local code_companion = require 'codecompanion'
     return {
-      { '<leader>a', function() code_companion.toggle() end, desc = 'CodeCompanion: Toggle' },
+      {
+        '<leader>a',
+        function() code_companion.toggle() end,
+        desc = 'CodeCompanion: Toggle',
+      },
     }
   end,
   opts = {
