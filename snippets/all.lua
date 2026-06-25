@@ -13,9 +13,8 @@ return {
     end),
     -- The xml tag below has been split so that parsers searching for todos do not think
     -- that it is actually a todo task
-    t ' <',
-    t 'ai-todo> ',
+    t ' ai-todo',
+    t ': ',
     i(1, '...'),
-    t ' </ai-todo>',
   }),
 }
