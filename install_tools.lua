@@ -46,7 +46,7 @@ local function build_bin_command(tool)
   assert(repo_details and repo_details ~= '', 'tool.pkg must be set and not empty')
   assert(bin_name and bin_name ~= '', 'tool.bin_name must be set and not empty')
 
-  return { 'bin', 'install', repo_details, bin_name }
+  return { 'bin', 'add', repo_details, bin_name }
 end
 
 local cmd_map = {

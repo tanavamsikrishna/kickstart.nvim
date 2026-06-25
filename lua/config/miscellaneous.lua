@@ -32,23 +32,6 @@ vim.api.nvim_create_autocmd({ 'FileType', 'BufEnter', 'WinEnter' }, {
 -- `virtualedit` (for cursor movement)
 vim.opt.virtualedit = { 'block' }
 
--- Perfect page scrolling: old bottom+1 becomes new top (and symmetric for up)
-vim.keymap.set({ 'n', 'v' }, '<PageDown>', function()
-  local bot = vim.fn.line 'w$'
-  local new_top = math.min(bot + 1, vim.api.nvim_buf_line_count(0))
-  vim.api.nvim_win_set_cursor(0, { new_top, 0 })
-  vim.cmd 'normal! zt'
-end, { desc = 'Page down' })
-
-vim.keymap.set({ 'n', 'v' }, '<PageUp>', function()
-  local top = vim.fn.line 'w0'
-  local wininfo = vim.fn.getwininfo(vim.fn.win_getid())[1]
-  local height = vim.api.nvim_win_get_height(0) - (wininfo.winbar or 0)
-  local new_top = math.max(top - height, 1)
-  vim.api.nvim_win_set_cursor(0, { new_top, 0 })
-  vim.cmd 'normal! zt'
-end, { desc = 'Page up' })
-
 -- Abbreviations/Remapping
 vim.keymap.set('ca', 'w', function()
   if vim.fn.getcmdtype() == ':' and vim.fn.getcmdline() == 'w' then
