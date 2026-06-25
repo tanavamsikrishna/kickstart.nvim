@@ -275,7 +275,6 @@ require('lazy').setup({
         end,
       },
       -- 'folke/lazydev.nvim',
-      'echasnovski/mini.nvim',
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
