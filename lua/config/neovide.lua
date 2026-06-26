@@ -1,11 +1,7 @@
 if vim.g.neovide then
-  --[[
-  Using config.toml to set the fonts
-  vim.o.guifont = 'MonaspiceNe Nerd Font Propo:h13'
-  vim.o.guifont = 'JetBrainsMono Nerd Font:h12.5'
-  vim.opt.guifont = { 'Liga SFMono Nerd Font:h12.5' }
-  vim.o.guifont = 'SauceCodePro Nerd Font'
-  ]]
+  --[[ -- Using config.toml to set the fonts
+  vim.o.guifont = 'MonaspiceNe Nerd Font Propo:h13' ]]
+
   -- vim.g.neovide_scroll_animation_length = 0
   vim.g.neovide_position_animation_length = 0
   vim.g.neovide_cursor_animation_length = 0
@@ -25,4 +21,6 @@ if vim.g.neovide then
 
   vim.g.neovide_input_macos_option_key_is_meta = 'both'
   vim.g.neovide_hide_mouse_when_typing = true
+
+  vim.opt.linespace = 1
 end
