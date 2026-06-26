@@ -1,7 +1,7 @@
 local opts = {
   notification = {
     override_vim_notify = true,
-    window = { avoid = { 'NvimTree' } },
+    window = { avoid = { 'NvimTree' }, winblend = 25 },
   },
 }
 
