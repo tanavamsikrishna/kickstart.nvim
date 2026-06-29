@@ -2,9 +2,10 @@ if vim.g.neovide then
   --[[ -- Using config.toml to set the fonts
   vim.o.guifont = 'MonaspiceNe Nerd Font Propo:h13' ]]
 
-  -- vim.g.neovide_scroll_animation_length = 0
-  -- vim.g.neovide_position_animation_length = 0
-  -- vim.g.neovide_cursor_animation_length = 0
+  vim.g.neovide_position_animation_length = 0.5
+  vim.g.neovide_cursor_animation_length = 0.05
+  vim.g.neovide_scroll_animation_length = 0.1
+  vim.g.neovide_cursor_trail_size = 0
   vim.g.have_nerd_font = true
   -- vim.g.neovide_text_gamma = 0.1
   -- vim.g.neovide_text_contrast = 0.5
