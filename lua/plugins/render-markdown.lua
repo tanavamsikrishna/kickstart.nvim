@@ -2,8 +2,7 @@
 ---@return render.md.Mark[]
 local function conceal_escape(ctx)
   local marks = {} ---@type render.md.Mark[]
-  local query =
-    vim.treesitter.query.parse('markdown_inline', '(backslash_escape) @escape')
+  local query = vim.treesitter.query.parse('markdown_inline', '(backslash_escape) @escape')
   for _, node in query:iter_captures(ctx.root, ctx.buf) do
     local start_row, start_col, end_row = node:range()
     marks[#marks + 1] = {

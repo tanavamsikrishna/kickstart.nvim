@@ -11,14 +11,8 @@ local function copy_with_context(start_line, end_line)
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
   local text = table.concat(lines, '\n')
 
-  local output = string.format(
-    '*%s L%d:%d*\n```%s\n%s\n```',
-    filepath,
-    start_line,
-    end_line,
-    filetype,
-    text
-  )
+  local output =
+    string.format('*%s L%d:%d*\n```%s\n%s\n```', filepath, start_line, end_line, filetype, text)
 
   vim.fn.setreg('+', output)
   print('Copied lines ' .. start_line .. ' to ' .. end_line)
@@ -33,11 +27,7 @@ end, { desc = 'Copy current line with context to clipboard' })
 
 vim.keymap.set('v', context_copy_keymap, function()
   copy_with_context(vim.fn.line 'v', vim.fn.line '.')
-  vim.api.nvim_feedkeys(
-    vim.api.nvim_replace_termcodes('<Esc>', true, false, true),
-    'nt',
-    false
-  )
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'nt', false)
 end, { desc = 'Copy selected lines with context to clipboard' })
 
 -- Copy relative path to system clipboard

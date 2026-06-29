@@ -18,7 +18,7 @@ vim.g.have_nerd_font = true
 vim.o.number = false
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
-vim.o.relativenumber = true
+vim.o.relativenumber = false
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -270,9 +270,7 @@ require('lazy').setup({
           },
         },
         opts = {},
-        config = function()
-          require('luasnip.loaders.from_lua').load { paths = './snippets' }
-        end,
+        config = function() require('luasnip.loaders.from_lua').load { paths = './snippets' } end,
       },
       -- 'folke/lazydev.nvim',
     },

@@ -40,3 +40,17 @@ vim.keymap.set('ca', 'w', function()
     return 'w'
   end
 end, { expr = true })
+
+-- Page down/up
+---@param direction boolean
+local function _page_up_down_move(direction)
+  local absolute_move = 20
+  local move = (direction and 1 or -1) * absolute_move
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line_count = vim.api.nvim_buf_line_count(0)
+  local target_location = math.min(line_count, math.max(1, row + move))
+  vim.api.nvim_win_set_cursor(0, { target_location, col })
+end
+
+vim.keymap.set('n', '<PageUp>', function() _page_up_down_move(false) end)
+vim.keymap.set('n', '<PageDown>', function() _page_up_down_move(true) end)

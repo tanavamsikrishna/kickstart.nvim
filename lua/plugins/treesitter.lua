@@ -52,8 +52,7 @@ return {
   branch = 'main',
   config = function()
     -- To install the required Tree-sitter parsers on demand
-    local ts_manager_group =
-      vim.api.nvim_create_augroup('TreesitterManager', { clear = true })
+    local ts_manager_group = vim.api.nvim_create_augroup('TreesitterManager', { clear = true })
     vim.api.nvim_create_autocmd('FileType', {
       group = ts_manager_group,
       pattern = '*',

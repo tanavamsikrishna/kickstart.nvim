@@ -6,9 +6,7 @@ local all_tools = vim.deepcopy(lsp_tools)
 vim.list_extend(all_tools, other_tools)
 local DEFAULT_TIMEOUT_MS = 30 * 60 * 1000
 
-local function command_to_string(cmd)
-  return table.concat(vim.tbl_map(vim.fn.shellescape, cmd), ' ')
-end
+local function command_to_string(cmd) return table.concat(vim.tbl_map(vim.fn.shellescape, cmd), ' ') end
 
 local function run_command(cmd, timeout_ms)
   local done = false
@@ -93,12 +91,7 @@ for _, tool in ipairs(all_tools) do
       print('> ' .. command_to_string(cmd) .. '\n')
       local ok, result = run_command(cmd, tool.timeout_ms)
       if not ok then
-        print(
-          'Error: failed to execute install command for '
-            .. name
-            .. ': '
-            .. tostring(result)
-        )
+        print('Error: failed to execute install command for ' .. name .. ': ' .. tostring(result))
         os.exit(1)
       end
 

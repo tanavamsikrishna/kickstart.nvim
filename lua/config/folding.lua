@@ -11,9 +11,7 @@ local function smart_toggle_fold()
 
   -- 3. Native Node Check
   local node = vim.treesitter.get_node()
-  if not node then
-    return vim.notify('No Treesitter node found at cursor', vim.log.levels.WARN)
-  end
+  if not node then return vim.notify('No Treesitter node found at cursor', vim.log.levels.WARN) end
 
   -- 4. Traverse up the tree
   while node do
@@ -37,9 +35,4 @@ local function smart_toggle_fold()
   vim.notify('No foldable block found here', vim.log.levels.INFO)
 end
 
-vim.keymap.set(
-  'n',
-  'za',
-  smart_toggle_fold,
-  { desc = 'Toggle fold or create TS fold manually' }
-)
+vim.keymap.set('n', 'za', smart_toggle_fold, { desc = 'Toggle fold or create TS fold manually' })

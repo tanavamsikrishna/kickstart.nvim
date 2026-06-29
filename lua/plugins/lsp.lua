@@ -60,12 +60,7 @@ return {
           -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
-            vim.keymap.set(
-              mode,
-              keys,
-              func,
-              { buffer = event.buf, desc = 'LSP: ' .. desc }
-            )
+            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
           local Snacks = require 'snacks'
@@ -83,36 +78,20 @@ return {
           map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Find references for the word under your cursor.
-          map(
-            'grr',
-            function() Snacks.picker.lsp_references() end,
-            '[G]oto [R]eferences'
-          )
+          map('grr', function() Snacks.picker.lsp_references() end, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
           -- Useful when your language has ways of declaring types without an actual implementation.
-          map(
-            'gri',
-            function() Snacks.picker.lsp_implementations() end,
-            '[G]oto [I]mplementation'
-          )
+          map('gri', function() Snacks.picker.lsp_implementations() end, '[G]oto [I]mplementation')
 
           -- Jump to the definition of the word under your cursor.
           -- This is where a variable was first declared, or where a function is defined, etc.
           -- To jump back, press <C-t>.
-          map(
-            'grd',
-            function() Snacks.picker.lsp_definitions() end,
-            '[G]oto [D]efinition'
-          )
+          map('grd', function() Snacks.picker.lsp_definitions() end, '[G]oto [D]efinition')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map(
-            'go',
-            function() Snacks.picker.lsp_symbols() end,
-            '[G]oto [O]pen Document Symbols'
-          )
+          map('go', function() Snacks.picker.lsp_symbols() end, '[G]oto [O]pen Document Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
@@ -133,15 +112,9 @@ return {
 
           -- Showing & navigating diagnostics
           vim.diagnostic.config { virtual_text = false }
-          map(
-            '<leader>d',
-            vim.diagnostic.open_float,
-            '[S]how [D]iagnostic on the current line'
-          )
+          map('<leader>d', vim.diagnostic.open_float, '[S]how [D]iagnostic on the current line')
           local function _jump_to_target_diagnostic(target_diagnostic)
-            if target_diagnostic then
-              vim.diagnostic.jump { diagnostic = target_diagnostic }
-            end
+            if target_diagnostic then vim.diagnostic.jump { diagnostic = target_diagnostic } end
           end
           map(
             ']d',
@@ -164,9 +137,7 @@ return {
             map(
               '<leader>th',
               function()
-                vim.lsp.inlay_hint.enable(
-                  not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
-                )
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
               end,
               '[T]oggle Inlay [H]ints'
             )

@@ -59,11 +59,7 @@ return {
 
               -- Set the path to the system clipboard register
               vim.fn.setreg('+', path)
-              vim.notify(
-                'Copied path: ' .. path,
-                vim.log.levels.INFO,
-                { title = 'Snacks Picker' }
-              )
+              vim.notify('Copied path: ' .. path, vim.log.levels.INFO, { title = 'Snacks Picker' })
             end
           end,
         },

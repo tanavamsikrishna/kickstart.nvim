@@ -16,9 +16,7 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
 --- Set `vim.g.frontend_file_formatter` to a formatter name (e.g. 'prettierd')
 --- to use it for css, javascript, and typescript files.
 --- Defaults to 'biome-check' when unset or nil.
-local function frontend_formatter()
-  return { vim.g.frontend_file_formatter or 'biome-check' }
-end
+local function frontend_formatter() return { vim.g.frontend_file_formatter or 'biome-check' } end
 
 ---@module 'conform'
 ---@type conform.setupOpts
