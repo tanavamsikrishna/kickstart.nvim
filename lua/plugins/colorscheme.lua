@@ -63,6 +63,16 @@ local color_schemes = {
 
 local selected_theme = 'modus_light'
 
+--[[ -- Fix UI issues
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function()
+    vim.api.nvim_set_hl(0, 'LspSignatureActiveParameter', { bold = true })
+    vim.api.nvim_set_hl(0, 'DiagnosticFloatingHint', { link = 'DiagnosticFloatingInfo' })
+    vim.api.nvim_set_hl(0, 'MiniStatuslineFilename', { foreground = 'darkgreen' })
+    vim.api.nvim_set_hl(0, 'MatchParen', { bold = true, fg = 'black', underline = true })
+  end,
+}) ]]
+
 return {
   lazy = false,
   color_schemes[selected_theme].repo,
