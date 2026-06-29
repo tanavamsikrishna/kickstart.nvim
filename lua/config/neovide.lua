@@ -3,9 +3,8 @@ if vim.g.neovide then
   vim.o.guifont = 'MonaspiceNe Nerd Font Propo:h13' ]]
 
   -- vim.g.neovide_scroll_animation_length = 0
-  vim.g.neovide_position_animation_length = 0
-  vim.g.neovide_cursor_animation_length = 0
-  -- vim.opt.linespace = 1
+  -- vim.g.neovide_position_animation_length = 0
+  -- vim.g.neovide_cursor_animation_length = 0
   vim.g.have_nerd_font = true
   -- vim.g.neovide_text_gamma = 0.1
   -- vim.g.neovide_text_contrast = 0.5

@@ -30,3 +30,7 @@ vim.keymap.set('ca', 'w', function()
     return 'w'
   end
 end, { expr = true })
+
+-- Page Up/Down rewiring
+vim.keymap.set('', '<PageUp>', '20<C-y>', { remap = false })
+vim.keymap.set('', '<PageDown>', '20<C-e>', { remap = false })
