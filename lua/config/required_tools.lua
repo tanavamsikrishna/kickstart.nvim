@@ -21,7 +21,8 @@ local tools = {
       bin_name = 'marksman',
     },
     'nushell',
-    { 'pyright', pkg = 'pyright', manager = 'bun' },
+    -- { 'pyright', pkg = 'pyright', manager = 'bun' },
+    { 'basedpyright', pkg = 'basedpyright', manager = 'uv' },
     {
       'rust_analyzer',
       pkg = 'rust-lang/rust-analyzer',
