@@ -451,6 +451,8 @@ require 'config.copy-with-context'
 require 'config.folding'
 require 'config.undotree'
 require 'config.proofread'
+require 'config.movement'
+
 -- require 'config._debug'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
