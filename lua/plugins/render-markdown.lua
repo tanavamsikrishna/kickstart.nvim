@@ -49,12 +49,16 @@ return {
 
       max_file_size = 1.0, -- in MB (default is 10.0)
 
-      -- If you later want images: add { '3rd/image.nvim' } to deps and enable below
       html = { enabled = true }, -- for <img> tags if using image.nvim
 
       completions = { lsp = { enabled = true } },
       custom_handlers = {
         markdown_inline = { extends = true, parse = conceal_escape },
+      },
+      checkbox = {
+        custom = {
+          in_progress = { raw = '[/]', rendered = '󰪥 ', highlight = 'RenderMarkdownTodo' },
+        },
       },
     }
   end,
