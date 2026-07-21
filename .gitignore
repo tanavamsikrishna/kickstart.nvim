@@ -4,3 +4,8 @@ test.sh
 nvim
 
 spell/
+
+# from former global gitignore
+.DS_Store
+Session.vim
+scratch.*
