@@ -9,6 +9,8 @@ return {
     ---@type Gitsigns.Config
     ---@diagnostic disable-next-line: missing-fields
     opts = {
+      -- update_debounce = 100,
+      -- watch_git_dir = { follow_files = true },
       signs = {
         add = { text = '+' }, ---@diagnostic disable-line: missing-fields
         change = { text = '~' }, ---@diagnostic disable-line: missing-fields
