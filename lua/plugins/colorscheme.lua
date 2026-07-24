@@ -52,7 +52,7 @@ local color_schemes = {
         ---@diagnostic disable-next-line: missing-fields
         require('modus-themes').setup {
           variants = {
-            modus_operandi = 'tinted',
+            -- modus_operandi = 'tinted',
           },
         }
         vim.cmd.colorscheme 'modus_operandi'
