@@ -3,7 +3,7 @@ local opts = {
     override_vim_notify = true,
     window = {
       avoid = { 'NvimTree' },
-      border = vim.g.neovide and 'none' or 'single',
+      border = vim.g.neovide and 'none' or 'rounded',
     },
   },
 }
