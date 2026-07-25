@@ -1,7 +1,10 @@
 local opts = {
   notification = {
     override_vim_notify = true,
-    window = { avoid = { 'NvimTree' }, winblend = 25 },
+    window = {
+      avoid = { 'NvimTree' },
+      border = vim.g.neovide and 'none' or 'single',
+    },
   },
 }
 
