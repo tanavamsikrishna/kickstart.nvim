@@ -86,7 +86,7 @@ function M.proofread(opts)
     vim.notify('Proofread: Requesting corrections...', vim.log.levels.INFO)
   end
 
-  vim.system({ 'proofread' }, { stdin = text }, function(obj)
+  vim.system({ 'proofread.py' }, { stdin = text }, function(obj)
     vim.schedule(function()
       if progress_handle then progress_handle:finish() end
 
