@@ -13,6 +13,7 @@ local tools = {
       manager = 'bin',
       bin_name = 'harper-ls',
     }, ]]
+    { 'nim_langserver', pkg = 'nimlangserver', manager = 'nimble' },
     { 'jsonls', pkg = 'vscode-langservers-extracted', manager = 'bun' },
     {
       'marksman',

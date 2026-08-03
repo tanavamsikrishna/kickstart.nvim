@@ -79,6 +79,8 @@ local cmd_map = {
     return cmd
   end,
   brew = function(tool) return { 'brew', 'install', tool.pkg } end,
+  -- `-y` accepts prompts non-interactively; package installs go to ~/.nimble by default.
+  nimble = function(tool) return { 'nimble', 'install', '-y', tool.pkg } end,
 }
 
 for _, tool in ipairs(all_tools) do
