@@ -1,6 +1,8 @@
--- Adds git related signs to the gutter, as well as utilities for managing changes
--- NOTE: gitsigns is already included in init.lua but contains only the base
--- config. This will add also the recommended keymaps.
+--- Git hunk signs in the gutter plus hunk/buffer actions (gitsigns.nvim).
+---
+--- Buffer-local maps on attach: `]c`/`[c` next/prev hunk; `<leader>h*` stage,
+--- reset, preview, blame, diff, quickfix; `<leader>tb`/`<leader>tw` toggles;
+--- `ih` textobject. Signs use `+` `~` `_` `‾`.
 
 return {
   {

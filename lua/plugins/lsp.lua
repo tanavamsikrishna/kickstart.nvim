@@ -1,3 +1,12 @@
+--- Language Server Protocol client: attach keymaps, capabilities, and server enablement.
+---
+--- Two specs: optional `lazydev.nvim` for this config's Lua (gated by
+--- `vim.g.lazydev_enabled`), and `nvim-lspconfig`. On `LspAttach`, maps
+--- rename/code-action/definition/references/symbols/diagnostics/inlay-hints
+--- (several go through Snacks pickers). Broadcasts blink.cmp capabilities and
+--- enables servers listed in `config.required_tools` (`lsp`). Virtual diagnostic
+--- text is off; `<leader>d` opens the float.
+
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime, and plugins

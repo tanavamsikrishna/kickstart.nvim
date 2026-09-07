@@ -1,3 +1,9 @@
+--- On-demand highlight and jump among references of the word under the cursor.
+---
+--- Highlighting starts paused. `grh` highlights and freezes; `]r`/`[r` jump while
+--- keeping the highlight; `<Esc>` clears then runs the previous Esc map.
+--- Built-in illuminate keymaps are disabled.
+
 local function activate_manual_highlight()
   local illuminate = require 'illuminate'
   illuminate.unfreeze_buf()

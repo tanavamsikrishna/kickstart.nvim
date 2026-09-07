@@ -23,7 +23,8 @@ local tools = {
     },
     'nushell',
     -- { 'pyright', pkg = 'pyright', manager = 'bun' },
-    { 'basedpyright', pkg = 'basedpyright', manager = 'uv' },
+    -- { 'basedpyright', pkg = 'basedpyright', manager = 'uv' },
+    { 'ty', pkg = 'astral-sh/ty', manager = 'bin', bin_name = 'ty' },
     {
       'rust_analyzer',
       pkg = 'rust-lang/rust-analyzer',

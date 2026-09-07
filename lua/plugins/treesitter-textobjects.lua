@@ -1,3 +1,9 @@
+--- Treesitter motions for functions, classes, and smaller syntactic units.
+---
+--- `{`/`}`: previous/next start of parameter, call, assignment, or statement.
+--- `[[`/`]]`: function/class start; `[]`/`][`: function/class end.
+--- Disables built-in ftplugin mappings (`vim.g.no_plugin_maps`) to avoid clashes.
+
 return {
   'nvim-treesitter/nvim-treesitter-textobjects',
   branch = 'main',

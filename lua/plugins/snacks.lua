@@ -1,3 +1,9 @@
+--- Snacks.nvim: fuzzy picker (files, grep, buffers, help, diagnostics, …) plus quickfile.
+---
+--- `<leader>s*` and related maps open pickers. `<A-y>` in the picker copies the
+--- selected path relative to cwd. Matcher is non-fuzzy with smart-case. Custom
+--- vertical layout; rounded border is skipped in GUI (Neovide).
+
 local is_gui = vim.fn.has 'gui_running' == 1
 
 return {
@@ -5,14 +11,6 @@ return {
     'folke/snacks.nvim',
     priority = 1000,
     lazy = false,
-    init = function()
-      vim.api.nvim_create_autocmd('ColorScheme', {
-        callback = function()
-          vim.api.nvim_set_hl(0, 'SnacksPickerMatch', {})
-          vim.api.nvim_set_hl(0, 'SnacksPickerSearch', {})
-        end,
-      })
-    end,
     ---@type snacks.Config
     opts = {
       quickfile = {},

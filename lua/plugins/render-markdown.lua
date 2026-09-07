@@ -1,3 +1,9 @@
+--- In-buffer Markdown rendering (headings, code, checkboxes, HTML images).
+---
+--- Active for markdown/quarto/rmd, and only in normal/command/terminal modes.
+--- Caps at 1 MB. Custom handler conceals the backslash in inline escapes.
+--- Depends on Treesitter, web-devicons, and image.nvim.
+
 ---@param ctx render.md.handler.Context
 ---@return render.md.Mark[]
 local function conceal_escape(ctx)

@@ -1,3 +1,9 @@
+--- Debug Adapter Protocol client (nvim-dap) with dap-ui and Python (debugpy via uv).
+---
+--- Function keys: F5 continue, F1/F2/F3 step into/over/out, F7 toggle UI.
+--- `<leader>b` / `<leader>B` breakpoints. mason-nvim-dap auto-installs debugpy.
+--- DAP UI opens on session start and closes on exit.
+
 return {
   -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',

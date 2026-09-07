@@ -1,3 +1,10 @@
+--- On-demand Treesitter parser install, highlighting, and indent for each buffer.
+---
+--- On FileType, maps the filetype to parser(s) (special cases for svelte and
+--- markdown), installs missing parsers, then starts highlighting. Skips empty
+--- buftype, git/meta filetypes, files over 1 MB, and buffers with a line longer
+--- than 1000 characters. Indentexpr is set when the parser has an indent query.
+
 ---@return string[] list of all needed parsers. The first one is the "main" parser
 local function get_parsers(filetype)
   if filetype == 'svelte' then

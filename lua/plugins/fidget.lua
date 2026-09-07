@@ -1,3 +1,6 @@
+--- LSP progress UI and `vim.notify` replacement (fidget.nvim).
+--- Notification window avoids NvimTree; border is omitted under Neovide.
+
 local opts = {
   notification = {
     override_vim_notify = true,

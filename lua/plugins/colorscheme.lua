@@ -1,3 +1,9 @@
+--- Colorscheme catalog and the single theme actually installed at startup.
+---
+--- `color_schemes` lists available repos; `selected_theme` chooses which spec
+--- lazy.nvim loads (`priority = 1000`). Currently `tokyonight` with a dark
+--- background. Themes not selected are not installed.
+
 ---@class ColorSchemeName
 ---@field colorscheme string
 
@@ -10,6 +16,10 @@
 
 ---@type table<string, ColorScheme>
 local color_schemes = {
+  ['tokyonight'] = {
+    repo = 'folke/tokyonight.nvim',
+    config = { colorscheme = 'tokyonight' },
+  },
   ['catppuccin-latte'] = {
     repo = 'catppuccin/nvim',
     config = { colorscheme = 'catppuccin-latte' },
@@ -61,7 +71,7 @@ local color_schemes = {
   },
 }
 
-local selected_theme = 'modus_light'
+local selected_theme = 'tokyonight'
 
 --[[ -- Fix UI issues
 vim.api.nvim_create_autocmd('ColorScheme', {
@@ -78,7 +88,7 @@ return {
   color_schemes[selected_theme].repo,
   priority = 1000,
   config = function()
-    vim.o.background = 'light'
+    vim.o.background = 'dark'
     local config = color_schemes[selected_theme].config
     if config.configfunc ~= nil then
       config.configfunc()

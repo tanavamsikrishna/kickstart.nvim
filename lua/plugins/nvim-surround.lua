@@ -1,3 +1,6 @@
+--- Add, change, and delete surrounding pairs (`ys` / `cs` / `ds` and related).
+--- Default nvim-surround setup; loads on VeryLazy.
+
 return {
   'kylechui/nvim-surround',
   event = 'VeryLazy',

@@ -1,3 +1,8 @@
+--- Label-based jump and Treesitter selection (flash.nvim).
+---
+--- `<leader>fj` jump; `<leader>fs` Treesitter node select. Treesitter labels use
+--- overlay style. Custom `FlashLabel` highlight is set in config.
+
 ---@type Flash.Config
 local config_options = {
   modes = {

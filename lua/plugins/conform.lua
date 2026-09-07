@@ -1,3 +1,10 @@
+--- Buffer formatting via conform.nvim: format-on-save and `<localleader>f`.
+---
+--- Filetype → formatter map lives in this file. Falls back to LSP format when no
+--- formatter is configured. Skips when `vim.g.disable_autoformat` or
+--- `vim.b.disable_autoformat` is set (Marimo `.py` notebooks set the buffer flag
+--- automatically). CSS/JS/TS use `vim.g.frontend_file_formatter` or `biome-check`.
+
 -- Disable formatting for Marimo notebooks
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = '*.py',

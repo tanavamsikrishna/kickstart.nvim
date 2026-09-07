@@ -1,3 +1,8 @@
+--- Yank ring with sqlite-backed history (yanky.nvim).
+---
+--- Remaps `y`/`p`/`P`; `<c-p>`/`<c-n>` cycle history after put; `<leader>p`
+--- opens the history picker. `]p`/`[p` put linewise with indent.
+
 return {
   'gbprod/yanky.nvim',
   dependencies = {

@@ -1,3 +1,7 @@
+--- Vertical indent guides (indent-blankline / ibl).
+--- Scope highlighting is off. Guides are hidden in UI filetypes (help, lazy,
+--- mason, trouble, etc.). Character is `│`.
+
 return {
   'lukas-reineke/indent-blankline.nvim',
   enabled = true,
@@ -9,7 +13,6 @@ return {
         'help',
         'alpha',
         'dashboard',
-        'neo-tree',
         'Trouble',
         'trouble',
         'lazy',

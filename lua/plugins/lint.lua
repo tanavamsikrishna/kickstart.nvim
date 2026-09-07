@@ -1,3 +1,9 @@
+--- Async linting via nvim-lint on enter, write, and text-change events.
+---
+--- Per-filetype linters: luacheck, hadolint, jsonlint/json5, ruff, eslint_d
+--- (js/ts/svelte), yamllint. Only runs in modifiable buffers. Sets
+--- `ESLINT_D_PPID` so eslint_d tracks this Neovim process.
+
 return {
   -- Linting
   'mfussenegger/nvim-lint',
