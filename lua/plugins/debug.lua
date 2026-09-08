@@ -2,7 +2,8 @@
 ---
 --- Function keys: F5 continue, F1/F2/F3 step into/over/out, F7 toggle UI.
 --- `<leader>b` / `<leader>B` breakpoints. mason-nvim-dap auto-installs debugpy.
---- DAP UI opens on session start and closes on exit.
+--- DAP UI opens on session start and closes on exit. nvim-dap-python is lazy on
+--- `python` so its rockspec spec does not load it at startup; setup stays here.
 
 return {
   -- NOTE: Yes, you can install new plugins here!
@@ -19,8 +20,8 @@ return {
     'mason-org/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
 
-    -- Python
-    'mfussenegger/nvim-dap-python',
+    -- Python (ft keeps the rockspec spec from making this a start plugin)
+    { 'mfussenegger/nvim-dap-python', ft = 'python' },
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
