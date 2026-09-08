@@ -1,6 +1,6 @@
 -- Set title to the current working directory
 vim.opt.title = true
-vim.opt.titlestring = 'Neovide ' .. vim.fn.getcwd()
+vim.opt.titlestring = 'Neovim ' .. vim.fn.getcwd()
 
 -- `exrc`
 vim.o.exrc = true

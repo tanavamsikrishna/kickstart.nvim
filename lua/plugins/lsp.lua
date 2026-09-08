@@ -4,8 +4,10 @@
 --- `vim.g.lazydev_enabled`), and `nvim-lspconfig`. On `LspAttach`, maps
 --- rename/code-action/definition/references/symbols/diagnostics/inlay-hints
 --- (several go through Snacks pickers). Broadcasts blink.cmp capabilities and
---- enables servers listed in `config.required_tools` (`lsp`). Virtual diagnostic
---- text is off; `<leader>d` opens the float.
+--- enables the servers listed in this file. Python attaches both `ty` and
+--- `ruff`; ruff's hover/completion server capabilities are cleared in
+--- `vim.lsp.config('ruff')` so ty owns those. Virtual diagnostic text is off;
+--- `<leader>d` opens the float.
 
 return {
   {
@@ -161,11 +163,29 @@ return {
       local capabilities = require('blink.cmp').get_lsp_capabilities(nil, true)
       -- Sets capabilities for EVERY server globally
       vim.lsp.config('*', { capabilities = capabilities })
-      local lsp_names = vim.tbl_map(
-        function(o) return type(o) == 'string' and o or o[1] end,
-        require 'config.required_tools' 'lsp'
-      )
-      vim.lsp.enable(lsp_names)
+      -- ty owns Python hover and completion; ruff still lints and offers code actions.
+      vim.lsp.config('ruff', {
+        on_init = function(client)
+          client.server_capabilities.hoverProvider = false
+          client.server_capabilities.completionProvider = nil
+        end,
+      })
+      vim.lsp.enable {
+        'cssls',
+        'jsonls',
+        'lua_ls',
+        'marksman',
+        'nim_langserver',
+        'nushell',
+        'ruff',
+        'rust_analyzer',
+        'svelte',
+        'tombi',
+        'ty',
+        'typos_lsp',
+        'vtsls',
+        'zls',
+      }
     end,
   },
 }

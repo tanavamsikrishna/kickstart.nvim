@@ -87,7 +87,7 @@ return {
       {
         '<leader>sf',
         function() require('snacks').picker.files { hidden = true } end,
-        desc = '[S]earch [F]iles',
+        desc = '[S]earch for [F]iles',
       },
       {
         '<leader>ss',

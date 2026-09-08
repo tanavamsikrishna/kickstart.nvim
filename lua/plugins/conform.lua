@@ -4,6 +4,7 @@
 --- formatter is configured. Skips when `vim.g.disable_autoformat` or
 --- `vim.b.disable_autoformat` is set (Marimo `.py` notebooks set the buffer flag
 --- automatically). CSS/JS/TS use `vim.g.frontend_file_formatter` or `biome-check`.
+--- Nushell uses `nu-formatter.sh` from PATH. Markdown mdformat wraps at 80.
 
 -- Disable formatting for Marimo notebooks
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
@@ -34,9 +35,8 @@ local opts = {
     return { lsp_format = 'fallback' }
   end,
   formatters = {
-    topiary_nushell = {
-      command = 'topiary',
-      args = { 'format', '--language', 'nu' },
+    nu_formatter = {
+      command = 'nu-formatter.sh',
     },
     json5 = {
       command = 'json5',
@@ -47,7 +47,7 @@ local opts = {
     },
     mdformat = {
       command = 'mdformat',
-      args = { '--number', '-' },
+      args = { '--number', '--wrap', '80', '-' },
     },
   },
   formatters_by_ft = {
@@ -61,7 +61,7 @@ local opts = {
     lisp = { 'cljfmt' },
     lua = { 'stylua' },
     markdown = { 'mdformat' },
-    nu = { 'topiary_nushell' },
+    nu = { 'nu_formatter' },
     python = { 'ruff_fix', 'ruff_organize_imports', 'ruff_format' },
     toml = { 'tombi' },
     typescript = frontend_formatter,
