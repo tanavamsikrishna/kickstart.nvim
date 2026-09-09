@@ -1,8 +1,9 @@
 --- Snacks.nvim: fuzzy picker (files, grep, buffers, help, diagnostics, …) plus quickfile.
 ---
---- `<leader>s*` and related maps open pickers. `<A-y>` in the picker copies the
---- selected path relative to cwd. Matcher is non-fuzzy with smart-case. Custom
---- vertical layout; rounded border is skipped in GUI (Neovide).
+--- `<leader>s*` and related maps open pickers. `<leader>sn` follows symlinks
+--- under the Neovim config dir. `<A-y>` in the picker copies the selected path
+--- relative to cwd. Matcher is non-fuzzy with smart-case. Custom vertical
+--- layout; rounded border is skipped in GUI (Neovide).
 
 local is_gui = vim.fn.has 'gui_running' == 1
 
@@ -141,7 +142,12 @@ return {
       },
       {
         '<leader>sn',
-        function() require('snacks').picker.files { cwd = vim.fn.stdpath 'config' } end,
+        function()
+          require('snacks').picker.files {
+            cwd = vim.fn.stdpath 'config',
+            follow = true,
+          }
+        end,
         desc = '[S]earch [N]eovim files',
       },
     },

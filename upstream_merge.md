@@ -46,6 +46,24 @@ per upstream commit.
 
 Use `Applied: none` or `Skipped: none` when that list is empty.
 
+### 2026-09-09 — gitsigns keymaps and config picker follow
+
+- Upstream through: `f7b845d8b6df409b0392ca117d092d5dffd2b538`
+- Applied:
+  - Align gitsigns recommended keymaps with plugin defaults — `lua/plugins/gitsigns.lua`: `<leader>hD` diffs against `~` (was `@`), `<leader>hi` desc, `ih` textobject desc
+  - Follow symlinks when searching Neovim config files — `lua/plugins/snacks.lua` `<leader>sn` (`follow = true`)
+- Skipped:
+  - GitHub issue templates, discussions links, and stylua CI — this tree has no `.github/`
+  - README template-vs-fork guidance and Alpine install recipe — this tree's `Readme.md` is project-local variables, not the kickstart install guide
+  - init.lua section comment split/renumber — this tree does not use those section banners
+  - Switch nvim-web-devicons to mini.icons + `mock_nvim_web_devicons` — this tree already uses mini.icons and still depends on nvim-web-devicons for nvim-tree and render-markdown
+  - lua_ls library path / settings typing — this tree uses lazydev, not kickstart's lua_ls library table
+  - mason-lspconfig.setup (`automatic_enable = false`) — this tree does not use Mason
+  - Example LSP `ts_ls` → `tsc` — this tree uses `vtsls`
+  - custom.plugins loader (symlink follow, unspecified load order) — this tree uses lazy.nvim `{ import = 'plugins' }`
+  - neo-tree always packing nvim-web-devicons — this tree uses nvim-tree, not neo-tree
+  - Enable gitsigns recommended keymaps by default / drop optional `kickstart.plugins.gitsigns` — already present in `lua/plugins/gitsigns.lua`
+
 ### 2026-05-07 — baseline
 
 - Upstream through: `cfdc17be3ae1607d4427332de0b29d556f9dda13`
