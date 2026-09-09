@@ -16,6 +16,7 @@ The configuration is structured to be both modular and easy to navigate:
 - **`lua/plugins/`**: Contains modular Lua files, each defining one or more plugins and their configurations (e.g., `lsp.lua`, `treesitter.lua`, `snacks.lua`).
 - **`lua/config/`**: System-level and UI modules (`folding.lua`, `mksession.lua`, `neovide.lua`, etc.).
 - **`snippets/`**: Custom Lua-based snippets for multiple languages.
+- **`upstream_merge.md`**: Runbook for selectively translating upstream kickstart.nvim changes into this tree.
 
 ## Building and Running
 
