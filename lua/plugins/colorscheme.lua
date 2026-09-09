@@ -18,7 +18,7 @@
 local color_schemes = {
   ['tokyonight'] = {
     repo = 'folke/tokyonight.nvim',
-    config = { colorscheme = 'tokyonight' },
+    config = { colorscheme = 'tokyonight-night' },
   },
   ['catppuccin-latte'] = {
     repo = 'catppuccin/nvim',

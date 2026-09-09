@@ -1,3 +1,8 @@
+--- kickstart.nvim entry point: options, diagnostic/float defaults, keymaps,
+--- autocommands, and lazy.nvim setup that imports `lua/plugins/`.
+---
+--- Plugin specs live in `lua/plugins/`; system/UI modules in `lua/config/`.
+
 vim.loader.enable()
 
 -- Set <space> as the leader key
@@ -101,12 +106,16 @@ vim.opt.shell = 'zsh'
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Default border for floating windows (LSP hover, blink.cmp docs, diagnostics, etc.).
+-- See :help 'winborder'
+vim.o.winborder = 'single'
+
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {
   update_in_insert = false,
   severity_sort = true,
-  float = { border = 'rounded', source = 'if_many' },
+  float = { source = 'if_many' },
   underline = { severity = vim.diagnostic.severity.WARN },
 
   -- Can switch between these as you prefer
