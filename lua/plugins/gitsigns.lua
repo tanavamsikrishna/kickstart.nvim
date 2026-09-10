@@ -66,7 +66,12 @@ return {
         map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
         map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
         map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
-        map('n', '<leader>hi', gitsigns.preview_hunk_inline, { desc = 'git preview hunk [i]nline' })
+        map(
+          'n',
+          '<leader>hi',
+          gitsigns.preview_hunk_inline,
+          { desc = 'git preview hunk [i]nline' }
+        )
         map(
           'n',
           '<leader>hb',
@@ -105,7 +110,12 @@ return {
           gitsigns.toggle_word_diff,
           { desc = '[T]oggle git intra-line [w]ord diff' }
         )
-        map({ 'o', 'x' }, 'ih', gitsigns.select_hunk, { desc = 'text object [i]nside [h]unk' })
+        map(
+          { 'o', 'x' },
+          'ih',
+          gitsigns.select_hunk,
+          { desc = 'text object [i]nside [h]unk' }
+        )
       end,
     },
   },

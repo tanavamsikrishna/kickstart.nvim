@@ -43,7 +43,13 @@ local function show_diff(original_buf, s_row, e_row, original_lines, replacement
 
   local function apply_changes()
     if vim.api.nvim_buf_is_valid(original_buf) then
-      vim.api.nvim_buf_set_lines(original_buf, s_row, e_row + 1, false, replacement_lines)
+      vim.api.nvim_buf_set_lines(
+        original_buf,
+        s_row,
+        e_row + 1,
+        false,
+        replacement_lines
+      )
       vim.notify('Proofread: Changes applied', vim.log.levels.INFO)
     end
     close_diff()
@@ -52,11 +58,21 @@ local function show_diff(original_buf, s_row, e_row, original_lines, replacement
   -- Keymaps for both buffers
   for _, buf in ipairs { buf_orig, buf_new } do
     vim.keymap.set('n', 'q', close_diff, { buffer = buf, desc = 'Cancel proofread' })
-    vim.keymap.set('n', '<Esc>', close_diff, { buffer = buf, desc = 'Cancel proofread' })
+    vim.keymap.set(
+      'n',
+      '<Esc>',
+      close_diff,
+      { buffer = buf, desc = 'Cancel proofread' }
+    )
   end
 
   -- Apply only from the suggested buffer
-  vim.keymap.set('n', '<CR>', apply_changes, { buffer = buf_new, desc = 'Apply proofread changes' })
+  vim.keymap.set(
+    'n',
+    '<CR>',
+    apply_changes,
+    { buffer = buf_new, desc = 'Apply proofread changes' }
+  )
 
   vim.notify('Proofread: Press <CR> in the bottom window to apply', vim.log.levels.INFO)
 end
@@ -68,7 +84,8 @@ function M.proofread(opts)
   local s_row = opts.line1 - 1
   local e_row = opts.line2 - 1
 
-  local original_lines = vim.api.nvim_buf_get_lines(original_buf, s_row, e_row + 1, false)
+  local original_lines =
+    vim.api.nvim_buf_get_lines(original_buf, s_row, e_row + 1, false)
   local text = table.concat(original_lines, '\n')
 
   if text == '' then return end
@@ -91,7 +108,10 @@ function M.proofread(opts)
       if progress_handle then progress_handle:finish() end
 
       if obj.code ~= 0 then
-        vim.notify('Proofread failed: ' .. (obj.stderr or 'unknown error'), vim.log.levels.ERROR)
+        vim.notify(
+          'Proofread failed: ' .. (obj.stderr or 'unknown error'),
+          vim.log.levels.ERROR
+        )
         return
       end
 
@@ -102,7 +122,10 @@ function M.proofread(opts)
 
       local ok, decoded = pcall(vim.json.decode, obj.stdout)
       if not ok then
-        vim.notify('Failed to parse proofread output: ' .. obj.stdout, vim.log.levels.ERROR)
+        vim.notify(
+          'Failed to parse proofread output: ' .. obj.stdout,
+          vim.log.levels.ERROR
+        )
         return
       end
 

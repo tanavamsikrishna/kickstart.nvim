@@ -108,7 +108,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Default border for floating windows (LSP hover, blink.cmp docs, diagnostics, etc.).
 -- See :help 'winborder'
-vim.o.winborder = 'single'
+vim.o.winborder = 'rounded'
 
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
@@ -279,7 +279,9 @@ require('lazy').setup({
           },
         },
         opts = {},
-        config = function() require('luasnip.loaders.from_lua').load { paths = './snippets' } end,
+        config = function()
+          require('luasnip.loaders.from_lua').load { paths = './snippets' }
+        end,
       },
       -- 'folke/lazydev.nvim',
     },

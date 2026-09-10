@@ -27,13 +27,12 @@ return {
           custom = {
             layout = {
               backdrop = false,
-              width = 0.75,
               min_width = 50,
               max_width = 100,
               height = 0.75,
               min_height = 2,
               box = 'vertical',
-              border = not is_gui and 'rounded' or false,
+              border = 'rounded',
               title = '{title}',
               title_pos = 'center',
               { win = 'input', height = 1, border = 'rounded' },
@@ -58,7 +57,11 @@ return {
 
               -- Set the path to the system clipboard register
               vim.fn.setreg('+', path)
-              vim.notify('Copied path: ' .. path, vim.log.levels.INFO, { title = 'Snacks Picker' })
+              vim.notify(
+                'Copied path: ' .. path,
+                vim.log.levels.INFO,
+                { title = 'Snacks Picker' }
+              )
             end
           end,
         },

@@ -9,7 +9,10 @@ local check_version = function()
   local verstr = tostring(vim.version())
   if not vim.version.ge then
     vim.health.error(
-      string.format("Neovim out of date: '%s'. Upgrade to latest stable or nightly", verstr)
+      string.format(
+        "Neovim out of date: '%s'. Upgrade to latest stable or nightly",
+        verstr
+      )
     )
     return
   end
@@ -18,7 +21,10 @@ local check_version = function()
     vim.health.ok(string.format("Neovim version is: '%s'", verstr))
   else
     vim.health.error(
-      string.format("Neovim out of date: '%s'. Upgrade to latest stable or nightly", verstr)
+      string.format(
+        "Neovim out of date: '%s'. Upgrade to latest stable or nightly",
+        verstr
+      )
     )
   end
 end
