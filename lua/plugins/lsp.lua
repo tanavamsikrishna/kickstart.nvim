@@ -83,21 +83,21 @@ return {
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('grn', vim.lsp.buf.rename, 'Rename')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
+          map('gra', vim.lsp.buf.code_action, 'Goto Code Action', { 'n', 'x' })
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
-          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('grD', vim.lsp.buf.declaration, 'Goto Declaration')
 
           -- Find references for the word under your cursor.
           map(
             'grr',
             function() Snacks.picker.lsp_references() end,
-            '[G]oto [R]eferences'
+            'Goto References'
           )
 
           -- Jump to the implementation of the word under your cursor.
@@ -105,7 +105,7 @@ return {
           map(
             'gri',
             function() Snacks.picker.lsp_implementations() end,
-            '[G]oto [I]mplementation'
+            'Goto Implementation'
           )
 
           -- Jump to the definition of the word under your cursor.
@@ -114,7 +114,7 @@ return {
           map(
             'grd',
             function() Snacks.picker.lsp_definitions() end,
-            '[G]oto [D]efinition'
+            'Goto Definition'
           )
 
           -- Fuzzy find all the symbols in your current document.
@@ -122,7 +122,7 @@ return {
           map(
             'go',
             function() Snacks.picker.lsp_symbols() end,
-            '[G]oto [O]pen Document Symbols'
+            'Goto Open Document Symbols'
           )
 
           -- Fuzzy find all the symbols in your current workspace.
@@ -130,7 +130,7 @@ return {
           map(
             'gw',
             function() Snacks.picker.lsp_workspace_symbols() end,
-            '[G]oto [W]orkspace Symbols'
+            'Goto Workspace Symbols'
           )
 
           -- Jump to the type of the word under your cursor.
@@ -139,7 +139,7 @@ return {
           map(
             'grt',
             function() Snacks.picker.lsp_type_definitions() end,
-            '[G]oto [T]ype Definition'
+            'Goto Type Definition'
           )
 
           -- Showing & navigating diagnostics
@@ -147,7 +147,7 @@ return {
           map(
             '<leader>d',
             vim.diagnostic.open_float,
-            '[S]how [D]iagnostic on the current line'
+            'Show Diagnostic on the current line'
           )
           local function _jump_to_target_diagnostic(target_diagnostic)
             if target_diagnostic then
@@ -157,12 +157,12 @@ return {
           map(
             ']d',
             function() _jump_to_target_diagnostic(vim.diagnostic.get_next()) end,
-            '[N]ext [D]iagnostic'
+            'Next Diagnostic'
           )
           map(
             '[d',
             function() _jump_to_target_diagnostic(vim.diagnostic.get_prev()) end,
-            '[P]revious [D]iagnostic'
+            'Previous Diagnostic'
           )
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -179,7 +179,7 @@ return {
                   not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
                 )
               end,
-              '[T]oggle Inlay [H]ints'
+              'Toggle Inlay Hints'
             )
           end
         end,

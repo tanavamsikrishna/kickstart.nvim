@@ -138,7 +138,7 @@ vim.keymap.set(
   'n',
   '<leader>q',
   vim.diagnostic.setloclist,
-  { desc = 'Open diagnostic [Q]uickfix list' }
+  { desc = 'Open diagnostic Quickfix list' }
 )
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -238,9 +238,9 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
-        { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>s', group = 'Search', mode = { 'n', 'v' } },
+        { '<leader>t', group = 'Toggle' },
+        { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
         { 'gr', group = 'LSP Actions', mode = { 'n' } },
       },
     },

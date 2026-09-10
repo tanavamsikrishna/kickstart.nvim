@@ -1,11 +1,10 @@
---- Snacks.nvim: fuzzy picker (files, grep, buffers, help, diagnostics, …) plus quickfile.
+--- Snacks.nvim: fuzzy picker, floating file explorer, and LSP word references.
 ---
---- `<leader>s*` and related maps open pickers. `<leader>sn` follows symlinks
+--- `<leader>s*` and related maps open pickers. `\` toggles a centered 50%×80%
+--- explorer float; `|` reveals the current file. `]r`/`[r` jump among LSP
+--- references (auto-highlight in normal mode). `<leader>sn` follows symlinks
 --- under the Neovim config dir. `<A-y>` in the picker copies the selected path
---- relative to cwd. Matcher is non-fuzzy with smart-case. Custom vertical
---- layout; rounded border is skipped in GUI (Neovide).
-
-local is_gui = vim.fn.has 'gui_running' == 1
+--- relative to cwd. Matcher is non-fuzzy with smart-case.
 
 return {
   {
@@ -15,6 +14,8 @@ return {
     ---@type snacks.Config
     opts = {
       quickfile = {},
+      explorer = { replace_netrw = true, trash = true },
+      words = { debounce = 200, modes = { 'n' } },
       picker = {
         matcher = {
           fuzzy = false,
@@ -45,6 +46,36 @@ return {
           -- Cycle through custom layouts
           cycle = true,
           preset = 'custom',
+        },
+        sources = {
+          explorer = {
+            hidden = false,
+            exclude = { '__marimo__', '__pycache__', '*.egg-info' },
+            git_status = true,
+            auto_close = true,
+            -- Nested box with children skips the sidebar/custom presets.
+            -- `position = 'float'` keeps this an overlay, not a split.
+            layout = {
+              hidden = { 'preview' },
+              layout = {
+                backdrop = false,
+                position = 'float',
+                width = 0.5,
+                height = 0.8,
+                box = 'vertical',
+                border = 'rounded',
+                title = '{title} {live} {flags}',
+                title_pos = 'center',
+                { win = 'input', height = 1, border = 'bottom' },
+                { win = 'list', border = 'none' },
+              },
+            },
+            formatters = { file = { git_status_hl = true } },
+            icons = {
+              git = { enabled = false },
+              files = { dir = '', dir_open = '' },
+            },
+          },
         },
 
         -- 1. Create a global picker action to yank paths
@@ -79,69 +110,89 @@ return {
     },
     keys = {
       {
+        '\\',
+        function() require('snacks').explorer() end,
+        desc = 'Explorer toggle',
+      },
+      {
+        '|',
+        function() require('snacks').explorer.reveal() end,
+        desc = 'Explorer current file reveal',
+      },
+      {
+        ']r',
+        function() require('snacks').words.jump(vim.v.count1, true) end,
+        desc = 'Next reference',
+      },
+      {
+        '[r',
+        function() require('snacks').words.jump(-vim.v.count1, true) end,
+        desc = 'Previous reference',
+      },
+      {
         '<leader>sh',
         function() require('snacks').picker.help() end,
-        desc = '[S]earch [H]elp',
+        desc = 'Search Help',
       },
       {
         '<leader>sk',
         function() require('snacks').picker.keymaps() end,
-        desc = '[S]earch [K]eymaps',
+        desc = 'Search Keymaps',
       },
       {
         '<leader>sf',
         function() require('snacks').picker.files { hidden = true } end,
-        desc = '[S]earch for [F]iles',
+        desc = 'Search for Files',
       },
       {
         '<leader>ss',
         function() require('snacks').picker.pickers() end,
-        desc = '[S]earch [S]elect Picker',
+        desc = 'Search Select Picker',
       },
       {
         '<leader>sw',
         function() require('snacks').picker.grep_word() end,
-        desc = '[S]earch current [W]ord',
+        desc = 'Search current Word',
       },
       {
         '<leader>sg',
         function() require('snacks').picker.grep() end,
-        desc = '[S]earch by [G]rep',
+        desc = 'Search by Grep',
       },
       {
         '<leader>sd',
         function() require('snacks').picker.diagnostics() end,
-        desc = '[S]earch [D]iagnostics',
+        desc = 'Search Diagnostics',
       },
       {
         '<leader>sr',
         function() require('snacks').picker.resume() end,
-        desc = '[S]earch [R]esume',
+        desc = 'Search Resume',
       },
       {
         '<leader>s.',
         function() require('snacks').picker.recent() end,
-        desc = '[S]earch Recent Files ("." for repeat)',
+        desc = 'Search Recent Files ("." for repeat)',
       },
       {
         '<leader>sc',
         function() require('snacks').picker.commands() end,
-        desc = '[S]earch [C]ommands',
+        desc = 'Search Commands',
       },
       {
         '<leader><leader>',
         function() require('snacks').picker.buffers() end,
-        desc = '[ ] Find existing buffers',
+        desc = 'Find existing buffers',
       },
       {
         '<leader>/',
         function() require('snacks').picker.lines() end,
-        desc = '[/] Fuzzily search in current buffer',
+        desc = '/ Fuzzily search in current buffer',
       },
       {
         '<leader>s/',
         function() require('snacks').picker.grep { buffers = true } end,
-        desc = '[S]earch [/] in Open Files',
+        desc = 'Search / in Open Files',
       },
       {
         '<leader>sn',
@@ -151,7 +202,7 @@ return {
             follow = true,
           }
         end,
-        desc = '[S]earch [N]eovim files',
+        desc = 'Search Neovim files',
       },
     },
   },

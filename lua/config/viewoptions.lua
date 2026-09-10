@@ -1,3 +1,8 @@
+--- Persist and restore per-file cursor/fold views (`mkview` / `loadview`).
+---
+--- Skips invalid buffers, non-file buftypes (explorer, picker, help, terminal),
+--- and paths that no longer exist on disk (e.g. after trash/delete).
+
 local view_group = vim.api.nvim_create_augroup('AutoView', { clear = true })
 
 -- SAVE VIEW
@@ -6,14 +11,14 @@ vim.api.nvim_create_autocmd({ 'BufWinLeave', 'BufWritePost', 'WinLeave' }, {
   group = view_group,
   pattern = '?*', -- Optimization: Only triggers for files with names
   callback = function(args)
-    -- 1. VALIDITY CHECK (Crucial for nvim-tree)
-    -- This prevents the "Invalid buffer id" crash you just encountered.
+    -- 1. VALIDITY CHECK
+    -- Skip if the buffer was already wiped (e.g. explorer delete/trash).
     if not vim.api.nvim_buf_is_valid(args.buf) then return end
 
-    -- 2. Buftype Check (Don't save NvimTree/Telescope views)
+    -- 2. Buftype Check (Don't save explorer/picker/help/terminal views)
     if vim.bo[args.buf].buftype ~= '' then return end
 
-    -- 3. File Existence Check (Crucial for nvim-tree 'trash/delete')
+    -- 3. File Existence Check (Crucial for explorer trash/delete)
     -- If the file was just deleted, args.file still has the path, but it's not on disk.
     -- We must NOT try to save a view for a deleted file.
     if vim.fn.filereadable(args.file) == 0 then return end
