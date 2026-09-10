@@ -1,7 +1,8 @@
 --- Label-based jump and Treesitter selection (flash.nvim).
 ---
---- `<leader>fj` jump; `<leader>fs` Treesitter node select. Treesitter labels use
---- overlay style. Custom `FlashLabel` highlight is set in config.
+--- `<leader>f` is the which-key group (Flash). `<leader>fj` jump; `<leader>fs`
+--- Treesitter node select. Treesitter labels use overlay style. Custom
+--- `FlashLabel` highlight is set in config.
 
 ---@type Flash.Config
 local config_options = {
@@ -32,6 +33,7 @@ return {
   },
   config = function(_, opts)
     require('flash').setup(opts)
+    require('which-key').add { { '<leader>f', group = 'Flash' } }
     vim.api.nvim_set_hl(
       0,
       'FlashLabel',
