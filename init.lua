@@ -45,9 +45,6 @@ vim.keymap.set(
   { desc = 'Paste from system clipboard' }
 )
 
--- Enable break indent
-vim.o.breakindent = true
-
 -- Save undo history
 vim.o.undofile = true
 
