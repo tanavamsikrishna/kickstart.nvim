@@ -24,6 +24,14 @@ local color_schemes = {
     repo = 'catppuccin/nvim',
     config = { colorscheme = 'catppuccin-latte' },
   },
+  ['catppuccin-mocha'] = {
+    repo = 'catppuccin/nvim',
+    config = { colorscheme = 'catppuccin-mocha' },
+  },
+  ['catppuccin-nvim'] = {
+    repo = 'catppuccin/nvim',
+    config = { colorscheme = 'catppuccin-nvim' },
+  },
   ['gruvbox-classic'] = {
     repo = 'morhetz/gruvbox',
     config = { colorscheme = 'gruvbox' },
@@ -55,7 +63,7 @@ local color_schemes = {
     repo = 'lunacookies/vim-colors-xcode',
     config = { colorscheme = 'xcodelight' },
   },
-  modus_light = {
+  modus = {
     repo = 'miikanissi/modus-themes.nvim',
     config = {
       configfunc = function()
@@ -65,13 +73,15 @@ local color_schemes = {
             -- modus_operandi = 'tinted',
           },
         }
-        vim.cmd.colorscheme 'modus_operandi'
+        vim.cmd.colorscheme(
+          vim.o.background == 'dark' and 'modus_vivendi' or 'modus_operandi'
+        )
       end,
     },
   },
 }
 
-local selected_theme = 'tokyonight'
+local selected_theme = 'catppuccin-nvim'
 
 --[[ -- Fix UI issues
 vim.api.nvim_create_autocmd('ColorScheme', {
