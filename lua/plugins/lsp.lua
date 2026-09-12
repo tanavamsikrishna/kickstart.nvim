@@ -94,11 +94,7 @@ return {
           map('grD', vim.lsp.buf.declaration, 'Goto Declaration')
 
           -- Find references for the word under your cursor.
-          map(
-            'grr',
-            function() Snacks.picker.lsp_references() end,
-            'Goto References'
-          )
+          map('grr', function() Snacks.picker.lsp_references() end, 'Goto References')
 
           -- Jump to the implementation of the word under your cursor.
           -- Useful when your language has ways of declaring types without an actual implementation.
@@ -111,11 +107,7 @@ return {
           -- Jump to the definition of the word under your cursor.
           -- This is where a variable was first declared, or where a function is defined, etc.
           -- To jump back, press <C-t>.
-          map(
-            'grd',
-            function() Snacks.picker.lsp_definitions() end,
-            'Goto Definition'
-          )
+          map('grd', function() Snacks.picker.lsp_definitions() end, 'Goto Definition')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
