@@ -4,7 +4,7 @@
 
 return {
   'lukas-reineke/indent-blankline.nvim',
-  enabled = true,
+  enabled = false,
   main = 'ibl',
   opts = {
     scope = { enabled = false, show_start = false, show_end = false },
@@ -29,12 +29,6 @@ return {
     },
   },
   config = function(_, opts)
-    local hooks = require 'ibl.hooks'
-    hooks.register(
-      hooks.type.HIGHLIGHT_SETUP,
-      function() vim.api.nvim_set_hl(0, 'MyUniformIndentColor', { fg = 'grey80' }) end
-    )
-
     require('ibl').setup(opts)
   end,
 }

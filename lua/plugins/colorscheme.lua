@@ -41,6 +41,7 @@ local color_schemes = {
     repo = 'agudulin/vim-colors-alabaster',
     config = { colorscheme = 'alabaster' },
   },
+  alabaster3 = { repo = 'mcncl/alabaster.nvim', config = { colorscheme = 'alabaster' } },
   everforest = { repo = 'sainnhe/everforest', config = { colorscheme = 'everforest' } },
   github_light = {
     repo = 'projekt0n/github-nvim-theme',
@@ -86,7 +87,9 @@ local color_schemes = {
 }
 
 -- local selected_theme = 'catppuccin-nvim'
-local selected_theme = 'nofrils-dark'
+-- local selected_theme = 'nofrils-dark'
+local selected_theme = 'alabaster3'
+-- local selected_theme = 'vscode'
 
 --[[ -- Fix UI issues
 vim.api.nvim_create_autocmd('ColorScheme', {

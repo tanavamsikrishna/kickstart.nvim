@@ -1,6 +1,6 @@
 if vim.g.neovide then
-  --[[ -- Using config.toml to set the fonts
-  vim.o.guifont = 'MonaspiceNe Nerd Font Propo:h13' ]]
+  -- Using config.toml to set the fonts
+  -- vim.o.guifont = 'MonaspiceNe Nerd Font Propo:h13'
 
   vim.g.neovide_position_animation_length = 0.5
   vim.g.neovide_cursor_animation_length = 0.02

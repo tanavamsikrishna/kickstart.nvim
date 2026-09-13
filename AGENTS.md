@@ -25,7 +25,7 @@ The configuration is structured to be both modular and easy to navigate:
 - **Code Style**: Lua code is formatted using `stylua` (see `.stylua.toml`).
 - **Linting**: Lua files are linted using `luacheck` (see `.luacheckrc`).
 - **Modularity**: When adding new plugins, prefer creating a new file in `lua/plugins/` rather than modifying `init.lua`.
-- **Keymaps**: Custom keymaps generally use the `<leader>` key (mapped to `Space`).
+- **Keymaps**: Follow `keybindings.md`. `g` is go-to; `m` is modify; `/` is search pickers (`//` in-buffer search); commands use `<leader>` (Space).
 - **LSP Configuration**: Managed via `nvim-lspconfig` with `blink.cmp` for autocompletion. Add servers to `vim.lsp.enable` in `lua/plugins/lsp.lua`. Formatters live in `lua/plugins/conform.lua`; linters in `lua/plugins/lint.lua`. External tools are installed by machine manifests, not this repo.
 
 ## GUI Testing & Verification

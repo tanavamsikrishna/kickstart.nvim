@@ -51,7 +51,7 @@ Use `Applied: none` or `Skipped: none` when that list is empty.
 - Upstream through: `f7b845d8b6df409b0392ca117d092d5dffd2b538`
 - Applied:
   - Align gitsigns recommended keymaps with plugin defaults — `lua/plugins/gitsigns.lua`: `<leader>hD` diffs against `~` (was `@`), `<leader>hi` desc, `ih` textobject desc
-  - Follow symlinks when searching Neovim config files — `lua/plugins/snacks.lua` `<leader>sn` (`follow = true`)
+  - Follow symlinks when searching Neovim config files — `lua/plugins/snacks.lua` `/n` (`follow = true`)
 - Skipped:
   - GitHub issue templates, discussions links, and stylua CI — this tree has no `.github/`
   - README template-vs-fork guidance and Alpine install recipe — this tree's `Readme.md` is project-local variables, not the kickstart install guide

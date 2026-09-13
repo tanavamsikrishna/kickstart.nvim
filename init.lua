@@ -239,11 +239,21 @@ require('lazy').setup({
       delay = 500,
       icons = { mappings = vim.g.have_nerd_font },
 
+      -- Auto triggers skip single-letter builtins except g/z. `m` (set-mark)
+      -- and `/` (search) need explicit triggers. Not in operator-pending:
+      -- `d/foo` and `dma` stay Vim motions. See :h which-key.nvim.
+      triggers = {
+        { '<auto>', mode = 'nxso' },
+        { 'm', mode = { 'n', 'v' } },
+        { '/', mode = { 'n', 'v' } },
+      },
+
       -- Document existing key chains
       spec = {
-        { '<leader>s', group = 'Search', mode = { 'n', 'v' } },
+        { '/', group = 'Search', mode = { 'n', 'v' } },
         { '<leader>t', group = 'Toggle' },
         { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
+        { 'm', group = 'Modify', mode = { 'n', 'v' } },
       },
     },
   },

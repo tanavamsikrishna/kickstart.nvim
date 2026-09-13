@@ -1,13 +1,14 @@
 --- Language Server Protocol client: attach keymaps, capabilities, and server enablement.
 ---
 --- Two specs: optional `lazydev.nvim` for this config's Lua (gated by
---- `vim.g.lazydev_enabled`), and `nvim-lspconfig`. On `LspAttach`, maps
---- rename/code-action/definition/references/symbols/diagnostics/inlay-hints
---- (several go through Snacks pickers). Broadcasts blink.cmp capabilities and
---- enables the servers listed in this file. Python attaches both `ty` and
---- `ruff`; ruff's hover/completion server capabilities are cleared in
---- `vim.lsp.config('ruff')` so ty owns those. Virtual diagnostic text is off;
---- `<leader>d` opens the float.
+--- `vim.g.lazydev_enabled`), and `nvim-lspconfig`. Clears Neovim's global
+--- `gr*` LSP defaults so `gr` is a leaf (references), not a which-key prefix.
+--- On `LspAttach`, `g*` is go-to only (definition/references/symbols via
+--- Snacks pickers); rename and code action live on `m*` (modify). See
+--- `keybindings.md`. Broadcasts blink.cmp capabilities and enables the
+--- servers listed here. Python attaches both `ty` and `ruff`; ruff's
+--- hover/completion capabilities are cleared so ty owns those. Virtual
+--- diagnostic text is off; `<leader>d` opens the float.
 
 return {
   {
@@ -32,6 +33,15 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
+      -- Neovim 0.11+ maps gra/gri/grn/grr/grt/grx globally, which makes `gr`
+      -- a prefix. which-key then treats `gr` as a group instead of firing
+      -- our references map. Go-to lives on g* below; modify on m*.
+      -- See :help lsp-defaults-disable, :help gr-default, and keybindings.md.
+      pcall(vim.keymap.del, { 'n', 'x' }, 'gra')
+      for _, lhs in ipairs { 'gri', 'grn', 'grr', 'grt', 'grx' } do
+        pcall(vim.keymap.del, 'n', lhs)
+      end
+
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -81,18 +91,23 @@ return {
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('gn', vim.lsp.buf.rename, 'Rename')
+          map('mr', vim.lsp.buf.rename, 'Rename')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          map('ga', vim.lsp.buf.code_action, 'Goto Code Action', { 'n', 'x' })
+          map('ma', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
 
           -- Find references for the word under your cursor.
-          map('gr', function() Snacks.picker.lsp_references() end, 'Goto References')
+          -- nowait: if anything later remaps gr*, still fire this immediately.
+          vim.keymap.set('n', 'gr', function() Snacks.picker.lsp_references() end, {
+            buffer = event.buf,
+            desc = 'LSP: Goto References',
+            nowait = true,
+          })
 
           -- Jump to the implementation of the word under your cursor.
           -- Useful when your language has ways of declaring types without an actual implementation.
