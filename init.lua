@@ -111,7 +111,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Default border for floating windows (LSP hover, blink.cmp docs, diagnostics, etc.).
 -- See :help 'winborder'
-vim.o.winborder = 'rounded'
+vim.o.winborder = 'single'
 
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts

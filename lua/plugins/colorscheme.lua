@@ -81,8 +81,8 @@ local color_schemes = {
   },
 }
 
--- local selected_theme = 'catppuccin-nvim'
-local selected_theme = 'vscode'
+local selected_theme = 'catppuccin-nvim'
+-- local selected_theme = 'vscode'
 
 --[[ -- Fix UI issues
 vim.api.nvim_create_autocmd('ColorScheme', {
