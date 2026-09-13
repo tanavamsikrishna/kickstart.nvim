@@ -83,23 +83,23 @@ return {
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('grn', vim.lsp.buf.rename, 'Rename')
+          map('gn', vim.lsp.buf.rename, 'Rename')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          map('gra', vim.lsp.buf.code_action, 'Goto Code Action', { 'n', 'x' })
+          map('ga', vim.lsp.buf.code_action, 'Goto Code Action', { 'n', 'x' })
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
-          map('grD', vim.lsp.buf.declaration, 'Goto Declaration')
+          map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
 
           -- Find references for the word under your cursor.
-          map('grr', function() Snacks.picker.lsp_references() end, 'Goto References')
+          map('gr', function() Snacks.picker.lsp_references() end, 'Goto References')
 
           -- Jump to the implementation of the word under your cursor.
           -- Useful when your language has ways of declaring types without an actual implementation.
           map(
-            'gri',
+            'gi',
             function() Snacks.picker.lsp_implementations() end,
             'Goto Implementation'
           )
@@ -107,7 +107,7 @@ return {
           -- Jump to the definition of the word under your cursor.
           -- This is where a variable was first declared, or where a function is defined, etc.
           -- To jump back, press <C-t>.
-          map('grd', function() Snacks.picker.lsp_definitions() end, 'Goto Definition')
+          map('gd', function() Snacks.picker.lsp_definitions() end, 'Goto Definition')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
@@ -129,7 +129,7 @@ return {
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
           map(
-            'grt',
+            'gt',
             function() Snacks.picker.lsp_type_definitions() end,
             'Goto Type Definition'
           )
@@ -156,24 +156,6 @@ return {
             function() _jump_to_target_diagnostic(vim.diagnostic.get_prev()) end,
             'Previous Diagnostic'
           )
-
-          local client = vim.lsp.get_client_by_id(event.data.client_id)
-
-          -- The following code creates a keymap to toggle inlay hints in your
-          -- code, if the language server you are using supports them
-          --
-          -- This may be unwanted, since they displace some of your code
-          if client and client:supports_method('textDocument/inlayHint', event.buf) then
-            map(
-              '<leader>th',
-              function()
-                vim.lsp.inlay_hint.enable(
-                  not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
-                )
-              end,
-              'Toggle Inlay Hints'
-            )
-          end
         end,
       })
 

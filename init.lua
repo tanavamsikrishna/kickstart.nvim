@@ -244,7 +244,6 @@ require('lazy').setup({
         { '<leader>s', group = 'Search', mode = { 'n', 'v' } },
         { '<leader>t', group = 'Toggle' },
         { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
-        { 'gr', group = 'LSP Actions', mode = { 'n' } },
       },
     },
   },
@@ -450,8 +449,4 @@ require 'config.folding'
 require 'config.undotree'
 require 'config.proofread'
 require 'config.movement'
-
 -- require 'config._debug'
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
