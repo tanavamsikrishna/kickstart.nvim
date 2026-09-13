@@ -90,23 +90,10 @@ function M.proofread(opts)
 
   if text == '' then return end
 
-  -- Try to use fidget for a progress spinner if available
-  local progress_handle
-  local has_fidget, fidget_progress = pcall(require, 'fidget.progress')
-  if has_fidget then
-    progress_handle = fidget_progress.handle.create {
-      title = 'Proofread',
-      message = 'Requesting corrections...',
-      lsp_client = { name = 'LLM' },
-    }
-  else
-    vim.notify('Proofread: Requesting corrections...', vim.log.levels.INFO)
-  end
+  vim.notify('Proofread: Requesting corrections...', vim.log.levels.INFO)
 
   vim.system({ 'proofread.py' }, { stdin = text }, function(obj)
     vim.schedule(function()
-      if progress_handle then progress_handle:finish() end
-
       if obj.code ~= 0 then
         vim.notify(
           'Proofread failed: ' .. (obj.stderr or 'unknown error'),
