@@ -1,38 +1,28 @@
 -- Miscellaneous editor defaults that do not belong in a dedicated module.
 --
--- Responsibilities: window title (`Nvim <cwd-basename> <abbreviated-parent>`),
+-- Responsibilities: window title (`NVim <cwd-basename> (<parent path>)`),
 -- project-local `exrc`, wrap/linebreak for prose buffers, virtualedit, and
 -- command-line abbreviations. Not a plugin spec.
 
--- Window title: `Nvim <full-cwd-folder> <abbreviated-parent>`.
--- Parent under $HOME uses `~` and two-character path components; otherwise
--- the parent is the raw dirname. Home itself is `~`.
+-- Window title: `NVim <cwd-basename> (<parent path>)`.
+-- Parent under $HOME uses `~` with full path components; otherwise the parent
+-- is the raw dirname.
 vim.opt.title = true
-local function humanized_pwd()
+local function humanized_parent()
   local home = vim.env.HOME
-  local pwd = vim.fn.getcwd()
-  if home and pwd == home then return '~' end
-
-  local basename = vim.fs.basename(pwd)
-  local dirname = vim.fs.dirname(pwd)
-  if not home or not (dirname == home or vim.startswith(dirname, home .. '/')) then
-    return basename .. ' ' .. dirname
-  end
-
-  local parts = { '~' }
-  if dirname ~= home then
+  local dirname = vim.fs.dirname(vim.fn.getcwd())
+  if home and dirname == home then return '~' end
+  if home and vim.startswith(dirname, home .. '/') then
     local rel = vim.fs.relpath(home, dirname)
-    if rel and rel ~= '.' then
-      for _, component in
-        ipairs(vim.split(rel, '/', { plain = true, trimempty = true }))
-      do
-        parts[#parts + 1] = vim.fn.strcharpart(component, 0, 2)
-      end
-    end
+    if rel and rel ~= '.' then return '~/' .. rel end
+    return '~'
   end
-  return basename .. ' ' .. table.concat(parts, '/')
+  return dirname
 end
-vim.opt.titlestring = 'Nvim ' .. humanized_pwd()
+vim.opt.titlestring = vim.fs.basename(vim.fn.getcwd())
+  .. ' ('
+  .. humanized_parent()
+  .. ')'
 
 -- `exrc`
 vim.o.exrc = true
