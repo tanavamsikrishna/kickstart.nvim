@@ -49,6 +49,10 @@ local color_schemes = {
   gruvbox = { repo = 'ellisonleao/gruvbox.nvim', config = { colorscheme = 'gruvbox' } },
   koda = { repo = 'oskarnurm/koda.nvim', config = { colorscheme = 'koda' } },
   nofrils = { repo = 'robertmeta/nofrils', config = { colorscheme = 'nofrils-acme' } },
+  ['nofrils-dark'] = {
+    repo = 'robertmeta/nofrils',
+    config = { colorscheme = 'nofrils-dark' },
+  },
   selenized = { repo = 'calind/selenized.nvim', config = { colorscheme = 'selenized' } },
   solarized1 = {
     repo = 'altercation/vim-colors-solarized',
@@ -82,7 +86,7 @@ local color_schemes = {
 }
 
 -- local selected_theme = 'catppuccin-nvim'
-local selected_theme = 'vscode'
+local selected_theme = 'nofrils-dark'
 
 --[[ -- Fix UI issues
 vim.api.nvim_create_autocmd('ColorScheme', {
