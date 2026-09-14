@@ -115,6 +115,7 @@ Format is style, not a semantic edit, so it stays on `<localleader>`.
 | `/r` | Resume last picker |
 | `<leader>/` | Fuzzy lines in current buffer |
 | `<leader><leader>` | Buffers |
+| `<C-Tab>` | Buffers |
 
 ## Other `<leader>` groups
 

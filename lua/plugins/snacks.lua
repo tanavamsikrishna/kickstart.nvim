@@ -2,6 +2,7 @@
 ---
 --- `/*` opens pickers; `//` is Vim in-buffer search (`/` is a prefix). `\`
 --- toggles a centered 50%×80% explorer float; `|` reveals the current file.
+--- `<C-Tab>` opens the buffer picker.
 --- `]r`/`[r` jump among LSP references (auto-highlight in normal mode).
 --- `/n` follows symlinks under the Neovim config dir. `<A-y>` in the picker
 --- copies the selected path relative to cwd. Matcher is non-fuzzy with
@@ -22,6 +23,7 @@ return {
           fuzzy = false,
           ignore_case = true,
           smart_case = true,
+          frecency = true,
         },
         enabled = true,
         -- Define custom layouts
@@ -30,7 +32,7 @@ return {
             layout = {
               backdrop = false,
               min_width = 50,
-              max_width = 100,
+              max_width = 90,
               height = 0.75,
               min_height = 2,
               box = 'vertical',
@@ -187,8 +189,9 @@ return {
         desc = 'Search Commands',
       },
       {
-        '<leader><leader>',
+        '<C-Tab>',
         function() require('snacks').picker.buffers() end,
+        mode = { 'n', 'i' },
         desc = 'Find existing buffers',
       },
       {
