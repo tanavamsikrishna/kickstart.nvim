@@ -84,12 +84,22 @@ local color_schemes = {
       end,
     },
   },
+  bones = {
+    repo = 'zenbones-theme/zenbones.nvim',
+    dependencies = 'rktjmp/lush.nvim',
+    config = { colorscheme = 'neobones' },
+  },
+  hybrid = {
+    repo = 'w0ng/vim-hybrid',
+    config = { colorscheme = 'hybrid' },
+  },
 }
 
 -- local selected_theme = 'catppuccin-nvim'
 -- local selected_theme = 'nofrils-dark'
--- local selected_theme = 'alabaster3'
-local selected_theme = 'vscode'
+local selected_theme = 'alabaster3'
+-- local selected_theme = 'vscode'
+-- local selected_theme = 'bones'
 
 --[[ -- Fix UI issues
 vim.api.nvim_create_autocmd('ColorScheme', {
@@ -107,8 +117,10 @@ return {
   lazy = false,
   -- enabled = false,
   color_schemes[selected_theme].repo,
+  dependencies = color_schemes[selected_theme].dependencies,
   priority = 1000,
   config = function()
+    vim.o.termguicolors = true
     vim.o.background = 'dark'
     local config = color_schemes[selected_theme].config
     if config.configfunc ~= nil then
