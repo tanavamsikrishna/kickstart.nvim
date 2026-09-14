@@ -1,8 +1,8 @@
 --- Colorscheme catalog and the single theme actually installed at startup.
 ---
---- `color_schemes` lists available repos; `selected_theme` chooses which spec
---- lazy.nvim loads (`priority = 1000`). Currently `tokyonight` with a dark
---- background. Themes not selected are not installed.
+--- `color_schemes` lists available themes; `selected_theme` chooses which spec
+--- lazy.nvim loads (`priority = 1000`). A theme uses `repo` (GitHub) or `dir`
+--- (local path). Themes not selected are not installed.
 
 ---@class ColorSchemeName
 ---@field colorscheme string
@@ -11,7 +11,10 @@
 ---@field configfunc fun(): nil
 
 ---@class ColorScheme
----@field repo string
+---@field repo? string
+---@field dir? string
+---@field name? string
+---@field dependencies? string
 ---@field config ColorSchemeName | ConfigFunction
 
 ---@type table<string, ColorScheme>
@@ -42,6 +45,11 @@ local color_schemes = {
     config = { colorscheme = 'alabaster' },
   },
   alabaster3 = { repo = 'mcncl/alabaster.nvim', config = { colorscheme = 'alabaster' } },
+  alabaster_dark = {
+    dir = '/Users/vamsi/repo/alabaster-dark',
+    name = 'alabaster-dark',
+    config = { colorscheme = 'alabaster-dark' },
+  },
   everforest = { repo = 'sainnhe/everforest', config = { colorscheme = 'everforest' } },
   github_light = {
     repo = 'projekt0n/github-nvim-theme',
@@ -97,9 +105,10 @@ local color_schemes = {
 
 -- local selected_theme = 'catppuccin-nvim'
 -- local selected_theme = 'nofrils-dark'
-local selected_theme = 'alabaster3'
+-- local selected_theme = 'alabaster3'
 -- local selected_theme = 'vscode'
 -- local selected_theme = 'bones'
+local selected_theme = 'alabaster_dark'
 
 --[[ -- Fix UI issues
 vim.api.nvim_create_autocmd('ColorScheme', {
@@ -113,16 +122,18 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 
 -- vim.cmd.colorscheme 'habamax'
 
-return {
+local theme = color_schemes[selected_theme]
+local spec = {
+  dir = theme.dir,
+  name = theme.name,
   lazy = false,
   -- enabled = false,
-  color_schemes[selected_theme].repo,
-  dependencies = color_schemes[selected_theme].dependencies,
+  dependencies = theme.dependencies,
   priority = 1000,
   config = function()
     vim.o.termguicolors = true
     vim.o.background = 'dark'
-    local config = color_schemes[selected_theme].config
+    local config = theme.config
     if config.configfunc ~= nil then
       config.configfunc()
     else
@@ -130,3 +141,7 @@ return {
     end
   end,
 }
+if theme.repo then
+  spec[1] = theme.repo
+end
+return spec

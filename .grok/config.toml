@@ -1,0 +1,14 @@
+# Project-scoped Grok config: MCP servers, plugins, and permission rules
+# for this repo. Other settings load only from ~/.grok/config.toml.
+#
+# The neovim MCP talks to a running nvim over ./.nvim_socket so Grok can
+# inspect and drive the editor. Server names may only use letters, numbers,
+# hyphens, and underscores.
+
+[mcp_servers.neovim]
+command = "pnpx"
+args = ["mcp-neovim-server"]
+enabled = true
+
+[mcp_servers.neovim.env]
+NVIM_SOCKET_PATH = "./.nvim_socket"
