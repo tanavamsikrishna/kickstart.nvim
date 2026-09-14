@@ -2,7 +2,7 @@
 ---
 --- Two specs: optional `lazydev.nvim` for this config's Lua (gated by
 --- `vim.g.lazydev_enabled`), and `nvim-lspconfig`. Clears Neovim's global
---- `gr*` LSP defaults so `gr` is a leaf (references), not a which-key prefix.
+--- `gr*` LSP defaults so `gr` is a leaf (references), not a prefix.
 --- On `LspAttach`, `g*` is go-to only (definition/references/symbols via
 --- Snacks pickers); rename and code action live on `m*` (modify). See
 --- `keybindings.md`. Broadcasts blink.cmp capabilities and enables the
@@ -34,8 +34,8 @@ return {
     },
     config = function()
       -- Neovim 0.11+ maps gra/gri/grn/grr/grt/grx globally, which makes `gr`
-      -- a prefix. which-key then treats `gr` as a group instead of firing
-      -- our references map. Go-to lives on g* below; modify on m*.
+      -- a prefix instead of firing our references map. Go-to lives on g*
+      -- below; modify on m*.
       -- See :help lsp-defaults-disable, :help gr-default, and keybindings.md.
       pcall(vim.keymap.del, { 'n', 'x' }, 'gra')
       for _, lhs in ipairs { 'gri', 'grn', 'grr', 'grt', 'grx' } do

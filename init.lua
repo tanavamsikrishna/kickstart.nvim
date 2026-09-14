@@ -210,7 +210,7 @@ rtp:prepend(lazypath)
 --    :Lazy update
 --
 -- NOTE: Here is where you install your plugins.
-require('lazy').setup({
+require('lazy').setup {
   -- NOTE: Plugins can be added via a link or GitHub org/name. To run setup automatically, use `opts = {}`
   { 'NMAC427/guess-indent.nvim', opts = {} },
 
@@ -222,41 +222,11 @@ require('lazy').setup({
   -- For example, in the following configuration, we use:
   --  `event = 'VimEnter'`
   --
-  -- Which loads which-key before all the UI elements are loaded. Events can be
+  -- Which loads blink.cmp before all the UI elements are loaded. Events can be
   -- normal autocommands events (`:help autocmd-events`).
   --
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
-
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter',
-    ---@module 'which-key'
-    ---@type wk.Opts
-    ---@diagnostic disable-next-line: missing-fields
-    opts = {
-      -- Delay between pressing a key and opening which-key (milliseconds)
-      delay = 500,
-      icons = { mappings = vim.g.have_nerd_font },
-
-      -- Auto triggers skip single-letter builtins except g/z. `m` (set-mark)
-      -- and `/` (search) need explicit triggers. Not in operator-pending:
-      -- `d/foo` and `dma` stay Vim motions. See :h which-key.nvim.
-      triggers = {
-        { '<auto>', mode = 'nxso' },
-        { 'm', mode = { 'n', 'v' } },
-        { '/', mode = { 'n', 'v' } },
-      },
-
-      -- Document existing key chains
-      spec = {
-        { '/', group = 'Search', mode = { 'n', 'v' } },
-        { '<leader>t', group = 'Toggle' },
-        { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
-        { 'm', group = 'Modify', mode = { 'n', 'v' } },
-      },
-    },
-  },
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -426,28 +396,7 @@ require('lazy').setup({
   -- Or use your picker!
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last search
-}, {
-  ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
-  },
-  change_detection = { enabled = false },
-})
+}
 
 require 'config.delete_ext_file_bufs'
 require 'config.miscellaneous'

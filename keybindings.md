@@ -24,9 +24,7 @@ with the plugin or Vim: `ys`/`cs`/`ds` surround, `y`/`p` yank/put.
 
 Vim `m{letter}` (set mark) is unused here. `M` stays “cursor to middle of
 window.” Operator-pending `m` (e.g. `dma` delete-to-mark) is unmapped.
-which-key does not auto-trigger on single-letter builtins except `g`/`z`, so
-`m` and `/` are listed in `opts.triggers` as well as `spec`. Not in
-operator-pending: `d/foo` and `dma` stay Vim motions.
+`d/foo` and `dma` stay Vim motions.
 
 ## Rules
 
@@ -40,13 +38,11 @@ operator-pending: `d/foo` and `dma` stay Vim motions.
    add `<leader>v*` maps later.
 4. **Prefer an existing group.** `/` search pickers, `<leader>h` git hunk,
    `<leader>t` toggle. Semantic edits go under `m`, not a new `<leader>`
-   cluster. A new `<leader>` letter needs a which-key `group` if it will have
-   more than one map.
-5. **which-key groups exist only for real prefixes.** Do not invent a group
-   whose only member is a command you wanted as a two-key chord.
-6. **Always set `desc`.** Buffer-local for LSP and git-hunk maps.
-7. **`nowait` on a leaf that used to be a prefix** (or might become one).
-8. **Before adding a map:** `:verbose nmap <keys>`, `/k` (keymap picker),
+   cluster. A new `<leader>` letter is a prefix only if it will have more
+   than one map.
+5. **Always set `desc`.** Buffer-local for LSP and git-hunk maps.
+6. **`nowait` on a leaf that used to be a prefix** (or might become one).
+7. **Before adding a map:** `:verbose nmap <keys>`, `/k` (keymap picker),
    and the tables below. Do not override a builtin unless the spec already
    accepts that trade.
 
@@ -101,7 +97,7 @@ Format is style, not a semantic edit, so it stays on `<localleader>`.
 
 `/` is the picker family. `//` is Vim forward search in the current buffer
 (`noremap` to the builtin). `?` stays backward search. Operator-pending `/`
-(`d/foo`) is not a which-key trigger.
+(`d/foo`) stays Vim search.
 
 | Keys | Action |
 | --- | --- |
@@ -165,4 +161,3 @@ Format is style, not a semantic edit, so it stays on `<localleader>`.
    this file first, then the Lua.
 3. Check collisions (`:verbose nmap`, `/k`, this file).
 4. Set `desc`. LSP/git: `{ buffer = ... }`. Leaf-vs-prefix: `nowait` if needed.
-5. If you create a new `<leader>` cluster, register a which-key `group`.
