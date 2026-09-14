@@ -189,6 +189,12 @@ return {
         desc = 'Search Commands',
       },
       {
+        '<leader><leader>',
+        function() require('snacks').picker.buffers() end,
+        mode = { 'n', 'i' },
+        desc = 'Find existing buffers',
+      },
+      {
         '<C-Tab>',
         function() require('snacks').picker.buffers() end,
         mode = { 'n', 'i' },
