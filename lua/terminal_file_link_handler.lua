@@ -1,3 +1,6 @@
+-- Open a file (and optional line) in this Neovim instance from a terminal
+-- hyperlink click. After the edit, `:Focus` activates the host window.
+
 local M = {}
 
 --- @param value string
@@ -40,7 +43,7 @@ function M.open_file(pwd, full_file_path, whole_line, line)
     row, col = parse_line(pwd, full_file_path, whole_line)
   end
   vim.fn.cursor(row, col)
-  if vim.g.neovide then vim.api.nvim_cmd({ cmd = 'NeovideFocus' }, {}) end
+  vim.api.nvim_cmd({ cmd = 'Focus' }, {})
 end
 
 return M

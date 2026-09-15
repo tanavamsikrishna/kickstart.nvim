@@ -112,8 +112,7 @@ search. Operator-pending `j` (`dj`, `mc3j`) stays a motion.
 | `jd` | Diagnostics |
 | `js` | Select picker |
 | `jr` | Resume last picker |
-| `<leader><leader>` | Buffers |
-| `<C-Tab>` | Buffers |
+| `jb` | Buffers |
 
 ## Other `<leader>` groups
 

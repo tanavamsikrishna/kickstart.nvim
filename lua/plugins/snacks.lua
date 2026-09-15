@@ -2,7 +2,7 @@
 ---
 --- `j*` opens pickers (`j` = jump with picker). `/` and `?` are Vim search.
 --- `\` toggles a centered 50%×80% explorer float; `|` reveals the current file.
---- `<C-Tab>` opens the buffer picker.
+--- `jb` opens the buffer picker.
 --- `]r`/`[r` jump among LSP references (auto-highlight in normal mode).
 --- `jn` follows symlinks under the Neovim config dir. `<A-y>` in the picker
 --- copies the selected path relative to cwd. Matcher is non-fuzzy with
@@ -183,15 +183,8 @@ return {
         desc = 'Search Commands',
       },
       {
-        '<leader><leader>',
+        'jb',
         function() require('snacks').picker.buffers() end,
-        mode = { 'n', 'i' },
-        desc = 'Find existing buffers',
-      },
-      {
-        '<C-Tab>',
-        function() require('snacks').picker.buffers() end,
-        mode = { 'n', 'i' },
         desc = 'Find existing buffers',
       },
       {
