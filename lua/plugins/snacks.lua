@@ -1,10 +1,10 @@
 --- Snacks.nvim: fuzzy picker, floating file explorer, and LSP word references.
 ---
---- `/*` opens pickers; `//` is Vim in-buffer search (`/` is a prefix). `\`
---- toggles a centered 50%×80% explorer float; `|` reveals the current file.
+--- `j*` opens pickers (`j` = jump with picker). `/` and `?` are Vim search.
+--- `\` toggles a centered 50%×80% explorer float; `|` reveals the current file.
 --- `<C-Tab>` opens the buffer picker.
 --- `]r`/`[r` jump among LSP references (auto-highlight in normal mode).
---- `/n` follows symlinks under the Neovim config dir. `<A-y>` in the picker
+--- `jn` follows symlinks under the Neovim config dir. `<A-y>` in the picker
 --- copies the selected path relative to cwd. Matcher is non-fuzzy with
 --- smart-case.
 
@@ -133,58 +133,52 @@ return {
         desc = 'Previous reference',
       },
       {
-        '//',
-        '/',
-        mode = { 'n', 'x' },
-        desc = 'Search in buffer',
-      },
-      {
-        '/h',
+        'jh',
         function() require('snacks').picker.help() end,
         desc = 'Search Help',
       },
       {
-        '/k',
+        'jk',
         function() require('snacks').picker.keymaps() end,
         desc = 'Search Keymaps',
       },
       {
-        '/f',
+        'jf',
         function() require('snacks').picker.files { hidden = true } end,
         desc = 'Search for Files',
       },
       {
-        '/s',
+        'js',
         function() require('snacks').picker.pickers() end,
         desc = 'Search Select Picker',
       },
       {
-        '/w',
+        'jw',
         function() require('snacks').picker.grep_word() end,
         desc = 'Search current Word',
       },
       {
-        '/g',
+        'jg',
         function() require('snacks').picker.grep() end,
         desc = 'Search by Grep',
       },
       {
-        '/d',
+        'jd',
         function() require('snacks').picker.diagnostics() end,
         desc = 'Search Diagnostics',
       },
       {
-        '/r',
+        'jr',
         function() require('snacks').picker.resume() end,
         desc = 'Search Resume',
       },
       {
-        '/.',
+        'j.',
         function() require('snacks').picker.recent() end,
         desc = 'Search Recent Files ("." for repeat)',
       },
       {
-        '/c',
+        'jc',
         function() require('snacks').picker.commands() end,
         desc = 'Search Commands',
       },
@@ -201,12 +195,7 @@ return {
         desc = 'Find existing buffers',
       },
       {
-        '<leader>/',
-        function() require('snacks').picker.lines() end,
-        desc = '/ Fuzzily search in current buffer',
-      },
-      {
-        '/n',
+        'jn',
         function()
           require('snacks').picker.files {
             cwd = vim.fn.stdpath 'config',

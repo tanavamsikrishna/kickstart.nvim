@@ -12,19 +12,19 @@ meanings; new maps must fit those meanings.
 | --- | --- | --- |
 | `g` | go to | Jump to a location or pick a symbol to jump to |
 | `m` | modify | Semantic edits: comment, rename, code action, extract, … |
+| `j` | jump (with picker) | Snacks pickers: files, grep, help, keymaps, … |
 | `[` / `]` | prev / next | Adjacent instance of the same thing (diagnostic, hunk, reference, textobject) |
-| `/` | search | Snacks pickers: files, grep, help, keymaps, … |
-| `//` | search in buffer | Vim forward search |
 | `<leader>` (`Space`) | command | Git, debug, toggles, diagnostics |
 | `<localleader>` (`,`) | this buffer | Format, copy path / context |
 | `F1`–`F7` | debugger | Session control (continue, step, UI) |
 
-`g` and `m` are parallel single-letter prefixes. Other operator grammar stays
-with the plugin or Vim: `ys`/`cs`/`ds` surround, `y`/`p` yank/put.
+`g`, `m`, and `j` are parallel single-letter prefixes. Other operator grammar
+stays with the plugin or Vim: `ys`/`cs`/`ds` surround, `y`/`p` yank/put.
 
 Vim `m{letter}` (set mark) is unused here. `M` stays “cursor to middle of
 window.” Operator-pending `m` (e.g. `dma` delete-to-mark) is unmapped.
-`d/foo` and `dma` stay Vim motions.
+Normal-mode `j` (line down) is unused; arrows still move. `J` stays join.
+`/` and `?` stay Vim search. `d/foo`, `dj`, and `dma` stay Vim motions.
 
 ## Rules
 
@@ -34,15 +34,15 @@ window.” Operator-pending `m` (e.g. `dma` delete-to-mark) is unmapped.
 3. **A key is either a leaf or a prefix, never both.** Mapping `gr` as
    references forbids `gra`/`grr`/…. Mapping `ma` as code action forbids
    `ma*` maps. `mc`/`mb` *are* prefixes (comment operators + `mcc`/`mbc`).
-   `/` is a prefix (`//` is in-buffer search). `<leader>v` is a leaf: do not
-   add `<leader>v*` maps later.
-4. **Prefer an existing group.** `/` search pickers, `<leader>h` git hunk,
+   `j` is a prefix (do not map `j` itself). `/` is a leaf (Vim search).
+   `<leader>v` is a leaf: do not add `<leader>v*` maps later.
+4. **Prefer an existing group.** `j` pickers, `<leader>h` git hunk,
    `<leader>t` toggle. Semantic edits go under `m`, not a new `<leader>`
    cluster. A new `<leader>` letter is a prefix only if it will have more
    than one map.
 5. **Always set `desc`.** Buffer-local for LSP and git-hunk maps.
 6. **`nowait` on a leaf that used to be a prefix** (or might become one).
-7. **Before adding a map:** `:verbose nmap <keys>`, `/k` (keymap picker),
+7. **Before adding a map:** `:verbose nmap <keys>`, `jk` (keymap picker),
    and the tables below. Do not override a builtin unless the spec already
    accepts that trade.
 
@@ -93,27 +93,25 @@ go here (`me`, …).
 
 Format is style, not a semantic edit, so it stays on `<localleader>`.
 
-## Search (`/`)
+## Jump with picker (`j`)
 
-`/` is the picker family. `//` is Vim forward search in the current buffer
-(`noremap` to the builtin). `?` stays backward search. Operator-pending `/`
-(`d/foo`) stays Vim search.
+`j` is the picker family. Not every map is a literal jump (help, keymaps,
+resume). Precise go-to (definition, flash) stays on `g`. `/` and `?` are Vim
+search. Operator-pending `j` (`dj`, `mc3j`) stays a motion.
 
 | Keys | Action |
 | --- | --- |
-| `//` | Vim search in buffer (`n`, `x`) |
-| `/f` | Files |
-| `/g` | Grep |
-| `/w` | Grep word |
-| `/.` | Recent files |
-| `/n` | Neovim config files |
-| `/h` | Help |
-| `/k` | Keymaps |
-| `/c` | Commands |
-| `/d` | Diagnostics |
-| `/s` | Select picker |
-| `/r` | Resume last picker |
-| `<leader>/` | Fuzzy lines in current buffer |
+| `jf` | Files |
+| `jg` | Grep |
+| `jw` | Grep word |
+| `j.` | Recent files |
+| `jn` | Neovim config files |
+| `jh` | Help |
+| `jk` | Keymaps |
+| `jc` | Commands |
+| `jd` | Diagnostics |
+| `js` | Select picker |
+| `jr` | Resume last picker |
 | `<leader><leader>` | Buffers |
 | `<C-Tab>` | Buffers |
 
@@ -154,11 +152,11 @@ Format is style, not a semantic edit, so it stays on `<localleader>`.
 
 ## Adding a map
 
-1. Classify it: go-to, modify, search, prev/next, command, this-buffer,
-   operator, debugger. Semantic edits (including comments): `m`. Jumps: `g`.
-   Pickers: `/` (`//` in-buffer). Syntax-node visual: `<leader>v` (not a
-   `v…` chord).
+1. Classify it: go-to, modify, jump-with-picker, prev/next, command,
+   this-buffer, operator, debugger. Semantic edits (including comments): `m`.
+   Jumps to a target: `g`. Pickers: `j`. In-buffer search: `/`/`?`.
+   Syntax-node visual: `<leader>v` (not a `v…` chord).
 2. Pick the prefix for that class. If none fits, that is a design change — edit
    this file first, then the Lua.
-3. Check collisions (`:verbose nmap`, `/k`, this file).
+3. Check collisions (`:verbose nmap`, `jk`, this file).
 4. Set `desc`. LSP/git: `{ buffer = ... }`. Leaf-vs-prefix: `nowait` if needed.
