@@ -211,7 +211,8 @@ rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup {
-  -- NOTE: Plugins can be added via a link or GitHub org/name. To run setup automatically, use `opts = {}`
+  -- NOTE: Plugins can be added via a link or GitHub org/name.
+  -- To run setup automatically, use `opts = {}`
   { 'NMAC427/guess-indent.nvim', opts = {} },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -392,8 +393,8 @@ require('lazy').setup {
 
   { import = 'plugins' },
   --
-  -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
-  -- Or use your picker!
+  -- For additional information with loading, sourcing and examples
+  -- See `:help lazy.nvim-🔌-plugin-spec` or use your picker!
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last search
 }
