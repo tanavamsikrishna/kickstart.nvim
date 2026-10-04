@@ -181,6 +181,7 @@ return {
       vim.lsp.config('*', { capabilities = capabilities })
       -- ty owns Python hover and completion; ruff still lints and offers code actions.
       vim.lsp.config('ruff', {
+        ---@param client vim.lsp.Client
         on_init = function(client)
           client.server_capabilities.hoverProvider = false
           client.server_capabilities.completionProvider = nil
