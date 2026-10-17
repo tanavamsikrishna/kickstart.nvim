@@ -46,6 +46,14 @@ per upstream commit.
 
 Use `Applied: none` or `Skipped: none` when that list is empty.
 
+### 2026-10-17 — treesitter buffer validity
+
+- Upstream through: `8e35dbedb7966e3a95e1f26f9fc1179ab6c68db4`
+- Applied: none
+- Skipped:
+  - Guard Treesitter attach when a buffer is wiped during async parser install — already present in `lua/plugins/treesitter.lua`: validity is checked before install and again after `ts.install`, before `vim.treesitter.start` and indent. Upstream later moved that guard to before `language.add` so a wiped buffer skips loading the parser; `language.add` does not use the buffer, so this tree still loads it.
+  - EmmyLua spacing in upstream `init.lua` (doc-comment space, `(string | vim.pack.Spec)`) — this tree has no `gh()` helper and does not install Telescope through `vim.pack`
+
 ### 2026-09-09 — gitsigns keymaps and config picker follow
 
 - Upstream through: `f7b845d8b6df409b0392ca117d092d5dffd2b538`
