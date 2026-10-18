@@ -1,31 +1,35 @@
 # Merging changes from upstream master
 
-Runbook and decision log for pulling `nvim-lua/kickstart.nvim` (`upstream`) into
-this fork (`origin`). "Merging" here means fetching `upstream` and translating
-chosen changes into this tree — not a git merge or a cherry-pick. This fork's
-layout (`lua/plugins/`, `lua/config/`) does not match the upstream template, so
-each accepted change is ported by intent.
+Runbook and decision log for pulling `nvim-lua/kickstart.nvim` (`upstream`)
+into this fork (`origin`).
 
-Skipping is normal. When in doubt, ask. Every decision (applied or skipped) is
-recorded in the Log. Advance **Upstream through** to current `master@upstream`
-only when that review is complete.
+Port chosen changes into this tree by intent. Layouts differ (`lua/plugins/`
+and `lua/config/` vs the upstream template), so do not cherry-pick or
+content-merge. Skip freely. When in doubt, ask. Record every decision in the
+Log, and advance **Upstream through** to current `master@upstream` only when
+the review is done.
 
-Workspace mechanics live in `scripts/upstream_merge.nu`
-(`nu scripts/upstream_merge.nu --help`).
+`finish` then writes one merge commit: first parent is the previous origin
+tip, second parent is `master@upstream`, tree is ours. Git does not choose
+hunks. Do not `git merge` or `jj new` the two masters yourself. Mechanics:
+`nu scripts/upstream_merge.nu`.
 
 ## Process
 
 1. Read the latest **Upstream through** value from the Log (newest entry first).
 2. `nu scripts/upstream_merge.nu prepare`
-3. Present the pending changes (the upstream tree since the last merge) to the
-   human, grouped by theme, with a recommended action (apply / skip / already
-   present). Ask when unsure. Reprint with `nu scripts/upstream_merge.nu status`
-   if needed.
-4. Translate each accepted change into this tree. Do not cherry-pick upstream
-   commits; commits are not the unit of work.
-5. When the merge is complete, prepend a Log entry whose **Upstream through** is
-   the full git id of current `master@upstream`, listing applied and skipped
-   changes. Then `nu scripts/upstream_merge.nu finish`.
+3. Present pending changes, grouped by theme, with a recommended action
+   (apply / skip / already present). Ask when unsure. Reprint with
+   `nu scripts/upstream_merge.nu status`.
+4. Port accepted changes into this tree.
+5. Prepend a Log entry whose **Upstream through** is the full git id of
+   current `master@upstream`. Then `nu scripts/upstream_merge.nu finish`.
+
+`finish` refuses until the Log pointer equals `master@upstream`. If that
+commit is already an ancestor, it does not add a parent. If the Log already
+matches, the working copy is empty, and upstream is not yet an ancestor,
+`finish` records the merge with no tree change and no new Log entry. An empty
+working copy is otherwise refused.
 
 ## Log
 

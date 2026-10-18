@@ -1,11 +1,10 @@
 #!/usr/bin/env nu
 
-# Mechanical workspace steps for the upstream kickstart.nvim merge runbook
-# (`upstream_merge.md`).
+# Mechanical steps for the upstream merge runbook (`upstream_merge.md`).
 #
-# Parses the Log pointer, fetches, lists pending changes since the last
-# merge, and after a completed review describes/moves/pushes. Does not
-# choose or apply changes.
+# Fetches upstream and lists pending changes. After a completed review,
+# records `master@upstream` as a second parent while keeping this tree,
+# then moves `master` and pushes. Does not choose or port changes.
 
 const LOG_REL = 'upstream_merge.md'
 const POINTER_RE = 'Upstream through: `(?P<hash>[0-9a-f]{40})`'
@@ -53,6 +52,56 @@ def wc-is-empty [] {
   (jj-out log -r '@' --no-graph -T 'empty' | str trim) == 'true'
 }
 
+def parent-ids [] {
+  jj-out log -r 'parents(@)' --no-graph -T 'commit_id ++ "\n"' | lines | compact
+}
+
+def upstream-is-ancestor [rev: string] {
+  let span = (jj-out log -r $"master@upstream::($rev)" --no-graph -T 'commit_id' | str trim)
+  not ($span | is-empty)
+}
+
+# `@` is the bad merge. Put the working copy back on `port` and drop the merge.
+def undo-merge [port: string] {
+  let bad = (jj-out log -r @ --no-graph -T 'change_id' | str trim)
+  ^jj edit $port
+  ^jj abandon $bad
+}
+
+# Second parent = `master@upstream`, tree = `port`. No-op if already an ancestor.
+def record-upstream-parent [port: string] {
+  if (upstream-is-ancestor '@') {
+    return
+  }
+  let parents = (parent-ids)
+  if ($parents | length) != 1 {
+    error make { msg: 'Working copy must have one parent before recording upstream' }
+  }
+  let first = ($parents | first)
+
+  print 'Recording master@upstream as a second parent; keeping our tree'
+  ^jj new $first 'master@upstream'
+  let restored = (^jj restore --from $port | complete)
+  if $restored.exit_code != 0 {
+    undo-merge $port
+    let err = ($restored.stderr | str trim)
+    error make { msg: (if ($err | is-empty) { 'jj restore failed' } else { $err }) }
+  }
+
+  let conflict = (jj-out log -r @ --no-graph -T 'conflict' | str trim) == 'true'
+  let drifted = (jj-out diff --from $port --to @ --name-only | lines | compact | is-empty) == false
+  let after = (parent-ids)
+  let parents_ok = if ($after | length) == 2 {
+    ($after | first) == $first and ($after | get 1) == (rev-id 'master@upstream')
+  } else {
+    false
+  }
+  if $conflict or $drifted or not $parents_ok {
+    undo-merge $port
+    error make { msg: 'Merge did not keep our tree and parent order; restored the previous change' }
+  }
+}
+
 # Fail unless `master` is an ancestor of the working copy.
 def ensure-on-master [] {
   let span = (jj-out log -r 'master::@' --no-graph -T 'commit_id ++ "\n"' | str trim)
@@ -64,7 +113,7 @@ def ensure-on-master [] {
   }
 }
 
-# Print the pending upstream changes since the last merge (diff, not commits).
+# Print the pending upstream diff since the last review.
 def print-pending [] {
   let pointer = (latest-pointer)
   let head = (rev-id 'master@upstream')
@@ -83,10 +132,7 @@ def print-pending [] {
   print (jj-out diff --from $pointer --to 'master@upstream' | str trim)
 }
 
-# Fetch `upstream` and print pending changes since the last merge.
-#
-# Requires an empty working copy whose ancestors include `master`. Refuses a
-# dirty `@`. Does not apply diffs, update the Log, or push.
+# Fetch `upstream` and print pending changes. Requires an empty `@` on `master`.
 def "main prepare" [] {
   ensure-on-master
   if not (wc-is-empty) {
@@ -102,102 +148,85 @@ def "main prepare" [] {
   print ''
   print-pending
   print ''
-  print 'Translate accepted changes into this tree. Do not cherry-pick.'
-  print 'When in doubt, ask. Record applied and skipped changes in the Log.'
-  print 'When the merge is complete:'
-  print '  nu scripts/upstream_merge.nu finish'
+  print 'Port accepted changes into this tree. Do not cherry-pick or content-merge.'
+  print 'Then record them in the Log and run: nu scripts/upstream_merge.nu finish'
 }
 
-# Reprint pending changes since the last merge. Does not fetch or change the repo.
+# Reprint pending changes. Does not fetch or change the repo.
 def "main status" [] {
   print-pending
 }
 
-# Describe `@`, move `master`, and push after a completed Log update.
+# Record `master@upstream` as a second parent, move `master`, and push.
 #
-# Requires `@` nonempty, `upstream_merge.md` in the change, and the latest
-# **Upstream through** hash equal to `master@upstream`. Then describes `@`
-# (unless already set, or `--message` is passed), moves `master` to `@`,
-# starts a new empty working copy, and pushes `origin` (unless `--no-push`).
+# The Log pointer must equal `master@upstream`. `@` must change
+# `upstream_merge.md`, unless it is empty and upstream is not yet an ancestor
+# (ancestry only; no new Log entry). Tree stays ours. Flags: --no-push, -m.
 def "main finish" [
   --no-push # Move `master` locally but do not push `origin`
-  --message (-m): string = '' # Working-copy description; default is generated from the Log pointer
+  --message (-m): string = '' # Commit description; default is generated from the Log pointer
 ] {
   ensure-on-master
-  if (wc-is-empty) {
-    error make {
-      msg: 'Working copy is empty; expected a Log update and any ported changes'
-    }
-  }
-
-  let changed = (
-    jj-out diff --from '@-' --to '@' --name-only
-    | lines
-    | compact
-  )
-  if not ($LOG_REL in $changed) {
-    error make {
-      msg: $"($LOG_REL) is not part of the working-copy change"
-      help: 'Prepend a Log entry with decisions before finishing.'
-    }
-  }
 
   let pointer = (latest-pointer)
   let head = (rev-id 'master@upstream')
   if $pointer != $head {
     error make {
       msg: 'Log pointer does not match master@upstream'
-      help: $"Log has ($pointer); upstream HEAD is ($head). Advance Upstream through only when the merge is complete."
+      help: $"Log has ($pointer); upstream HEAD is ($head). Advance Upstream through only when the review is complete."
+    }
+  }
+
+  let ancestry_only = (wc-is-empty)
+  if $ancestry_only {
+    if (upstream-is-ancestor '@') {
+      error make { msg: 'Working copy is empty and master@upstream is already an ancestor' }
+    }
+  } else {
+    let changed = (jj-out diff --from '@-' --to '@' --name-only | lines | compact)
+    if not ($LOG_REL in $changed) {
+      error make {
+        msg: $"($LOG_REL) is not part of the working-copy change"
+        help: 'Prepend a Log entry with decisions before finishing.'
+      }
     }
   }
 
   let short = (jj-out log -r $pointer --no-graph -T 'commit_id.short()' | str trim)
-  let description = (
-    if ($message | is-not-empty) {
-      $message
-    } else {
-      let current = (jj-out log -r '@' --no-graph -T 'description' | str trim)
-      if ($current | is-not-empty) {
-        $current
-      } else {
-        $"Port selected upstream kickstart.nvim changes through ($short)"
-      }
-    }
-  )
+  let current = (jj-out log -r '@' --no-graph -T 'description' | str trim)
+  let description = if ($message | is-not-empty) {
+    $message
+  } else if ($current | is-not-empty) {
+    $current
+  } else if $ancestry_only {
+    $"Record upstream ancestry through ($short)"
+  } else {
+    $"Port selected upstream kickstart.nvim changes through ($short)"
+  }
+
+  let port = (rev-id '@')
+  record-upstream-parent $port
   print $"Describing @ as: ($description)"
   ^jj describe -m $description
-
   print $"Moving master -> ($short)"
   ^jj bookmark move master --to '@'
+  if $port != (rev-id '@') {
+    ^jj abandon $port
+  }
 
   print 'Starting a new empty working copy on master'
   ^jj new
-
   if $no_push {
     print 'Skipping push (--no-push)'
     return
   }
-
   print 'Pushing origin/master'
   ^jj git push --remote origin --bookmark master
 }
 
-# Mechanical helper for the upstream kickstart.nvim merge in `upstream_merge.md`.
-#
-# Intent: parse the Log pointer, fetch, list pending changes since the last
-# merge, and after a completed review describe / move `master` / push. Does
-# not choose, port, or cherry-pick changes — that is a human/agent
-# translation recorded in the Log. Commits are a cursor, not the unit of work.
-#
-# Commands:
-#   prepare  Empty working copy on `master`, fetch `upstream`, print pending
-#            changes since the last merge. Default if no subcommand.
-#   status   Reprint those pending changes without fetching or changing the repo.
-#   finish   Require a Log entry whose pointer equals `master@upstream`, then
-#            describe `@`, move `master`, start a new empty change, push
-#            `origin`. Flags: --no-push, -m/--message.
-#
-# Decision log and process: `upstream_merge.md`.
+# Fetch upstream, list pending changes, and after review record upstream as a
+# second parent while keeping this tree. Does not choose or port changes.
+# Decision log: `upstream_merge.md`.
 def main [] {
   main prepare
 }
