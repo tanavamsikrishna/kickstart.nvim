@@ -1,54 +1,20 @@
-# Merging changes from upstream master
+# Upstream merge log
 
-Runbook and decision log for pulling `nvim-lua/kickstart.nvim` (`upstream`)
-into this fork (`origin`).
+Decision log for pulling `nvim-lua/kickstart.nvim` (`upstream`) into this fork
+(`origin`). The procedure is the `jj-upstream-merge` skill. This repo uses
+log `upstream_merge.md`, local bookmark `master`, upstream `master@upstream`,
+and push remote `origin`.
 
-Port chosen changes into this tree by intent. Layouts differ (`lua/plugins/`
-and `lua/config/` vs the upstream template), so do not cherry-pick or
-content-merge. Skip freely. When in doubt, ask. Record every decision in the
-Log, and advance **Upstream through** to current `master@upstream` only when
-the review is done.
-
-`finish` then writes one merge commit: first parent is the previous origin
-tip, second parent is `master@upstream`, tree is ours. Git does not choose
-hunks. Do not `git merge` or `jj new` the two masters yourself. Mechanics:
-`nu scripts/upstream_merge.nu`.
-
-## Process
-
-1. Read the latest **Upstream through** value from the Log (newest entry first).
-2. `nu scripts/upstream_merge.nu prepare`
-3. Present pending changes, grouped by theme, with a recommended action
-   (apply / skip / already present). Ask when unsure. Reprint with
-   `nu scripts/upstream_merge.nu status`.
-4. Port accepted changes into this tree.
-5. Prepend a Log entry whose **Upstream through** is the full git id of
-   current `master@upstream`. Then `nu scripts/upstream_merge.nu finish`.
-
-`finish` refuses until the Log pointer equals `master@upstream`. If that
-commit is already an ancestor, it does not add a parent. If the Log already
-matches, the working copy is empty, and upstream is not yet an ancestor,
-`finish` records the merge with no tree change and no new Log entry. An empty
-working copy is otherwise refused.
+Layouts differ (`lua/plugins/` and `lua/config/` vs the upstream template), so
+translate by intent.
 
 ## Log
 
-Newest entry first. The first **Upstream through** value is the last completed
-review (a cursor into upstream history, not a unit of work). Use the full
-40-character git commit id. Prefer one bullet per change (theme or intent), not
-per upstream commit.
-
-```
-### YYYY-MM-DD — <short label>
-
-- Upstream through: `<40-char git id>`
-- Applied:
-  - <change> — <how it was translated, with paths>
-- Skipped:
-  - <change> — <reason>
-```
-
-Use `Applied: none` or `Skipped: none` when that list is empty.
+Newest entry first. The first line `Upstream through:` with the git id in
+backticks is the cursor (the last completed review, not a unit of work). Use
+the full 40-character git commit id. One bullet per change (theme or intent),
+not per upstream commit. The entry shape is defined by the skill. Use
+`Applied: none` or `Skipped: none` when that list is empty.
 
 ### 2026-10-17 — treesitter buffer validity
 

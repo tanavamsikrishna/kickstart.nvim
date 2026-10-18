@@ -16,7 +16,7 @@ The configuration is structured to be both modular and easy to navigate:
 - **`lua/plugins/`**: Contains modular Lua files, each defining one or more plugins and their configurations (e.g., `lsp.lua`, `treesitter.lua`, `snacks.lua`).
 - **`lua/config/`**: System-level and UI modules (`folding.lua`, `mksession.lua`, `neovide.lua`, etc.).
 - **`snippets/`**: Custom Lua-based snippets for multiple languages.
-- **`upstream_merge.md`**: Runbook for translating upstream kickstart.nvim changes into this tree and recording `master@upstream` as a merge parent.
+- **`upstream_merge.md`**: Decision log for intent-porting upstream kickstart.nvim. The procedure is the `jj-upstream-merge` skill; this repo's bookmark, remotes, and cursor are in that log.
 
 ## Building and Running
 
