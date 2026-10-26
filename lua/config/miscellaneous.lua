@@ -28,7 +28,7 @@ vim.opt.titlestring = vim.fs.basename(vim.fn.getcwd())
 vim.o.exrc = true
 
 -- wrapping
-vim.o.wrap = true
+vim.o.wrap = false
 vim.o.breakindent = true
 vim.opt.linebreak = false
 vim.opt.showbreak = '⤷ '
