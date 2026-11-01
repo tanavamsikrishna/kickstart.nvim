@@ -33,13 +33,15 @@ vim.o.breakindent = true
 vim.opt.linebreak = false
 vim.opt.showbreak = '⤷ '
 
-local linebreak_filetypes = { 'markdown', 'quarto', 'rmd', 'text', 'gitcommit' }
+local prose_filetypes = { 'markdown', 'quarto', 'rmd', 'text', 'gitcommit' }
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-  desc = 'Use linebreak only for prose windows',
+  desc = 'Wrap and linebreak prose windows',
   group = vim.api.nvim_create_augroup('ProseLinebreak', { clear = true }),
   callback = function()
-    vim.opt_local.linebreak = vim.tbl_contains(linebreak_filetypes, vim.bo.filetype)
+    local prose = vim.tbl_contains(prose_filetypes, vim.bo.filetype)
+    vim.opt_local.wrap = prose
+    vim.opt_local.linebreak = prose
   end,
 })
 
