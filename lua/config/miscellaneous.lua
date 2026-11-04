@@ -19,7 +19,8 @@ local function humanized_parent()
   end
   return dirname
 end
-vim.opt.titlestring = vim.fs.basename(vim.fn.getcwd())
+vim.opt.titlestring = 'vim: '
+  .. vim.fs.basename(vim.fn.getcwd())
   .. ' ('
   .. humanized_parent()
   .. ')'
