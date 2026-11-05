@@ -9,3 +9,4 @@ spell/
 .DS_Store
 Session.vim
 scratch.*
+.qmd/index.sqlite
