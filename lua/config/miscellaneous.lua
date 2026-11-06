@@ -29,7 +29,7 @@ vim.opt.titlestring = 'vim: '
 vim.o.exrc = true
 
 -- wrapping
-vim.o.wrap = false
+vim.o.wrap = true
 vim.o.breakindent = true
 vim.opt.linebreak = false
 vim.opt.showbreak = '⤷ '
@@ -41,7 +41,6 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   group = vim.api.nvim_create_augroup('ProseLinebreak', { clear = true }),
   callback = function()
     local prose = vim.tbl_contains(prose_filetypes, vim.bo.filetype)
-    vim.opt_local.wrap = prose
     vim.opt_local.linebreak = prose
   end,
 })
