@@ -49,7 +49,7 @@ local opts = {
     },
     mdformat = {
       command = 'mdformat',
-      args = { '--number', '--wrap', 'keep', '-' },
+      args = { '--number', '--wrap', 'no', '-' },
     },
   },
   formatters_by_ft = {
