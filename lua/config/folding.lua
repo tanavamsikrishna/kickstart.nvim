@@ -1,5 +1,9 @@
+--- Fold toggle: `za`, or create a manual fold spanning the Treesitter node.
+
 vim.opt.foldmethod = 'manual'
 vim.opt.foldlevel = 99
+
+local viewoptions = require 'config.viewoptions'
 
 local function smart_toggle_fold()
   -- 1. Try standard fold toggle first (pcall required to avoid "No fold found" error)
@@ -26,8 +30,11 @@ local function smart_toggle_fold()
       vim.cmd(range)
       vim.cmd 'normal! zc'
 
-      -- Force Save (Will error if file is read-only/invalid)
-      vim.cmd 'mkview!'
+      -- Persist only when a view file can be written. Other mkview failures
+      -- still surface (read-only or invalid buffer).
+      if viewoptions.should_persist(vim.api.nvim_buf_get_name(0)) then
+        vim.cmd 'mkview!'
+      end
       return
     end
 
