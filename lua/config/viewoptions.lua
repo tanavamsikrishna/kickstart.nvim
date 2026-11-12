@@ -84,7 +84,7 @@ vim.api.nvim_create_autocmd({ 'BufWinLeave', 'BufWritePost', 'WinLeave' }, {
     local current = vim.api.nvim_buf_get_name(0)
     if current ~= '' and not M.should_persist(current) then return end
     if vim.fn.expand '%' == '' then return end
-    -- save_view()
+    save_view()
   end,
 })
 
