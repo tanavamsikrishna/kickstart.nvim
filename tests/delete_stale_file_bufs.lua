@@ -1,5 +1,5 @@
--- Verify CWD-scoped JSON persistence and stale-buffer cleanup in Git and non-Git
--- directories, without touching the user's state files.
+-- Verify JSON-backed global access times, session persistence, and stale-buffer
+-- cleanup in Git and non-Git directories without touching the user's state files.
 -- Run with: nvim --headless -u NONE -l tests/delete_stale_file_bufs.lua
 
 local function run(cmd)
@@ -27,55 +27,49 @@ run { 'git', '-C', repo, 'add', 'tracked.txt' }
 
 local config_root = vim.fn.getcwd()
 local config = config_root .. '/lua/config/delete_stale_file_bufs.lua'
-package.path = config_root .. '/lua/?.lua;' .. package.path
 vim.env.XDG_STATE_HOME = root .. '/state'
-local utils = require 'utils'
-local filename = 'buffer-access-times.json'
 vim.cmd.cd(vim.fn.fnameescape(repo))
+dofile(config)
+vim.notify = function() end
 
-local function state_file(cwd, name)
-  cwd = vim.fs.normalize(cwd)
-  local folder = vim.fs.basename(cwd):gsub('[^%w%-_]', '_')
-  return vim.fn.stdpath 'state'
-    .. '/'
-    .. folder
-    .. '-'
-    .. vim.fn.sha256(cwd):sub(1, 12)
-    .. '/'
-    .. name
+local function get_times()
+  assert(type(vim.g.LocalFileBufferAccessTimes) == 'string', 'state must be JSON')
+  return vim.json.decode(vim.g.LocalFileBufferAccessTimes)
 end
 
-assert(utils.read_cwd_json(filename) == nil, 'missing state must return nil')
-local sample = { nested = { value = 'hello' }, list = { 1, 2 }, flag = true }
-assert(utils.write_cwd_json('sample.json', sample))
-assert(vim.deep_equal(utils.read_cwd_json 'sample.json', sample))
-assert(vim.fn.filereadable(state_file(repo, 'sample.json')) == 1)
-vim.fn.writefile({ 'not JSON' }, state_file(repo, 'broken.json'))
-local broken, decode_error = utils.read_cwd_json 'broken.json'
-assert(broken == nil and decode_error, 'invalid JSON must return an error')
+local probe_path = repo .. '/probe.txt'
+local probe = vim.fn.bufadd(probe_path)
+local function enter_probe()
+  vim.api.nvim_exec_autocmds('BufEnter', { buffer = probe })
+end
 
-local other_repo = root .. '/other/repo'
-vim.fn.mkdir(other_repo, 'p')
-vim.cmd.cd(vim.fn.fnameescape(other_repo))
-assert(utils.read_cwd_json 'sample.json' == nil, 'same basenames must be isolated')
-assert(utils.write_cwd_json('sample.json', { other = true }))
-vim.cmd.cd(vim.fn.fnameescape(repo))
-assert(vim.deep_equal(utils.read_cwd_json 'sample.json', sample))
+local function check_fallback(raw)
+  vim.g.LocalFileBufferAccessTimes = raw
+  enter_probe()
+  local times = get_times()
+  assert(type(times[probe_path]) == 'number', 'BufEnter must recover invalid state')
+  times[probe_path] = nil
+  assert(vim.tbl_isempty(times), 'invalid state must fall back to an empty table')
+end
 
-vim.fn.writefile({ 'not JSON' }, state_file(repo, filename))
-dofile(config)
-assert(
-  vim.tbl_isempty(vim.g.LocalFileBufferAccessTimes),
-  'invalid persisted state must fall back to empty access times'
-)
+check_fallback(nil)
+check_fallback('not JSON')
+check_fallback('42')
+check_fallback('"not a table"')
+check_fallback(42)
+
 local startup_times = { [repo .. '/tracked.txt'] = os.time() }
-assert(utils.write_cwd_json(filename, startup_times))
+vim.g.LocalFileBufferAccessTimes = vim.json.encode(startup_times)
 dofile(config)
 assert(
-  vim.deep_equal(vim.g.LocalFileBufferAccessTimes, startup_times),
-  'startup must load persisted access times'
+  vim.deep_equal(get_times(), startup_times),
+  'loading the module must preserve session-restored access times'
 )
-vim.notify = function() end
+enter_probe()
+assert(
+  get_times()[repo .. '/tracked.txt'] == startup_times[repo .. '/tracked.txt'],
+  'BufEnter must preserve existing JSON access times'
+)
 
 local function add(path) return vim.fn.bufadd(path) end
 local function valid(buf) return vim.api.nvim_buf_is_valid(buf) end
@@ -116,7 +110,7 @@ assert(not valid(old), 'old outside buffer must be deleted')
 assert(not valid(never), 'buffer without access time must be deleted')
 assert(not valid(recent), 'outside buffer omitted by Git must be deleted')
 assert(valid(modified), 'unsaved changes must not be discarded')
-local times = vim.g.LocalFileBufferAccessTimes
+local times = get_times()
 assert(times[repo .. '/tracked.txt'] == now and times[repo .. '/untracked.txt'] == now)
 assert(
   times[repo .. '/entry-only.txt'] == now,
@@ -134,47 +128,41 @@ assert(
   'modified buffers must retain access times'
 )
 
-assert(
-  vim.deep_equal(utils.read_cwd_json(filename), times),
-  'cleanup must save the resulting access times'
-)
-
 vim.cmd.cd(vim.fn.fnameescape(outside))
-assert(utils.read_cwd_json(filename) == nil, 'changing CWD must not save state')
+assert(vim.deep_equal(get_times(), times), 'changing CWD must preserve global state')
 local no_git_old = add(outside .. '/no-git-old.txt')
 local no_git_recent = add(outside .. '/no-git-recent.txt')
-times = vim.g.LocalFileBufferAccessTimes
+times = get_times()
 times[outside .. '/no-git-old.txt'] = now - 8 * 24 * 60 * 60
 times[outside .. '/no-git-recent.txt'] = now
-vim.g.LocalFileBufferAccessTimes = times
-assert(utils.write_cwd_json(filename, {
-  [outside .. '/no-git-recent.txt'] = now - 1,
-  [outside .. '/disk-only.txt'] = now,
-}))
+vim.g.LocalFileBufferAccessTimes = vim.json.encode(times)
 vim.cmd.DeleteStaleFileBufs()
 assert(
-  vim.g.LocalFileBufferAccessTimes[outside .. '/disk-only.txt'] == now,
-  'cleanup must reload persisted records'
-)
-assert(
-  vim.g.LocalFileBufferAccessTimes[outside .. '/no-git-recent.txt'] == now,
-  'in-memory access times must take precedence over persisted records'
+  get_times()[outside .. '/no-git-recent.txt'] == now,
+  'cleanup must preserve recent JSON access times'
 )
 assert(not valid(no_git_old), 'old buffers must be deleted outside Git repositories')
 assert(valid(no_git_recent), 'recent buffers must survive outside Git repositories')
 vim.api.nvim_set_current_buf(no_git_recent)
 assert(
-  vim.g.LocalFileBufferAccessTimes[outside .. '/no-git-recent.txt'] >= now,
+  get_times()[outside .. '/no-git-recent.txt'] >= now,
   'entering a file buffer must record its access time'
 )
 
--- Use a separate process to exercise the real quit event, not just its callback.
+-- Restore a real session in a separate process using the project's session options.
+dofile(config_root .. '/lua/config/mksession.lua')
 local exit_path = outside .. '/exit-only.txt'
+times = get_times()
+times[exit_path] = now
+vim.g.LocalFileBufferAccessTimes = vim.json.encode(times)
+local session = root .. '/Session.vim'
+vim.cmd.mksession(vim.fn.fnameescape(session))
 local lua = string.format(
-  "package.path = %q .. '/lua/?.lua;' .. package.path; "
-    .. 'dofile(%q); vim.g.LocalFileBufferAccessTimes = { [%q] = %d }',
-  config_root,
+  'dofile(%q); vim.cmd.source(%q); '
+    .. 'assert(type(vim.g.LocalFileBufferAccessTimes) == "string"); '
+    .. 'assert(vim.json.decode(vim.g.LocalFileBufferAccessTimes)[%q] == %d)',
   config,
+  session,
   exit_path,
   now
 )
@@ -193,9 +181,5 @@ local child = vim
   }, { cwd = outside, text = true })
   :wait()
 assert(child.code == 0, child.stderr)
-assert(
-  utils.read_cwd_json(filename)[exit_path] == now,
-  'quitting Neovim must save access times for the current CWD'
-)
 
 print 'delete_stale_file_bufs tests passed'

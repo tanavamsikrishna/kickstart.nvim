@@ -1,51 +1,37 @@
--- Track file-buffer access, persist CWD-scoped access times, and remove stale
--- or Git-unlisted buffers. Load at startup/before cleanup; save after cleanup/on exit.
--- Git failures fall back to age-based cleanup; modified buffers are never forced.
+-- Track file-buffer access in a JSON global persisted by mksession, and remove
+-- stale or Git-unlisted buffers. Git failures fall back to age-based cleanup;
+-- modified buffers are never forced.
 
-local utils = require 'utils'
-local state_file = 'buffer-access-times.json'
-local group = vim.api.nvim_create_augroup('TrackBufferAccess', { clear = true })
-
-local function load_access_times()
-  local stored = utils.read_cwd_json(state_file)
-  if type(stored) ~= 'table' then stored = {} end
-  vim.g.LocalFileBufferAccessTimes =
-    vim.tbl_extend('force', stored, vim.g.LocalFileBufferAccessTimes or {})
-end
-
-local function save_access_times()
-  local ok, err = utils.write_cwd_json(
-    state_file,
-    vim.g.LocalFileBufferAccessTimes or vim.empty_dict()
-  )
-  if not ok then
-    vim.notify('Could not save buffer access times: ' .. err, vim.log.levels.WARN)
+local function get_access_times()
+  local raw = vim.g.LocalFileBufferAccessTimes
+  if type(raw) == 'string' then
+    local ok, decoded = pcall(vim.json.decode, raw)
+    if ok and type(decoded) == 'table' then return decoded end
+  elseif type(raw) == 'table' then
+    return raw
   end
+  return {}
 end
 
-load_access_times()
+local function set_access_times(times)
+  vim.g.LocalFileBufferAccessTimes = vim.json.encode(times)
+end
 
-vim.api.nvim_create_autocmd('VimLeavePre', {
-  group = group,
-  callback = save_access_times,
-})
+local group = vim.api.nvim_create_augroup('TrackBufferAccess', { clear = true })
 
 vim.api.nvim_create_autocmd('BufEnter', {
   group = group,
   callback = function(args)
     local bufname = vim.api.nvim_buf_get_name(args.buf)
     if bufname ~= '' and vim.bo[args.buf].buftype == '' then
-      -- Directly editing BufferAccessTime in Lua is not going to
-      -- update the underlying vim dictionary
-      local times = vim.g.LocalFileBufferAccessTimes or {}
+      local times = get_access_times()
       times[bufname] = os.time()
-      vim.g.LocalFileBufferAccessTimes = times
+      set_access_times(times)
     end
   end,
 })
 
 local function delete_stale_file_bufs()
-  load_access_times()
   local git_files = nil
   local git_lsfiles_output = vim
     .system({ 'git', 'ls-files', '--cached', '--others', '--exclude-standard', '-z' })
@@ -63,9 +49,14 @@ local function delete_stale_file_bufs()
     end
   end
 
-  local access_times = vim.g.LocalFileBufferAccessTimes or {}
+  local access_times = get_access_times()
   local cutoff = os.time() - 7 * 24 * 60 * 60
 
+  ---Encapsulates the deletion logic
+  ---
+  ---@param buf number
+  ---@return boolean to_delete Whether to delete
+  ---@return string reason The reason for the decision
   local function should_delete(buf)
     if vim.bo[buf].modified then return false, 'Modified buffer' end
     if vim.bo[buf].buftype ~= '' then return true, 'Non-file buffer' end
@@ -102,8 +93,7 @@ local function delete_stale_file_bufs()
     end
   end
 
-  vim.g.LocalFileBufferAccessTimes = access_times
-  save_access_times()
+  set_access_times(access_times)
 end
 
 vim.api.nvim_create_user_command('DeleteStaleFileBufs', delete_stale_file_bufs, {
