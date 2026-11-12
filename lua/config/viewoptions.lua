@@ -3,7 +3,7 @@
 --- Skips invalid buffers, non-file buftypes, missing files, dependency trees,
 --- and paths whose encoded view filename would exceed NAME_MAX (255). A mkview
 --- failure is reported and swallowed so it cannot abort the jump that left the
---- window (`gd` does this via the snacks picker).
+--- window (`gd` does this via the mini picker).
 ---
 --- `should_persist(path)` is the shared gate. folding.lua uses it before mkview.
 
@@ -84,7 +84,7 @@ vim.api.nvim_create_autocmd({ 'BufWinLeave', 'BufWritePost', 'WinLeave' }, {
     local current = vim.api.nvim_buf_get_name(0)
     if current ~= '' and not M.should_persist(current) then return end
     if vim.fn.expand '%' == '' then return end
-    save_view()
+    -- save_view()
   end,
 })
 

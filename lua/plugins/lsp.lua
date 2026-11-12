@@ -4,7 +4,7 @@
 --- `vim.g.lazydev_enabled`), and `nvim-lspconfig`. Clears Neovim's global
 --- `gr*` LSP defaults so `gr` is a leaf (references), not a prefix.
 --- On `LspAttach`, `g*` is go-to only (definition/references/symbols via
---- Snacks pickers); rename and code action live on `m*` (modify). See
+--- MiniExtra pickers); rename and code action live on `m*` (modify). See
 --- `keybindings.md`. Broadcasts blink.cmp capabilities and enables the
 --- servers listed here. Python attaches both `ty` and `ruff`; ruff's
 --- hover/completion capabilities are cleared so ty owns those. Virtual
@@ -87,8 +87,6 @@ return {
             )
           end
 
-          local Snacks = require 'snacks'
-
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('mr', vim.lsp.buf.rename, 'Rename')
@@ -103,30 +101,39 @@ return {
 
           -- Find references for the word under your cursor.
           -- nowait: if anything later remaps gr*, still fire this immediately.
-          vim.keymap.set('n', 'gr', function() Snacks.picker.lsp_references() end, {
-            buffer = event.buf,
-            desc = 'LSP: Goto References',
-            nowait = true,
-          })
+          vim.keymap.set(
+            'n',
+            'gr',
+            function() require('mini.extra').pickers.lsp { scope = 'references' } end,
+            {
+              buffer = event.buf,
+              desc = 'LSP: Goto References',
+              nowait = true,
+            }
+          )
 
           -- Jump to the implementation of the word under your cursor.
           -- Useful when your language has ways of declaring types without an actual implementation.
           map(
             'gi',
-            function() Snacks.picker.lsp_implementations() end,
+            function() require('mini.extra').pickers.lsp { scope = 'implementation' } end,
             'Goto Implementation'
           )
 
           -- Jump to the definition of the word under your cursor.
           -- This is where a variable was first declared, or where a function is defined, etc.
           -- To jump back, press <C-t>.
-          map('gd', function() Snacks.picker.lsp_definitions() end, 'Goto Definition')
+          map(
+            'gd',
+            function() require('mini.extra').pickers.lsp { scope = 'definition' } end,
+            'Goto Definition'
+          )
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
           map(
             'go',
-            function() Snacks.picker.lsp_symbols() end,
+            function() require('mini.extra').pickers.lsp { scope = 'document_symbol' } end,
             'Goto Open Document Symbols'
           )
 
@@ -134,7 +141,7 @@ return {
           --  Similar to document symbols, except searches over your entire project.
           map(
             'gw',
-            function() Snacks.picker.lsp_workspace_symbols() end,
+            function() require('mini.extra').pickers.lsp { scope = 'workspace_symbol' } end,
             'Goto Workspace Symbols'
           )
 
@@ -143,7 +150,7 @@ return {
           --  the definition of its *type*, not where it was *defined*.
           map(
             'gt',
-            function() Snacks.picker.lsp_type_definitions() end,
+            function() require('mini.extra').pickers.lsp { scope = 'type_definition' } end,
             'Goto Type Definition'
           )
 

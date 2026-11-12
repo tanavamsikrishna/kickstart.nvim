@@ -383,14 +383,6 @@ require('lazy').setup {
     opts = { signs = false, keywords = { NOTE = { color = 'info' } } },
   },
 
-  { -- Collection of various small independent plugins/modules
-    'nvim-mini/mini.nvim',
-    config = function()
-      -- session management
-      require('mini.sessions').setup { directory = '', autoread = true }
-    end,
-  },
-
   { import = 'plugins' },
   --
   -- For additional information with loading, sourcing and examples

@@ -12,8 +12,8 @@ meanings; new maps must fit those meanings.
 | --- | --- | --- |
 | `g` | go to | Jump to a location or pick a symbol to jump to |
 | `m` | modify | Semantic edits: comment, rename, code action, extract, … |
-| `j` | jump (with picker) | Snacks pickers: files, grep, help, keymaps, … |
-| `[` / `]` | prev / next | Adjacent instance of the same thing (diagnostic, hunk, reference, textobject) |
+| `j` | jump (with picker) | Mini pickers: files, grep, help, keymaps, … |
+| `[` / `]` | prev / next | Adjacent instance of the same thing (diagnostic, hunk, textobject) |
 | `<leader>` (`Space`) | command | Git, debug, toggles, diagnostics |
 | `<localleader>` (`,`) | this buffer | Format, copy path / context |
 | `F1`–`F7` | debugger | Session control (continue, step, UI) |
@@ -110,7 +110,6 @@ search. Operator-pending `j` (`dj`, `mc3j`) stays a motion.
 | `jk` | Keymaps |
 | `jc` | Commands |
 | `jd` | Diagnostics |
-| `js` | Select picker |
 | `jr` | Resume last picker |
 | `jb` | Buffers |
 
@@ -130,7 +129,6 @@ search. Operator-pending `j` (`dj`, `mc3j`) stays a motion.
 | --- | --- |
 | `[d` / `]d` | Diagnostic |
 | `[c` / `]c` | Git hunk |
-| `[r` / `]r` | LSP reference (Snacks words) |
 | `[[` / `]]` | Function/class start |
 | `[]` / `][` | Function/class end |
 | `{` / `}` | Parameter / call / assignment / statement start |
