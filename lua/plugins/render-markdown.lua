@@ -46,6 +46,8 @@ return {
         sign = false,
         width = 'block',
         right_pad = 1,
+        icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
+        position = 'right',
       },
 
       -- Make code blocks less distracting: no full background unless needed
