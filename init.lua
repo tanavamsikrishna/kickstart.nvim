@@ -3,6 +3,10 @@
 ---
 --- Plugin specs live in `lua/plugins/`; system/UI modules in `lua/config/`.
 
+-- Disable netrw so MiniFiles is the only file explorer
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.loader.enable()
 
 -- Set <space> as the leader key
