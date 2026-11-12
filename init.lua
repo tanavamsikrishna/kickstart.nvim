@@ -399,7 +399,7 @@ require('lazy').setup {
   -- you can continue same window with `<space>sr` which resumes last search
 }
 
-require 'config.delete_ext_file_bufs'
+require 'config.delete_stale_file_bufs'
 require 'config.miscellaneous'
 require 'config.mksession'
 require 'config.viewoptions'

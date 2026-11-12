@@ -1,8 +1,10 @@
 {
   "mcpServers": {
-    "MCP Neovim Server": {
+    "Neovim": {
       "command": "pnpx",
-      "args": ["mcp-neovim-server"],
+      "args": [
+        "mcp-neovim-server"
+      ],
       "env": {
         "NVIM_SOCKET_PATH": "./.nvim_socket"
       }
