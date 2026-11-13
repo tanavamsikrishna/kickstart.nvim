@@ -43,11 +43,8 @@ return {
       -- Reduce visual noise: disable sign column indicators
       -- (headings/code get no left signs)
       heading = {
-        sign = false,
         width = 'block',
         right_pad = 1,
-        icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
-        position = 'right',
       },
 
       -- Make code blocks less distracting: no full background unless needed
