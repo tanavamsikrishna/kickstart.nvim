@@ -134,6 +134,7 @@ Word search is fff `fw`, not mini.pick.
 | `<leader>b` / `<leader>B` | Breakpoint / conditional breakpoint |
 | `<leader>u` | Undo tree |
 | `<leader>p` | Yank history |
+| `<leader>n` | Clear notifications |
 
 ## Prev / next
 

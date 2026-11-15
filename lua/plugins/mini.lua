@@ -1,6 +1,7 @@
 -- Mini.nvim: picker, floating file explorer, sessions, and next-key clues.
 --
 -- `\` toggles the explorer; `|` reveals the current file in it.
+-- `<leader>n` clears active notifications (history is kept).
 -- `f*` opens pickers; `/` and `?` remain Vim search. `fn` searches
 -- under the Neovim config dir. Picker/explorer use Mini defaults
 -- (fuzzy matching, default float window); only `trash` behaviour
@@ -119,6 +120,11 @@ return {
           require('mini.files').open(path ~= '' and path or nil)
         end,
         desc = 'Explorer current file reveal',
+      },
+      {
+        '<leader>n',
+        function() require('mini.notify').clear() end,
+        desc = 'Clear notifications',
       },
       {
         'fh',
