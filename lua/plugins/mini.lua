@@ -101,7 +101,7 @@ return {
           miniclue.gen_clues.windows(),
           miniclue.gen_clues.z(),
         },
-        window = { config = { width = 50, height = 20 } },
+        window = { config = { width = 50, height = 10 } },
       }
     end,
     keys = {
