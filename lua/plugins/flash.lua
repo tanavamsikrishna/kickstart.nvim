@@ -1,8 +1,7 @@
 --- Label-based jump and Treesitter selection (flash.nvim).
 ---
---- `gj` jumps (go-to). `<leader>v` selects a syntax node (visual). Treesitter
---- labels use overlay style. Custom `FlashLabel` highlight is set in config.
---- See `keybindings.md`.
+--- `F` jumps. `<leader>v` selects a syntax node. Char-mode keeps
+--- `t`/`T`/`;`/`,`; `f` is the picker prefix. See `keybindings.md`.
 
 ---@type Flash.Config
 local config_options = {
@@ -11,6 +10,11 @@ local config_options = {
       label = { style = 'overlay' },
     },
   },
+  -- After tbl_deep_extend a shorter list keeps leftover `f`/`F` slots, and
+  -- flash maps those again. Replace the list here, before char setup.
+  config = function(opts)
+    opts.modes.char.keys = { 't', 'T', ';', ',' }
+  end,
 }
 
 return {
@@ -25,7 +29,7 @@ return {
       desc = 'Select syntax node',
     },
     {
-      'gj',
+      'F',
       function() require('flash').jump() end,
       mode = { 'n', 'x', 'o' },
       desc = 'Jump to location',

@@ -82,54 +82,42 @@ return {
         desc = 'Explorer current file reveal',
       },
       {
-        'jh',
+        'fh',
         function() require('mini.pick').builtin.help() end,
         desc = 'Search Help',
       },
       {
-        'jk',
+        'fk',
         function() require('mini.extra').pickers.keymaps() end,
         desc = 'Search Keymaps',
       },
       {
-        'jw',
-        function()
-          require('mini.pick').builtin.grep { pattern = vim.fn.expand '<cword>' }
-        end,
-        desc = 'Search current Word',
-      },
-      --[[ {
-        'jg',
-        function() require('mini.pick').builtin.grep() end,
-        desc = 'Search by Grep',
-      }, ]]
-      {
-        'jd',
+        'fd',
         function() require('mini.extra').pickers.diagnostic() end,
         desc = 'Search Diagnostics',
       },
       {
-        'jr',
+        'fr',
         function() require('mini.pick').builtin.resume() end,
         desc = 'Search Resume',
       },
       {
-        'j.',
+        'f.',
         function() require('mini.extra').pickers.oldfiles() end,
         desc = 'Search Recent Files ("." for repeat)',
       },
       {
-        'jc',
+        'fc',
         function() require('mini.extra').pickers.commands() end,
         desc = 'Search Commands',
       },
       {
-        'jb',
+        'fb',
         function() require('mini.pick').registry.buffers() end,
         desc = 'Find existing buffers',
       },
       {
-        'jn',
+        'fn',
         function()
           require('mini.pick').builtin.files(
             nil,
