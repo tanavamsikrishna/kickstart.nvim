@@ -2,7 +2,7 @@
 ---
 --- Lives on the modify prefix: `mc`/`mcc` linewise, `mb`/`mbc` blockwise,
 --- plus `mco`/`mcO`/`mcA`. Neovim's builtin `gc`/`gcc` are removed so `g`
---- stays go-to only. See `keybindings.md`.
+--- stays go-to only.
 
 return {
   'numToStr/Comment.nvim',

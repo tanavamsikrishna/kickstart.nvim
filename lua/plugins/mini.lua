@@ -1,11 +1,15 @@
--- Mini.nvim: picker (`j*` = jump with picker), floating file explorer,
--- and session management.
+-- Mini.nvim: picker, floating file explorer, sessions, and next-key clues.
 --
 -- `\` toggles the explorer; `|` reveals the current file in it.
--- `j*` opens pickers; `/` and `?` remain Vim search. `jn` searches
+-- `f*` opens pickers; `/` and `?` remain Vim search. `fn` searches
 -- under the Neovim config dir. Picker/explorer use Mini defaults
 -- (fuzzy matching, default float window); only `trash` behaviour
 -- from the previous explorer is kept (`permanent_delete = false`).
+-- mini.clue triggers `g`, `m`, normal `f`, `[`/`]`, and `<leader>`.
+-- `<localleader>` is not a trigger (`,` stays Flash char-mode). Group
+-- labels are `<leader>h` and `<leader>t`; other rows come from keymap
+-- `desc`. Starter clues for `z`, marks, registers, windows, and `<C-x>`
+-- stay.
 
 return {
   {
@@ -26,7 +30,7 @@ return {
         window = {
           config = function()
             local height = math.floor(0.618 * vim.o.lines)
-            local width = math.floor(0.618 * vim.o.columns)
+            local width = math.floor(0.8 * vim.o.columns)
             return {
               anchor = 'NW',
               height = height,
@@ -63,6 +67,41 @@ return {
       require('mini.extra').setup {}
       -- file explorer; deletes go to the mini trash, not permanent
       require('mini.files').setup { options = { permanent_delete = false } }
+
+      -- Configured prefixes, plus starter triggers that are not prefixes here.
+      -- Do not trigger `<LocalLeader>`: `,` is Flash char-mode repeat.
+      -- `f` is normal-only so visual/operator `f` stays find-char. `F` is a leaf.
+      local miniclue = require 'mini.clue'
+      miniclue.setup {
+        triggers = {
+          { mode = { 'n', 'x' }, keys = '<Leader>' },
+          { mode = 'n', keys = 'f' },
+          { mode = { 'n', 'x' }, keys = 'g' },
+          { mode = { 'n', 'x' }, keys = 'm' },
+          { mode = 'n', keys = '[' },
+          { mode = 'n', keys = ']' },
+          { mode = 'i', keys = '<C-x>' },
+          { mode = { 'n', 'x' }, keys = "'" },
+          { mode = { 'n', 'x' }, keys = '`' },
+          { mode = { 'n', 'x' }, keys = '"' },
+          { mode = { 'i', 'c' }, keys = '<C-r>' },
+          { mode = 'n', keys = '<C-w>' },
+          { mode = { 'n', 'x' }, keys = 'z' },
+        },
+        clues = {
+          -- Groups have no mapping of their own. Leaves use keymap `desc`.
+          { mode = { 'n', 'x' }, keys = '<Leader>h', desc = '+Git hunk' },
+          { mode = 'n', keys = '<Leader>t', desc = '+Toggle' },
+          miniclue.gen_clues.square_brackets(),
+          miniclue.gen_clues.builtin_completion(),
+          miniclue.gen_clues.g(),
+          miniclue.gen_clues.marks(),
+          miniclue.gen_clues.registers(),
+          miniclue.gen_clues.windows(),
+          miniclue.gen_clues.z(),
+        },
+        window = { config = { width = 50, height = 20 } },
+      }
     end,
     keys = {
       {

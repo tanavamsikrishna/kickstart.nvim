@@ -23,7 +23,14 @@ return {
     ---@param key_dynamic_part '['|'{' the part which will be "mirrored" to move the other direction
     ---@param key_static_part string|nil the identifier for this motion
     ---@param to_start boolean where to jump to start (or end) of the tag
-    local function set_keymaps(ts_exprs, key_dynamic_part, key_static_part, to_start)
+    ---@param descs [string, string] previous, next. Clue window reads `desc`.
+    local function set_keymaps(
+      ts_exprs,
+      key_dynamic_part,
+      key_static_part,
+      to_start,
+      descs
+    )
       key_static_part = key_static_part or ''
       local dynamic_keys
       if key_dynamic_part == '[' then
@@ -38,7 +45,8 @@ return {
         vim.keymap.set(
           { 'n', 'x', 'o' },
           dynamic_keys[i] .. key_static_part,
-          function() (functions[i])(ts_exprs, 'textobjects') end
+          function() (functions[i])(ts_exprs, 'textobjects') end,
+          { desc = descs[i] }
         )
       end
     end
@@ -50,8 +58,17 @@ return {
       '@statement.outer',
       -- '@local.scope',
       -- '@block.outer',
-    }, '{', '', true)
-    set_keymaps({ '@function.outer', '@class.outer' }, '[', '[', true)
-    set_keymaps({ '@function.outer', '@class.outer' }, '[', ']', false)
+    }, '{', '', true, {
+      'Previous parameter / call / assignment / statement',
+      'Next parameter / call / assignment / statement',
+    })
+    set_keymaps({ '@function.outer', '@class.outer' }, '[', '[', true, {
+      'Previous function/class start',
+      'Next function/class start',
+    })
+    set_keymaps({ '@function.outer', '@class.outer' }, '[', ']', false, {
+      'Previous function/class end',
+      'Next function/class end',
+    })
   end,
 }

@@ -1,7 +1,7 @@
 --- Label-based jump and Treesitter selection (flash.nvim).
 ---
---- `F` jumps. `<leader>v` selects a syntax node. Char-mode keeps
---- `t`/`T`/`;`/`,`; `f` is the picker prefix. See `keybindings.md`.
+--- `F` jumps. `<leader>v` selects a syntax node. Char-mode is Flash's
+--- default, so it also maps `f` and `F` (`t`/`T`/`;`/`,` too).
 
 ---@type Flash.Config
 local config_options = {
@@ -10,11 +10,6 @@ local config_options = {
       label = { style = 'overlay' },
     },
   },
-  -- After tbl_deep_extend a shorter list keeps leftover `f`/`F` slots, and
-  -- flash maps those again. Replace the list here, before char setup.
-  config = function(opts)
-    opts.modes.char.keys = { 't', 'T', ';', ',' }
-  end,
 }
 
 return {

@@ -4,8 +4,8 @@
 --- `vim.g.lazydev_enabled`), and `nvim-lspconfig`. Clears Neovim's global
 --- `gr*` LSP defaults so `gr` is a leaf (references), not a prefix.
 --- On `LspAttach`, `g*` is go-to only (definition/references/symbols via
---- MiniExtra pickers); rename and code action live on `m*` (modify). See
---- `keybindings.md`. Broadcasts blink.cmp capabilities and enables the
+--- MiniExtra pickers); rename and code action live on `m*` (modify).
+--- Broadcasts blink.cmp capabilities and enables the
 --- servers listed here. Python attaches both `ty` and `ruff`; ruff's
 --- hover/completion capabilities are cleared so ty owns those. Virtual
 --- diagnostic text is off; `<leader>d` opens the float.
@@ -36,7 +36,7 @@ return {
       -- Neovim 0.11+ maps gra/gri/grn/grr/grt/grx globally, which makes `gr`
       -- a prefix instead of firing our references map. Go-to lives on g*
       -- below; modify on m*.
-      -- See :help lsp-defaults-disable, :help gr-default, and keybindings.md.
+      -- See :help lsp-defaults-disable and :help gr-default.
       pcall(vim.keymap.del, { 'n', 'x' }, 'gra')
       for _, lhs in ipairs { 'gri', 'grn', 'grr', 'grt', 'grx' } do
         pcall(vim.keymap.del, 'n', lhs)
@@ -176,6 +176,9 @@ return {
             function() _jump_to_target_diagnostic(vim.diagnostic.get_prev()) end,
             'Previous Diagnostic'
           )
+
+          -- These buffer-local maps must not outrank clue triggers.
+          require('mini.clue').ensure_buf_triggers(event.buf)
         end,
       })
 

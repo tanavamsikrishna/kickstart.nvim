@@ -16,6 +16,7 @@ The configuration is structured to be both modular and easy to navigate:
 - **`lua/plugins/`**: Contains modular Lua files, each defining one or more plugins and their configurations (e.g., `lsp.lua`, `treesitter.lua`, `snacks.lua`).
 - **`lua/config/`**: System-level and UI modules (`folding.lua`, `mksession.lua`, `neovide.lua`, etc.).
 - **`snippets/`**: Custom Lua-based snippets for multiple languages.
+- **`docs/spec/keybindings.md`**: Keymap design contract. Lua maps are the runtime source of truth.
 - **`upstream_merge.md`**: Decision log for intent-porting upstream kickstart.nvim. The procedure is the `jj-upstream-merge` skill; this repo's bookmark, remotes, and cursor are in that log.
 
 ## Building and Running
@@ -25,7 +26,7 @@ The configuration is structured to be both modular and easy to navigate:
 - **Code Style**: Lua code is formatted using `stylua` (see `.stylua.toml`).
 - **Linting**: Lua files are linted using `luacheck` (see `.luacheckrc`).
 - **Modularity**: When adding new plugins, prefer creating a new file in `lua/plugins/` rather than modifying `init.lua`.
-- **Keymaps**: Follow `keybindings.md`. `g` is go-to; `m` is modify; `f` is jump with picker; `F` is Flash jump; `/`/`?` are Vim search; commands use `<leader>` (Space).
+- **Keymaps**: Follow `docs/spec/keybindings.md`. `g` is go-to; `m` is modify; `f` is jump with picker; `F` is Flash jump; `/`/`?` are Vim search; commands use `<leader>` (Space).
 - **LSP Configuration**: Managed via `nvim-lspconfig` with `blink.cmp` for autocompletion. Add servers to `vim.lsp.enable` in `lua/plugins/lsp.lua`. Formatters live in `lua/plugins/conform.lua`; linters in `lua/plugins/lint.lua`. External tools are installed by machine manifests, not this repo.
 
 ## GUI Testing & Verification
