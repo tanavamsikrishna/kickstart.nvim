@@ -177,8 +177,6 @@ return {
             'Previous Diagnostic'
           )
 
-          -- These buffer-local maps must not outrank clue triggers.
-          require('mini.clue').ensure_buf_triggers(event.buf)
         end,
       })
 

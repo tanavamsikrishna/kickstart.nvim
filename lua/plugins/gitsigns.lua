@@ -117,8 +117,6 @@ return {
           { desc = 'text object inside hunk' }
         )
 
-        -- `<leader>h` / `[c` are buffer-local and must not outrank clue triggers.
-        require('mini.clue').ensure_buf_triggers(bufnr)
       end,
     },
   },

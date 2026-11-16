@@ -1,11 +1,16 @@
 --- Label-based jump and Treesitter selection (flash.nvim).
 ---
---- `F` jumps. `<leader>v` selects a syntax node. Char-mode is Flash's
---- default, so it also maps `f` and `F` (`t`/`T`/`;`/`,` too).
+--- `F` jumps (`n`, `x`, `o`). `<leader>v` selects a syntax node.
+--- Char-mode stays on for `f`, `t`, `T`, `;`, `,` and must not bind `F`.
 
 ---@type Flash.Config
 local config_options = {
   modes = {
+    char = {
+      -- Default list is f,F,t,T,;, and array merge is by index, so this
+      -- has to overwrite the `F` slot or char-mode keeps the backward find.
+      keys = { 'f', 't', 'T', ';', ',' },
+    },
     treesitter = {
       label = { style = 'overlay' },
     },

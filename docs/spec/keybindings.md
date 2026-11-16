@@ -18,11 +18,6 @@ meanings; new maps must fit those meanings.
 | `<localleader>` (`,`) | this buffer | Format, copy path / context |
 | `F1`–`F7` | debugger | Session control (continue, step, UI) |
 
-mini.clue in `lua/plugins/mini.lua` triggers `g`, `m`, normal `f`, `[`/`]`,
-and `<leader>`. Group clues: `<leader>h` Git hunk, `<leader>t` Toggle.
-Do not trigger `<localleader>`: `,` stays Flash char-mode. Leaf text is
-keymap `desc`. A new group needs a clue there, not only a row here.
-
 `g`, `m`, and `f` are parallel single-letter prefixes. Other operator grammar
 stays with the plugin or Vim: `ys`/`cs`/`ds` surround, `y`/`p` yank/put.
 
@@ -171,4 +166,3 @@ Word search is fff `fw`, not mini.pick.
    this file first, then the Lua.
 3. Check collisions (`:verbose nmap`, `fk`, this file).
 4. Set `desc`. LSP/git: `{ buffer = ... }`. Leaf-vs-prefix: `nowait` if needed.
-   A new group also needs a mini.clue group clue in `lua/plugins/mini.lua`.
