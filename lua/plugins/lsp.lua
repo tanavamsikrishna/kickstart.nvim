@@ -137,11 +137,15 @@ return {
             'Goto Open Document Symbols'
           )
 
-          -- Fuzzy find all the symbols in your current workspace.
-          --  Similar to document symbols, except searches over your entire project.
+          -- Workspace symbols. Live query, not a dump of every symbol:
+          -- ty returns nothing for an empty workspace/symbol query, so the
+          -- non-live scope never opens a picker on Python. Lua LS does answer
+          -- that query, which is why dump-all only appeared to work there.
           map(
             'gw',
-            function() require('mini.extra').pickers.lsp { scope = 'workspace_symbol' } end,
+            function()
+              require('mini.extra').pickers.lsp { scope = 'workspace_symbol_live' }
+            end,
             'Goto Workspace Symbols'
           )
 

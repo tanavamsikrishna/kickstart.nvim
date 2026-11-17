@@ -62,7 +62,11 @@ not under `g`.
 | `gi` | Implementation |
 | `gt` | Type definition |
 | `go` | Document symbols |
-| `gw` | Workspace symbols |
+| `gw` | Workspace symbols (live query) |
+
+`gw` sends the picker prompt as the `workspace/symbol` query. An empty query
+is not used: ty returns nothing for it, so a dump-all picker never opens on
+Python.
 
 Neovim's global `gra`/`gri`/`grn`/`grr`/`grt`/`grx` are deleted so `gr` is a
 leaf. Builtin `gc`/`gcc` are deleted so `g` is not a comment prefix. `K`
