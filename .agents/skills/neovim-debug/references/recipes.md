@@ -1,9 +1,9 @@
 # Neovim probe recipes
 
-Run from the skill directory. Set `SOCK` to the verified absolute socket path.
+Stay in the working directory containing `.nvim_socket`. Set `PROBE` to the absolute path to the skill’s `scripts/probe.lua`.
 
 ```sh
-probe() { nvim --clean --headless -l scripts/probe.lua "$SOCK" "$@"; }
+probe() { nvim --clean --headless -l "$PROBE" "$@"; }
 probe state
 ```
 
@@ -190,33 +190,41 @@ Try `lua/example/plugin/init.lua` as a separate candidate if appropriate. A runt
 
 `probe messages` retrieves the latest 20 retained messages. This is message history, not a complete startup or LSP trace. Capture it soon after the symptom and redact paths or secrets before sharing.
 
-For a clean-versus-configured comparison, use the same Neovim binary and repeat the same trigger on separate sockets. Start a clean baseline with `--clean --listen "$DIR/n"` in a fresh private directory. For a configured reproduction, omit `--clean`; use `-u /absolute/path/to/minimal.lua` when narrowing the config. Use `-i NONE` if shared ShaDa isn't part of the problem. For startup provenance use `-V1"$DIR/startup.log"`; for performance use `--startuptime "$DIR/timing.log"`. Those change observation conditions and may write sensitive paths. Keep the reproduction interactive if the issue depends on a TUI or GUI.
+For a clean-versus-configured comparison, use the same Neovim binary and repeat the same trigger in separate private working directories. Start a clean baseline with `--clean --listen ./.nvim_socket` from its directory, and run probes from the corresponding directory. For a configured reproduction, omit `--clean`; use `-u /absolute/path/to/minimal.lua` when narrowing the config. Use `-i NONE` if shared ShaDa isn't part of the problem. For startup provenance use `-V1"$DIR/startup.log"`; for performance use `--startuptime "$DIR/timing.log"`. Those change observation conditions and may write sensitive paths. Keep the reproduction interactive if the issue depends on a TUI or GUI.
 
-If the runner fails at `socket`, confirm the path in the target and check that the tool can access the same filesystem and user permissions. If it fails at `connect`, the path can be stale even when it is a socket; don't delete it from the probe. An `rpc` failure can mean target-side Lua/API error or disconnection. An output-size failure calls for a smaller query, not a larger dump.
+If `.nvim_socket` is missing, report that to the user and stop. For other `socket` errors, check the file type and permissions in the current directory. If it fails at `connect`, the path can be stale even when it is a socket; don't delete it from the probe. An `rpc` failure can mean target-side Lua/API error or disconnection. An output-size failure calls for a smaller query, not a larger dump.
 
 ## Smoke test
 
-Run from the skill directory with GNU `timeout` available. On macOS with GNU coreutils, substitute `gtimeout`. This launches and cleans up only its own disposable target.
+Set `PROBE` as above and run with GNU `timeout` available. On macOS with GNU coreutils, substitute `gtimeout`. This launches and cleans up only its own disposable target.
 
 ```sh
 (
 	set -eu
 	dir=$(mktemp -d /tmp/nvim-probe.XXXXXXXX)
-	nvim --clean --headless --listen "$dir/n" </dev/null >"$dir/target.log" 2>&1 &
+	cd "$dir"
+	pid=
+	trap 'if [ -n "$pid" ]; then kill "$pid" 2>/dev/null || :; wait "$pid" 2>/dev/null || :; fi; rm -f "$dir/.nvim_socket" "$dir/target.log"; rmdir "$dir"' EXIT
+
+	run() { timeout 5s nvim --clean --headless -l "$PROBE" "$@"; }
+	rc=0
+	missing=$(run state 2>&1) || rc=$?
+	[ "$rc" -eq 1 ]
+	[[ "$missing" == *'.nvim_socket does not exist in the current working directory'* ]]
+
+	nvim --clean --headless --listen ./.nvim_socket </dev/null >target.log 2>&1 &
 	pid=$!
-	trap 'kill "$pid" 2>/dev/null || :; wait "$pid" 2>/dev/null || :; rm -f "$dir/n" "$dir/target.log"; rmdir "$dir"' EXIT
 
 	i=0
-	while [ ! -S "$dir/n" ]; do
+	while [ ! -S .nvim_socket ]; do
 		i=$((i + 1))
 		if [ "$i" -ge 100 ]; then
-			cat "$dir/target.log" >&2
+			cat target.log >&2
 			exit 1
 		fi
 		sleep 0.05
 	done
 
-	run() { timeout 5s nvim --clean --headless -l scripts/probe.lua "$dir/n" "$@"; }
 	run state
 	[ "$(run lua 'return vim.fn.getpid()')" = "$pid" ]
 	[ "$(run stdin 'a b' <<<'return ...')" = '"a b"' ]

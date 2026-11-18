@@ -1,14 +1,14 @@
--- Run with: nvim --clean --headless -l scripts/probe.lua ...
+-- Query the live Neovim instance at ./.nvim_socket and return JSON.
 -- Probe code is executed by the target, not by this client.
 local usage = [[
-Usage: nvim --clean --headless -l scripts/probe.lua SOCKET COMMAND
+Usage: nvim --clean --headless -l /path/to/probe.lua COMMAND
   state               Target identity, current context, and attached UIs
   messages            Last 20 entries in the target's message history
   lua CODE [ARG ...]  Execute a Lua chunk on the target
   file PATH [ARG ...] Send Lua source from a local file to the target
   stdin [ARG ...]     Send Lua source from stdin to the target
 
-SOCKET must be an absolute path to a local Unix-domain socket.
+The target must listen on .nvim_socket in the current working directory.
 Custom probes receive ARG strings as ... and should return a small value.
 Use a caller-side deadline: this runner waits synchronously for the reply.
 ]]
@@ -23,9 +23,17 @@ if arg[1] == '--help' then
   return
 end
 
-local socket, command = arg[1], arg[2]
-if not socket or socket:sub(1, 1) ~= '/' or not command then fail('usage', usage) end
+local command = arg[1]
+if not command then fail('usage', usage) end
 if not vim.uv then fail('client', 'Neovim 0.10 or newer is required') end
+
+local socket = './.nvim_socket'
+local stat, stat_err, stat_code = vim.uv.fs_stat(socket)
+if stat_code == 'ENOENT' then
+  fail('socket', '.nvim_socket does not exist in the current working directory')
+end
+if not stat then fail('socket', stat_err or socket) end
+if stat.type ~= 'socket' then fail('socket', 'not a Unix-domain socket: ' .. socket) end
 
 local builtin = {
   state = [[
@@ -55,19 +63,19 @@ local builtin = {
 }
 
 local max_bytes = 64 * 1024
-local code, first_arg = builtin[command], 3
+local code, first_arg = builtin[command], 2
 if code then
-  if arg[3] ~= nil then fail('usage', command .. ' takes no extra arguments') end
+  if arg[2] ~= nil then fail('usage', command .. ' takes no extra arguments') end
 elseif command == 'lua' then
-  code, first_arg = arg[3], 4
+  code, first_arg = arg[2], 3
 elseif command == 'file' then
-  if not arg[3] then fail('usage', 'file requires a Lua source path') end
-  local file, err = io.open(arg[3], 'rb')
+  if not arg[2] then fail('usage', 'file requires a Lua source path') end
+  local file, err = io.open(arg[2], 'rb')
   if not file then fail('source', err) end
   code, err = file:read(max_bytes + 1)
   file:close()
   if err then fail('source', err) end
-  first_arg = 4
+  first_arg = 3
 elseif command == 'stdin' then
   local err
   code, err = io.stdin:read(max_bytes + 1)
@@ -82,10 +90,6 @@ local args = {}
 for i = first_arg, #arg do
   args[#args + 1] = arg[i]
 end
-
-local stat, stat_err = vim.uv.fs_stat(socket)
-if not stat then fail('socket', stat_err or socket) end
-if stat.type ~= 'socket' then fail('socket', 'not a Unix-domain socket: ' .. socket) end
 
 local connected, chan = pcall(vim.fn.sockconnect, 'pipe', socket, { rpc = true })
 if not connected then fail('connect', chan) end

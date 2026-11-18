@@ -10,20 +10,20 @@ Use `scripts/probe.lua` to query the target directly. Prefer structured Neovim A
 
 ## Workflow
 
-1. **Identify the target.** Ask for the absolute socket path shown by `:echo v:servername` in the intended Neovim session. `$NVIM` is only a hint from a Neovim child process; confirm it before using it. Do not search for sockets or guess which instance to attach to. For a new target, use `--listen`; `--server` selects a target for Neovim's separate `--remote-*` CLI.
-2. **Confirm the instance.** Run `state` first. Check the target PID, version, primary socket, current buffer/window IDs, and attached UIs. The primary socket can differ from the supplied socket if the target has multiple listeners. `--clean` in the command below applies only to the probe client.
+1. **Use the current directory’s `.nvim_socket`.** If it is missing, tell the user and stop. Do not look for another socket.
+2. **Confirm the instance.** Run `state` first. Check the target PID, version, primary socket, current buffer/window IDs, and attached UIs. The primary socket can differ if the target has multiple listeners. `--clean` in the command below applies only to the probe client.
 3. **Test one hypothesis at a time.** Open [the recipe reference](references/recipes.md) for the relevant subsystem. Include the actual buffer/window ID in follow-up queries when the UI could move. Collect related values in one short Lua chunk so switching windows between shell calls cannot mix observations. A snapshot is evidence of what was true when the request ran, not a trace of what happened earlier.
 4. **Use a deadline.** Give the shell call a short timeout, such as 5 seconds. If it expires, stop and report that the target did not answer in time. A client timeout does not cancel target-side Lua or prove that the target crashed. Do not retry in a loop or signal the live editor.
 5. **Report evidence and limits.** Name the target and relevant IDs, show the small set of fields that supports the finding, and distinguish observed facts from hypotheses. If the evidence is inconclusive, suggest the next narrow probe or a disposable reproduction.
 
-## Run from the skill directory
+## Run from the current working directory
 
-Set `SOCK` to the verified absolute socket path. Use the shell tool's deadline, or prefix the command with `timeout 5s` where available.
+Set `PROBE` to the absolute path to the skill’s `scripts/probe.lua`; do not change directories to run it. Use the shell tool’s deadline, or prefix the command with `timeout 5s` where available.
 
 ```sh
-nvim --clean --headless -l scripts/probe.lua "$SOCK" state
-nvim --clean --headless -l scripts/probe.lua "$SOCK" messages
-nvim --clean --headless -l scripts/probe.lua "$SOCK" stdin shiftwidth <<'LUA'
+nvim --clean --headless -l "$PROBE" state
+nvim --clean --headless -l "$PROBE" messages
+nvim --clean --headless -l "$PROBE" stdin shiftwidth <<'LUA'
 local name = ...
 return vim.api.nvim_get_option_value(name, {})
 LUA
