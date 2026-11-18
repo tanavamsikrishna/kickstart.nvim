@@ -5,11 +5,13 @@ This is a highly customized and modular Neovim configuration, evolved from the o
 ## Project Overview
 
 ### Core Technologies
+
 - **Neovim**: Targets latest stable or nightly versions (v0.10+ recommended).
 - **Lua**: The primary language for configuration and extensibility.
 - **lazy.nvim**: A modern plugin manager for Neovim that handles installation, updates, and lazy-loading.
 
 ### Architecture
+
 The configuration is structured to be both modular and easy to navigate:
 
 - **`init.lua`**: The entry point. It bootstraps `lazy.nvim`, sets global options, basic keymaps, and autocommands. It imports all plugin specifications from the `lua/plugins/` directory.
@@ -38,9 +40,10 @@ The configuration is structured to be both modular and easy to navigate:
   ```
 
 ## Plugin install location
+
 1. Plugins are installed to the directory `~/.local/share/nvim/lazy`. Each plugin is installed in a directory at the root of this directory. Search inside this directory if you are looking for plugin related code. Limit your search to with specific plugin directories if viable.
 2. Most of the relevant Neovim source code is located at `/opt/homebrew/Cellar/neovim/<neovim-version>/share/nvim/runtime` (`<neovim-version>` is of the format `<major>.<minor>.<patch>` You can get the version details using `nvim --version`).
 
 Both of these two locations will have a lot files and code. The `lua` files are the most useful if you want to understand the functionality.
-To inspect the runtime behaviour of neovim you can connect to a running neovim instance using 
-`nvim --clean --headless --server ./.nvim_socket ...` style commands.
+
+To inspect the runtime behaviour of neovim you can connect to a running neovim instance using `nvim --clean --headless --server ./.nvim_socket ...` style commands.
