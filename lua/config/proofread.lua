@@ -92,7 +92,7 @@ function M.proofread(opts)
 
   vim.notify('Proofread: Requesting corrections...', vim.log.levels.INFO)
 
-  vim.system({ 'proofread.py' }, { stdin = text }, function(obj)
+  vim.system({ 'ai_agent', '--preset', 'proofread' }, { stdin = text }, function(obj)
     vim.schedule(function()
       if obj.code ~= 0 then
         vim.notify(
@@ -107,26 +107,14 @@ function M.proofread(opts)
         return
       end
 
-      local ok, decoded = pcall(vim.json.decode, obj.stdout)
-      if not ok then
-        vim.notify(
-          'Failed to parse proofread output: ' .. obj.stdout,
-          vim.log.levels.ERROR
-        )
+      local replacement = obj.stdout:gsub('\n$', '')
+      if text == replacement then
+        vim.notify('Proofread: No changes suggested', vim.log.levels.INFO)
         return
       end
 
-      local replacement = decoded.text
-      if replacement then
-        local cleaned_replacement = replacement:gsub('\n$', '')
-        if text == cleaned_replacement then
-          vim.notify('Proofread: No changes suggested', vim.log.levels.INFO)
-          return
-        end
-
-        local replacement_lines = vim.split(cleaned_replacement, '\n', { plain = true })
-        show_diff(original_buf, s_row, e_row, original_lines, replacement_lines)
-      end
+      local replacement_lines = vim.split(replacement, '\n', { plain = true })
+      show_diff(original_buf, s_row, e_row, original_lines, replacement_lines)
     end)
   end)
 end
