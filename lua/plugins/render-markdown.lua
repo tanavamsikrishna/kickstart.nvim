@@ -55,7 +55,10 @@ return {
 
       max_file_size = 1.0, -- in MB (default is 10.0)
 
-      html = { enabled = true }, -- for <img> tags if using image.nvim
+      html = {
+        enabled = true, -- for <img> tags if using image.nvim
+        comment = { conceal = false },
+      },
 
       completions = { lsp = { enabled = true } },
       custom_handlers = {
