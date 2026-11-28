@@ -69,6 +69,7 @@ local opts = {
     typescript = frontend_formatter,
     xml = { 'xmllint' },
     yaml = { 'yamlfmt' },
+    go = { 'gofmt' },
   },
   stop_after_first = true,
 }
